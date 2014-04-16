@@ -1,7 +1,7 @@
 (setq auto-mode-alist (append auto-mode-alist '(("/etc/cdnet" . conf-mode))))
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
-(setq tab-always-indent nil)
+(setq tab-always-indent 'complete)
 (setq scroll-step 1)
 (setq mouse-wheel-scroll-amount '(3 ((shift) . 3)))
 (setq mouse-wheel-progressive-speed nil)
@@ -11,6 +11,7 @@
 (setq show-paren-delay 0)
 
 (set-language-environment "utf-8")
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
