@@ -12,7 +12,8 @@
 
 (defun sh-mode-keymap-modify ()
   (define-key (current-local-map) (kbd "C-j") 'newline)
-  (define-key (current-local-map) (kbd "RET") 'newline))
+  (define-key (current-local-map) (kbd "RET") 'newline)
+  (local-unset-key (kbd "C-c C-x")))
 
 (defun term-mode-keymap-modify ()
   (dolist (key '("<M-left>" "<M-right>"))
