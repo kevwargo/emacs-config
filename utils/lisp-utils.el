@@ -84,3 +84,5 @@ Counting starts from 0. Returns resulting list"
   (with-current-buffer "*scratch*"
     (goto-char (point-max))
     (insert (apply 'format string objects) 10)))
+
+(provide 'kec:lisp-utils)

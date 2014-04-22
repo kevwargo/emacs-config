@@ -1,7 +1,5 @@
 (require 'windmove)
 
-(scratch-log "%S" load-file-name)
-
 (defun find-other-window-dir (dir)
   "Wrapper for `windmove-find-other-window'. When window in direction DIR
 can't be selected, it yields an error instead of returning nil."

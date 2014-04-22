@@ -11,7 +11,7 @@
 (defvar py-overloaders-face 'py-overloaders-face)
 
 ;; Editing python highlighting
-(defun py-kw-customize-by-hand ()
+(defun py-kw-customize-manual ()
   (let ((keywords (eval (car font-lock-defaults))))
                                         ; Making new keyword list (without print: python3-compat)
     (setcar keywords
@@ -89,6 +89,6 @@
   (local-set-key (kbd "#") 'self-insert-command)
   (local-unset-key (kbd "<C-backspace>")))
 
-(add-hook 'python-mode-hook 'py-kw-customize-by-hand)
-;(remove-hook 'python-mode-hook 'py-kw-customize-by-hand)
+(add-hook 'python-mode-hook 'py-kw-customize-manual)
+;(remove-hook 'python-mode-hook 'py-kw-customize-manual)
 (add-hook 'python-mode-hook 'py-keymap-customize)

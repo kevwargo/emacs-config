@@ -1,42 +1,8 @@
-(load "custom/vt-keymaps")
-
 (global-unset-key (kbd "C-z"))
 (global-unset-key (kbd "M-<left>"))
 (global-unset-key (kbd "M-<right>"))
 (global-unset-key (kbd "C-x h"))
 
-;; Keybindings for window system
-
-(global-set-key (kbd "<C-backspace>") 'backward-delete-word)
-(global-set-key (kbd "M-DEL") 'backward-delete-word)
-(global-set-key (kbd "<C-delete>") 'delete-word)
-(global-set-key (kbd "C-SPC") 'smart-set-mark-command)
-(global-set-key (kbd "C-<down>") 'scroll-up-line)
-(global-set-key (kbd "C-<up>") 'scroll-down-line)
-(global-set-key (kbd "C-S-z") 'undo-tree-redo)
-(global-set-key (kbd "C-S-d") 'uncomment-lines)
-(global-set-key (kbd "C-S-<up>") 'move-lines-up)
-(global-set-key (kbd "C-S-<down>") 'move-lines-down)
-(global-set-key (kbd "C-M-<up>") 'copy-lines-up)
-(global-set-key (kbd "C-M-<down>") 'copy-lines-down)
-(global-set-key (kbd "M-<left>") 'windmove-left)
-(global-set-key (kbd "M-<right>") 'windmove-right)
-(global-set-key (kbd "M-<up>") 'windmove-up)
-(global-set-key (kbd "M-<down>") 'windmove-down)
-(global-set-key (kbd "C-c C-\\") 'goto-last-change)
-
-;; Keybindings for terminal
-(global-set-key (kbd "M-;") 'vt-ctrl-pressed-mode)
-(global-set-key (kbd "M-'") 'vt-quick-move-lines-mode)
-(global-set-key (kbd "C-@") 'smart-set-mark-command)
-(global-set-key (kbd "C-c C-z") 'undo-tree-redo)
-(global-set-key (kbd "C-c C-d") 'uncomment-lines)
-(global-set-key (kbd "C-x <up>") 'copy-lines-up)
-(global-set-key (kbd "C-x <down>") 'copy-lines-down)
-(global-set-key (kbd "C-c <left>") 'windmove-left)
-(global-set-key (kbd "C-c <right>") 'windmove-right)
-(global-set-key (kbd "C-c <up>") 'windmove-up)
-(global-set-key (kbd "C-c <down>") 'windmove-down)
 
 ;; Common keybindins
 (global-set-key (kbd "RET") 'newline-and-indent)
@@ -52,6 +18,8 @@
 (global-set-key (kbd "C-c r") 'replace-string)
 (global-set-key (kbd "C-c C-r") 'replace-regexp)
 (global-set-key (kbd "C-c C-x k") 'save-buffers-kill-emacs)
+(global-set-key (kbd "C-c C-\\") 'goto-last-change)
+
 
 (global-set-key (kbd "C-c 1") (make-sparse-keymap))
 (global-set-key (kbd "C-c 1 <left>") 'copy-to-buffer-left)
@@ -98,3 +66,4 @@
 
 (global-set-key (kbd "C-x 4 /") 'winner-undo)
 (global-set-key (kbd "C-x 4 ?") 'winner-redo)
+

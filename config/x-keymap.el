@@ -1,0 +1,18 @@
+;; Keybindings for window system
+
+(global-set-key (kbd "<C-backspace>") 'backward-delete-word)
+(global-set-key (kbd "M-DEL") 'backward-delete-word)
+(global-set-key (kbd "<C-delete>") 'delete-word)
+(global-set-key (kbd "C-SPC") 'smart-set-mark-command)
+(global-set-key (kbd "C-<down>") 'scroll-up-line)
+(global-set-key (kbd "C-<up>") 'scroll-down-line)
+(global-set-key (kbd "C-S-z") 'undo-tree-redo)
+(global-set-key (kbd "C-S-d") 'uncomment-lines)
+(global-set-key (kbd "C-S-<up>") 'move-lines-up)
+(global-set-key (kbd "C-S-<down>") 'move-lines-down)
+(global-set-key (kbd "C-M-<up>") 'copy-lines-up)
+(global-set-key (kbd "C-M-<down>") 'copy-lines-down)
+(global-set-key (kbd "M-<left>") 'windmove-left)
+(global-set-key (kbd "M-<right>") 'windmove-right)
+(global-set-key (kbd "M-<up>") 'windmove-up)
+(global-set-key (kbd "M-<down>") 'windmove-down)
