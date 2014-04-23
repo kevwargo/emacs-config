@@ -2,7 +2,8 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 
-(setq auto-mode-alist (append auto-mode-alist '(("/etc/cdnet" . conf-mode))))
+(setq auto-mode-alist (append auto-mode-alist '(("/etc/cdnet" . conf-mode)
+                                                ("\\.e\\(build\\|class\\)" . sh-mode))))
 
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
