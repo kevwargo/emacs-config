@@ -8,7 +8,7 @@
   (local-set-key (kbd "C-<up>") 'previous-line)
   (local-set-key (kbd "C-<down>") 'next-line)
   (dolist (key '("l" "a" "s" "w" "d" "x"))
-    (local-unset-key (kbd (concat "C-c C-" key)))))
+    (eval `(local-unset-key (kbd ,(concat "C-c C-" key))))))
 
 (defun sh-mode-keymap-modify ()
   (define-key (current-local-map) (kbd "C-j") 'newline)
@@ -17,7 +17,7 @@
 
 (defun term-mode-keymap-modify ()
   (dolist (key '("<M-left>" "<M-right>"))
-    (define-key term-raw-map (kbd key) nil))
+    (eval `(define-key term-raw-map (kbd ,key) nil)))
   (define-key term-raw-map (kbd "C-c SPC") 'term-line-mode)
   (define-key term-mode-map (kbd "C-c SPC") 'term-char-mode))
 
