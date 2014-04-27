@@ -49,7 +49,11 @@ If point was already at that position, move point to beginning of line."
 
 (defun line-end-respecting-newline ()
   ;; don't use last line if just '\n'-char preceding it is selected
-  (+ (line-end-position) (if (eobp) 0 1)))
+  (+ (line-end-position)
+     (save-excursion
+       (goto-char (line-end-position))
+       (if (eobp) 0 1))))
+       
 
 (defun selected-lines ()
   (if (region-active-p)
