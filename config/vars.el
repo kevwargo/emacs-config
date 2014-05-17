@@ -56,8 +56,8 @@
  '(term-bind-key-alist (quote (("C-c C-c" . term-interrupt-subjob)
                                ("C-p" . previous-line)
                                ("C-n" . next-line)
-                               ("C-s" . isearch-forward)
-                               ("C-r" . isearch-backward)
+                               ("C-c C-s" . isearch-forward)
+                               ("C-c C-r" . isearch-backward)
                                ("C-m" . term-send-raw)
                                ("C-_" . term-send-raw)
                                ("M-f" . term-send-forward-word)
@@ -80,6 +80,7 @@
                                ("M-r" . term-send-reverse-search-history)
                                ("M-," . term-send-input)
                                ("M-." . comint-dynamic-complete))))
+ '(term-unbind-key-list '("C-z" "C-q" "C-x" "C-c" "C-h" "C-y" "<ESC>"))
  '(tool-bar-mode nil)
  '(package-user-dir (concat kec:config-dir "elpa")))
 
