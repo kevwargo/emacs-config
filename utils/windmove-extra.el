@@ -24,7 +24,9 @@ and selects that window. If CUT is non-nil, deletes selected text in current buf
       (delete-region beg end))
     (select-window window)
     (barf-if-buffer-read-only)
-    (insert text)))
+    (if (eq major-mode 'term-mode)
+        (term-send-raw-string text)
+      (insert text))))
 
 (defun copy-to-buffer-left (beg end)
   "Inserts selected text to the buffer in the window to the left of current

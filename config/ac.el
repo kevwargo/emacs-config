@@ -6,3 +6,4 @@
 (setq ac-ignore-case nil)
 (ac-set-trigger-key "<C-tab>")
 (push 'jde-mode ac-modes)
+(push 'asm-mode ac-modes)
