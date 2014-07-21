@@ -6,7 +6,8 @@
 (column-number-mode t)
 (show-point-mode t)
 (delete-selection-mode t)
-(scroll-bar-mode 0)
+(and (boundp 'scroll-bar-mode)
+     (scroll-bar-mode 0))
 ;; (global-linum-mode t)
 
 (add-to-list 'load-path (concat kec:config-dir "undo-tree"))

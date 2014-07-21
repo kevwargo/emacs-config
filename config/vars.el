@@ -25,6 +25,7 @@
  ;; If there is more than one, they won't work right.
  '(ajc-tag-file (concat kec:config-dir "java-base.tag"))
  '(c-default-style (quote ((java-mode . "java") (awk-mode . "awk") (other . "kevwargo"))))
+ '(case-replace nil)
  '(comint-input-ignoredups t)
  '(font-use-system-font t)
  '(jde-compiler (quote ("javac")))
