@@ -1,0 +1,21 @@
+(defun comint-up-or-prev-input (&optional arg)
+  (interactive "*^p")
+  (if (comint-after-pmark-p)
+      (comint-previous-input arg)
+    (previous-line arg)))
+
+(defun comint-down-or-next-input (&optional arg)
+  (interactive "*^p")
+  (if (comint-after-pmark-p)
+      (comint-next-input arg)
+    (next-line arg)))
+
+(defun comint-mode-keymap-modify ()
+  (local-set-key [up] 'comint-up-or-prev-input)
+  (local-set-key [down] 'comint-down-or-next-input)
+  (local-set-key (kbd "C-<up>") 'previous-line)
+  (local-set-key (kbd "C-<down>") 'next-line)
+  (dolist (key '("l" "a" "s" "w" "d" "x"))
+    (eval `(local-unset-key (kbd ,(concat "C-c C-" key))))))
+
+(add-hook 'comint-mode-hook 'comint-mode-keymap-modify)

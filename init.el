@@ -36,4 +36,4 @@
 (load "config/jde-mode-extra")
 (load "config/slime")
 (load "config/ac")
-
+(load "config/comint")
