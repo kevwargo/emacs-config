@@ -81,7 +81,7 @@
                                ("M-r" . term-send-reverse-search-history)
                                ("M-," . term-send-input)
                                ("M-." . comint-dynamic-complete))))
- '(term-unbind-key-list '("C-z" "C-q" "C-x" "C-h" "C-c" "M-x"))
+ '(term-unbind-key-list '("C-z" "C-q" "C-x" "C-h" "C-c" "M-x" "C-t"))
  '(tool-bar-mode nil)
  '(package-user-dir (concat kec:config-dir "elpa")))
 
