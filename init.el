@@ -26,6 +26,7 @@
 
 (load "config/modes")
 (load "config/vars")
+(load "config/faces.el")
 (load "config/hooks")
 (load "config/keymaps")
 (load "config/c")
