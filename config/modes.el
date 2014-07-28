@@ -2,13 +2,18 @@
 (require 'goto-last-change)
 ;; (require 'auto-complete-clang)
 
+(defun enable-linum-in-some-buffers ()
+  (unless (or (minibufferp)
+              (derived-mode-p
+               'comint-mode
+               'term-mode))
+    (linum-mode 1)))
 
 (column-number-mode t)
 (show-point-mode t)
 (delete-selection-mode t)
 (and (boundp 'scroll-bar-mode)
      (scroll-bar-mode 0))
-;; (global-linum-mode t)
 
 (add-to-list 'load-path (concat kec:config-dir "undo-tree"))
 (autoload 'undo-tree-mode "undo-tree" "Enable undo-trees" t)
@@ -22,3 +27,5 @@
 
 (setq show-paren-delay 0)
 (show-paren-mode 1)
+
+(add-hook 'after-change-major-mode-hook 'enable-linum-in-some-buffers)
