@@ -24,13 +24,15 @@
 
 (defun comint-up-or-prev-input (&optional arg)
   (interactive "*^p")
-  (if (comint-after-pmark-p)
+  (if (and (eobp)
+           (comint-after-pmark-p))
       (comint-previous-input-straight arg)
     (previous-line arg)))
 
 (defun comint-down-or-next-input (&optional arg)
   (interactive "*^p")
-  (if (comint-after-pmark-p)
+  (if (and (eobp)
+           (comint-after-pmark-p))
       (comint-next-input-straight arg)
     (next-line arg)))
 
