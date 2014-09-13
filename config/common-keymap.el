@@ -6,6 +6,7 @@
 
 ;; Common keybindins
 (global-set-key (kbd "RET") 'newline-and-indent)
+(global-set-key (kbd "M-c") 'toggle-case-fold-search)
 (global-set-key (kbd "C-q") 'delete-frame)
 (global-set-key (kbd "C-k") 'delete-line)
 (global-set-key (kbd "C-z") 'undo-tree-undo)
