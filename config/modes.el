@@ -6,6 +6,7 @@
   (unless (or (minibufferp)
               (derived-mode-p
                'comint-mode
+               'help-mode
                'term-mode))
     (linum-mode 1)))
 

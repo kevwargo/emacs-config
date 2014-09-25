@@ -37,3 +37,4 @@
 (load "config/slime")
 (load "config/ac")
 (load "config/comint")
+(load "config/term.el")
