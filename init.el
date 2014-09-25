@@ -32,7 +32,6 @@
 (load "config/c")
 (load "config/python")
 (load "config/asm")
-;; (load "config/xsel")
 (load "config/jde-mode-extra")
 (load "config/slime")
 (load "config/ac")
