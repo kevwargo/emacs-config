@@ -1,6 +1,7 @@
 (load "server")
 (unless (server-running-p)
   (server-start))
+(setq server-log t)
 
 ;; (package-initialize)
 
@@ -9,7 +10,7 @@
 
 (dolist (path '(""  
                 "kiwanami/emacs-window-manager/"
-                "elpa/multi-term-/"
+                "elpa/multi-term-20110326.608/"
                 "elpa/auto-complete-20131128.233"
                 "elpa/yasnippet-20131031.628"
                 "elpa/auto-complete-clang-20120612.2224"

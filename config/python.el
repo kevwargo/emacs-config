@@ -1,3 +1,5 @@
+(load "python-mode/site-lisp-python-mode")
+
 (defface py-preprocessor-face
   '((t (:inherit default :foreground "#ff80ff")))
   "Face for \"preprocessor\" commands: import, from, as."
