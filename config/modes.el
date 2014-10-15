@@ -1,5 +1,6 @@
 (require 'show-point-mode)
 (require 'goto-last-change)
+(require 'ido)
 ;; (require 'auto-complete-clang)
 
 (defun enable-linum-in-some-buffers ()
@@ -10,6 +11,7 @@
                'term-mode))
     (linum-mode 1)))
 
+(ido-mode t)
 (column-number-mode t)
 (show-point-mode t)
 (delete-selection-mode t)

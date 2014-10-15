@@ -1,6 +1,7 @@
 ;; Keybindings for window system
 
 (global-set-key (kbd "<C-backspace>") 'backward-delete-word)
+(global-set-key (kbd "<C-return>") 'newline-from-middle-of-line)
 (global-set-key (kbd "M-DEL") 'backward-delete-word)
 (global-set-key (kbd "<C-delete>") 'delete-word)
 (global-set-key (kbd "C-SPC") 'smart-set-mark-command)

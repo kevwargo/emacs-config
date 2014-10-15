@@ -89,8 +89,40 @@
 
 (defun py-keymap-customize ()
   (local-set-key (kbd "#") 'self-insert-command)
+  (local-set-key (kbd "C-c M-c") 'py-execute-class)
+  (local-set-key (kbd "C-c M-d") 'py-execute-def)
+  (local-set-key (kbd "C-c b") 'py-execute-buffer)
+  (local-set-key (kbd "C-c B") 'py-execute-block)
   (local-unset-key (kbd "<C-backspace>")))
+
+(defun py-kill-buffer-on-shell-exit ()
+  (set-process-sentinel (get-buffer-process py-buffer-name)
+                        (lambda (proc state)
+                          (when (string-match-p (rx (or "finished" "exited"))
+                                                state)
+                            (kill-buffer (process-buffer proc))))))
+
+(setq py-install-directory
+      "/home/jarasz/dev/programming/lisp/emacs/emacs-config/python-mode/")
+
+;;; use IPython
+;; (setq-default py-shell-name "ipython")
+;; (setq-default py-which-bufname "IPython")
+; use the wx backend, for both mayavi and matplotlib
+;; (setq py-python-command-args
+;;   '("--gui=wx" "--pylab=wx" "-colors" "Linux"))
+(setq py-force-py-shell-name-p t)
+
+; switch to the interpreter after executing code
+;; (setq py-shell-switch-buffers-on-execute-p t)
+(setq py-switch-buffers-on-execute-p nil)
+; don't split windows
+(setq py-split-windows-on-execute-p nil)
+; try to automagically figure out indentation
+(setq py-smart-indentation t)
+
 
 (add-hook 'python-mode-hook 'py-kw-customize-manual)
 ;(remove-hook 'python-mode-hook 'py-kw-customize-manual)
 (add-hook 'python-mode-hook 'py-keymap-customize)
+(add-hook 'py-shell-hook 'py-kill-buffer-on-shell-exit)

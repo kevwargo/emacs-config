@@ -27,7 +27,8 @@
 
 (load "config/modes")
 (load "config/vars")
-(load "config/faces.el")
+(load "config/faces")
+(load "config/custom")
 (load "config/hooks")
 (load "config/keymaps")
 (load "config/c")
@@ -37,4 +38,4 @@
 (load "config/slime")
 (load "config/ac")
 (load "config/comint")
-(load "config/term.el")
+(load "config/term")

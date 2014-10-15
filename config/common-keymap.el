@@ -20,6 +20,7 @@
 (global-set-key (kbd "C-c C-r") 'replace-regexp)
 (global-set-key (kbd "C-c C-x k") 'save-buffers-kill-emacs)
 (global-set-key (kbd "C-c C-\\") 'goto-last-change)
+(global-set-key (kbd "C-c C-f") 'find-function)
 
 
 (global-set-key (kbd "C-c 1") (make-sparse-keymap))

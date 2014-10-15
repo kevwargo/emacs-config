@@ -6,6 +6,11 @@
   (interactive "p")
   (delete-word (- arg)))
 
+(defun newline-from-middle-of-line ()
+  (interactive)
+  (end-of-line)
+  (funcall (key-binding (kbd "RET"))))
+
 (defun delete-line (arg)
   (interactive "p")
   (if (and (> arg 0) (eobp) (save-excursion (forward-visible-line 0) (eobp)))

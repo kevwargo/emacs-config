@@ -121,39 +121,31 @@ and selects that window."
   (interactive)
   (move-buffer-dir 'down))
 
-(defun find-file-other-window-dir (dir filename &optional wildcards)
+(defun find-file-other-window-dir (dir)
   (let* ((cwd default-directory)
          (oldbuf (window-buffer (find-other-window-dir dir)))
          (oldwd (with-current-buffer oldbuf default-directory)))
     (windmove-do-window-select dir)
     (cd cwd)
-    (find-file filename wildcards)
+    (ido-find-file)
     (with-current-buffer oldbuf
       (cd oldwd))))
 
-(defun find-file-other-window-left (filename &optional wildcards)
-  (interactive
-   (find-file-read-args "Find file: "
-                        (confirm-nonexistent-file-or-buffer)))
-  (find-file-other-window-dir 'left filename wildcards))
+(defun find-file-other-window-left ()
+  (interactive)
+  (find-file-other-window-dir 'left))
 
-(defun find-file-other-window-right (filename &optional wildcards)
-  (interactive
-   (find-file-read-args "Find file: "
-                        (confirm-nonexistent-file-or-buffer)))
-  (find-file-other-window-dir 'right filename wildcards))
+(defun find-file-other-window-right ()
+  (interactive)
+  (find-file-other-window-dir 'right))
 
-(defun find-file-other-window-up (filename &optional wildcards)
-  (interactive
-   (find-file-read-args "Find file: "
-                        (confirm-nonexistent-file-or-buffer)))
-  (find-file-other-window-dir 'up filename wildcards))
+(defun find-file-other-window-up ()
+  (interactive)
+  (find-file-other-window-dir 'up))
 
-(defun find-file-other-window-down (filename &optional wildcards)
-  (interactive
-   (find-file-read-args "Find file: "
-                        (confirm-nonexistent-file-or-buffer)))
-  (find-file-other-window-dir 'down filename wildcards))
+(defun find-file-other-window-down ()
+  (interactive)
+  (find-file-other-window-dir 'down))
 
 (defun bash-cd (dir)
   (term-send-string (get-buffer-process (current-buffer))
