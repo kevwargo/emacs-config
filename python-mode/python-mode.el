@@ -10121,7 +10121,6 @@ May we get rid of the temporary file? "
   "Select the handler.
 
 When optional FILE is `t', no temporary file is needed. "
-  ;; (scratch-log "%S" (list start end shell filename proc file wholebuf))
   (let* ((start (or start (and (use-region-p) (region-beginning)) (point-min)))
          (end (or end (and (use-region-p) (region-end)) (point-max)))
          (wholebuf (unless file (or wholebuf (and (eq (buffer-size) (- end start))))))
