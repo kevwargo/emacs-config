@@ -11,7 +11,7 @@
  '(font-use-system-font t)
  '(jde-compiler (quote ("javac")))
  '(jde-gen-k&r nil)
- '(jde-jdk-registry (quote (("1.7.0.51" . "/opt/oracle-jdk-bin-1.7.0.51"))))
+ '(jde-jdk-registry (quote (("1.7.0.67" . "/opt/oracle-jdk-bin-1.7.0.67"))))
  '(jde-mode-line-format (quote ("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position "  " mode-line-modes mode-line-misc-info mode-line-end-spaces)))
  '(jit-lock-stealth-verbose t)
  '(package-user-dir (concat kec:config-dir "elpa"))
