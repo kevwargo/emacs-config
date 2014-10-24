@@ -26,7 +26,7 @@
                                   ("M-," . term-send-input)
                                   ("M-." . comint-dynamic-complete)
                                   ("C-x <next>" . multi-term-next)
-                                  ("C-x <prev>" . multi-term-prev))))
+                                  ("C-x <prior>" . multi-term-prev))))
 
 (setq term-unbind-key-list '("C-z" "C-q" "C-x" "C-h" "C-c" "M-x" "C-t"))
 

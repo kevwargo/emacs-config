@@ -51,4 +51,4 @@
 
 (add-hook 'jde-mode-hook 'jde-add-1.7)
 (add-hook 'jde-mode-hook 'jde-keymap-modify)
-(add-hook 'jde-mode-hook 'ajc-java-complete-mode)
+;; (add-hook 'jde-mode-hook 'ajc-java-complete-mode)
