@@ -6582,7 +6582,14 @@ and `pass'.  This doesn't catch embedded statements."
              (setq thisindent (current-indentation))
              (cond ((and py-close-provides-newline
                          (or (eq regexp 'py-def-re)(eq regexp 'py-class-re)(eq regexp 'py-def-or-class-re)))
-                    (while (and (setq last (point))(re-search-forward "^$")(skip-chars-forward " \t\r\n\f")(or (nth 8 (setq pps (syntax-ppss))) (nth 1 pps) (< thisindent (current-column)))))
+                    (while (and (setq last (point))
+                                ;; (unless
+                                    (re-search-forward "^$" nil t)
+                                  ;; (goto (point-max)))
+                                (skip-chars-forward " \t\r\n\f")
+                                (or (nth 8 (setq pps (syntax-ppss)))
+                                    (nth 1 pps)
+                                    (< thisindent (current-column)))))
                     ;; (goto-char last)
                     (skip-chars-backward " \t\r\n\f")
                     (setq done t)
@@ -9970,10 +9977,12 @@ Optional DEDICATED (boolean)
 "
   (interactive "r\nP")
   (save-excursion
-    (let ((py-shell-name (cond ((or py-force-py-shell-name-p (eq 4 (prefix-numeric-value shell))) (default-value 'py-shell-name))
-                               ((and (numberp shell) (not (eq 1 (prefix-numeric-value shell))))
-                                (read-from-minibuffer "(path-to-)shell-name: " (default-value 'py-shell-name)))
-                               (t shell)))
+    (let ((py-shell-name
+           (cond ((or py-force-py-shell-name-p (eq 4 (prefix-numeric-value shell)))
+                  (default-value 'py-shell-name))
+                 ((and (numberp shell) (not (eq 1 (prefix-numeric-value shell))))
+                  (read-from-minibuffer "(path-to-)shell-name: " (default-value 'py-shell-name)))
+                 (t shell)))
           (py-dedicated-process-p (or dedicated py-dedicated-process-p)))
       (py-execute-base start end))))
 

@@ -3,7 +3,8 @@
 
 
 (setq auto-mode-alist (append auto-mode-alist '(("/etc/cdnet" . conf-mode)
-                                                ("\\.e\\(build\\|class\\)" . sh-mode))))
+                                                ("\\.e\\(build\\|class\\)" . sh-mode)
+                                                ("\\.pddl" . PDDL-mode))))
 
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)

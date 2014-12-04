@@ -7,3 +7,4 @@
 (ac-set-trigger-key "<C-tab>")
 (push 'jde-mode ac-modes)
 (push 'asm-mode ac-modes)
+(push 'PDDL-mode ac-modes)

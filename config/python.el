@@ -126,6 +126,9 @@
                                                 state)
                             (kill-buffer (process-buffer proc))))))
 
+(defun py-shell-keymap-modify ()
+  (local-set-key (kbd "C-c TAB") 'py-shell-complete))
+
 (setq py-install-directory
       "/home/jarasz/dev/programming/lisp/emacs/emacs-config/python-mode/")
 
@@ -135,7 +138,7 @@
 ; use the wx backend, for both mayavi and matplotlib
 ;; (setq py-python-command-args
 ;;   '("--gui=wx" "--pylab=wx" "-colors" "Linux"))
-(setq py-force-py-shell-name-p t)
+(setq py-force-py-shell-name-p nil)
 
 ; switch to the interpreter after executing code
 ;; (setq py-shell-switch-buffers-on-execute-p t)
@@ -150,3 +153,5 @@
 ;(remove-hook 'python-mode-hook 'py-kw-customize-manual)
 (add-hook 'python-mode-hook 'py-keymap-customize)
 (add-hook 'py-shell-hook 'py-kill-buffer-on-shell-exit)
+(add-hook 'py-shell-hook 'comint-mode-keymap-modify)
+(add-hook 'py-shell-hook 'py-shell-keymap-modify)

@@ -11,7 +11,7 @@
                'term-mode))
     (linum-mode 1)))
 
-(ido-mode t)
+(ido-mode nil)
 (column-number-mode t)
 (show-point-mode t)
 (delete-selection-mode t)

@@ -6,11 +6,13 @@
 ;; (package-initialize)
 
 (setq kec:config-dir
-      (file-name-directory load-file-name))
+      (file-name-directory (file-truename load-file-name)))
+
+(message "%S" kec:config-dir)
 
 (dolist (path '(""  
                 "kiwanami/emacs-window-manager/"
-                "elpa/multi-term-20110326.608/"
+                ;; "elpa/multi-term-20110326.608/"
                 "elpa/auto-complete-20131128.233"
                 "elpa/yasnippet-20131031.628"
                 "elpa/auto-complete-clang-20120612.2224"
@@ -20,6 +22,7 @@
 
 ;; (add-to-list 'load-path kec:config-dir)
 
+(load "pddl-mode")
 (load "utils/lisp-utils")
 (load "utils/general-utils")
 (load "utils/windmove-extra")
