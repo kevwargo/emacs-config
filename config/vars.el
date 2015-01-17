@@ -10,6 +10,8 @@
 (setq-default indent-tabs-mode nil)
 (setq tab-always-indent 'complete)
 
+(setq blink-cursor-blinks 0)
+
 (setq scroll-step 1)
 (setq mouse-wheel-scroll-amount '(3 ((shift) . 3)))
 (setq mouse-wheel-progressive-speed nil)
