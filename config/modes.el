@@ -3,6 +3,13 @@
 (require 'ido)
 ;; (require 'auto-complete-clang)
 
+
+(add-to-list 'load-path (concat kec:config-dir "undo-tree"))
+(add-to-list 'load-path (concat kec:config-dir "rules-editing-mode"))
+
+(load "pddl-mode")
+(load "my-drools")
+
 (defun enable-linum-in-some-buffers ()
   (unless (or (minibufferp)
               (derived-mode-p
@@ -18,7 +25,6 @@
 (and (boundp 'scroll-bar-mode)
      (scroll-bar-mode 0))
 
-(add-to-list 'load-path (concat kec:config-dir "undo-tree"))
 (autoload 'undo-tree-mode "undo-tree" "Enable undo-trees" t)
 (autoload 'global-undo-tree-mode "undo-tree" "Enable undo-trees globally" t)
 (setq undo-tree-enable-undo-in-region nil)

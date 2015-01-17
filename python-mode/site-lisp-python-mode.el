@@ -12,3 +12,4 @@
 (add-to-list 'auto-mode-alist '("\\.pyx$" . python-mode))
 (add-to-list 'interpreter-mode-alist '("python" . python-mode))
 (add-to-list 'interpreter-mode-alist '("jython" . jython-mode))
+

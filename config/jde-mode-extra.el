@@ -26,6 +26,7 @@
   (local-set-key (kbd "C-c C-v g") 'jde-wiz-get-set-methods)
   (local-set-key (kbd "C-<left>") 'jde-beginning-of-camel-tok)
   (local-set-key (kbd "C-<right>") 'jde-end-of-camel-tok)
+  (local-set-key (kbd "C-c C-v l") 'jde-load-project-file)
   (local-set-key (kbd "C-c r") 'jde-compile&run))
 
 (defun jde-compile&run ()

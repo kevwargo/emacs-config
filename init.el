@@ -22,7 +22,6 @@
 
 ;; (add-to-list 'load-path kec:config-dir)
 
-(load "pddl-mode")
 (load "utils/lisp-utils")
 (load "utils/general-utils")
 (load "utils/windmove-extra")
