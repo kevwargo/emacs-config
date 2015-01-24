@@ -1,6 +1,7 @@
 (defun c-mode-keymap-modify ()
   (dolist (key '("C-d" "C-c C-d" "C-c C-\\"))
-    (eval `(local-unset-key (kbd ,key)))))
+    (eval `(local-unset-key (kbd ,key))))
+  (local-unset-key (kbd "C-M-q")))
 
 (defun c-define-style ()
   (setq c-style-alist (append c-style-alist
