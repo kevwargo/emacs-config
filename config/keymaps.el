@@ -13,6 +13,11 @@
 (defun conf-mode-keymap-modify ()
   (local-unset-key (kbd "C-c C-x")))
 
+(defun html-mode-keymap-modify ()
+  (dolist (key '("1" "2" "3" "4"))
+    (eval `(local-unset-key (kbd ,(concat "C-c " key))))))
+
 (add-hook 'sh-mode-hook 'sh-mode-keymap-modify)
 (add-hook 'emacs-lisp-mode-hook 'elisp-mode-keymap-modify)
 (add-hook 'conf-mode-hook 'conf-mode-keymap-modify)
+(add-hook 'html-mode-hook 'html-mode-keymap-modify)
