@@ -1,7 +1,14 @@
 (defun c-mode-keymap-modify ()
   (dolist (key '("C-d" "C-c C-d" "C-c C-\\"))
     (eval `(local-unset-key (kbd ,key))))
-  (local-unset-key (kbd "C-M-q")))
+  (local-unset-key (kbd "C-M-q"))
+  (local-set-key (kbd "C-;") 'c-finalize-string))
+
+(defun c-finalize-string ()
+  (interactive)
+  (end-of-line)
+  (insert ";")
+  (funcall (key-binding (kbd "RET"))))
 
 (defun c-define-style ()
   (setq c-style-alist (append c-style-alist
