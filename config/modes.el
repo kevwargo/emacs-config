@@ -36,5 +36,6 @@
 
 (setq show-paren-delay 0)
 (show-paren-mode 1)
+(electric-pair-mode 1)
 
 (add-hook 'after-change-major-mode-hook 'enable-linum-in-some-buffers)
