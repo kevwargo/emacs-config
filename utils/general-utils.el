@@ -58,7 +58,6 @@ If point was already at that position, move point to beginning of line."
      (save-excursion
        (goto-char (line-end-position))
        (if (eobp) 0 1))))
-       
 
 (defun selected-lines ()
   (if (region-active-p)
@@ -127,5 +126,3 @@ If point was already at that position, move point to beginning of line."
 (defun uncomment-lines (arg)
   (interactive "*p")
   (apply 'uncomment-region (selected-lines)))
-
-
