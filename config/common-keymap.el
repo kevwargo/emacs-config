@@ -22,6 +22,7 @@
 (global-set-key (kbd "C-c C-\\") 'goto-last-change)
 (global-set-key (kbd "C-c C-f") 'find-function)
 (global-set-key (kbd "C-x DEL") 'join-line)
+(global-set-key (kbd "C-x C-b") 'list-buffers-dwim)
 
 
 (global-set-key (kbd "C-c 1") (make-sparse-keymap))

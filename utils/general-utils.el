@@ -126,3 +126,17 @@ If point was already at that position, move point to beginning of line."
 (defun uncomment-lines (arg)
   (interactive "*p")
   (apply 'uncomment-region (selected-lines)))
+
+(defun list-buffers-dwim (&optional arg)
+  (interactive "P")
+  (scratch-log "%S" arg)
+  (if (eq major-mode 'Buffer-menu-mode)
+      (list-buffers arg)
+    (switch-to-buffer
+     (list-buffers-noselect nil ; it's ignored anyway in `list-buffers--refresh'
+                            (remove-if
+                             (lambda (b)
+                               (or (string-match-p "^ " (buffer-name b))
+                                   (not (buffer-modified-p b))
+                                   (not (buffer-file-name b))))
+                             (buffer-list))))))
