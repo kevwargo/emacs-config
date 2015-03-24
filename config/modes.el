@@ -8,8 +8,8 @@
 (add-to-list 'load-path (concat kec:config-dir "rules-editing-mode"))
 (add-to-list 'load-path (concat kec:config-dir "php-mode-1.13.1"))
 
-(load "pddl-mode")
-(load "my-drools")
+;(load "pddl-mode")
+;(load "my-drools")
 
 (defun enable-linum-in-some-buffers ()
   (unless (or (minibufferp)

@@ -17,3 +17,5 @@
 (global-set-key (kbd "M-<right>") 'windmove-right)
 (global-set-key (kbd "M-<up>") 'windmove-up)
 (global-set-key (kbd "M-<down>") 'windmove-down)
+(global-set-key (kbd "s-<left>") 'backward-sexp)
+(global-set-key (kbd "s-<right>") 'forward-sexp)
