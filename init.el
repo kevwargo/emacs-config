@@ -41,3 +41,4 @@
 (load "config/ac")
 (load "config/comint")
 (load "config/term")
+(load "config/web")
