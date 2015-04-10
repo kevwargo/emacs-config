@@ -7,3 +7,10 @@
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+
+(defun web-mode-keymap-modify ()
+  (local-unset-key (kbd "M-;"))
+  (local-set-key (kbd "C-d") 'web-mode-comment)
+  (local-set-key (kbd "C-S-D") 'web-mode-uncomment))
+
+(add-hook 'web-mode-hook 'web-mode-keymap-modify)

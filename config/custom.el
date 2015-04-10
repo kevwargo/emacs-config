@@ -54,4 +54,7 @@
  '(py-variable-name-face ((t :foreground "DarkMagenta")))
  '(region ((t :background "steelblue1")))
  '(sh-escaped-newline ((t :foreground "Magenta")))
- '(trailing-whitespace ((t (:background "yellow green")))))
+ '(trailing-whitespace ((t (:background "yellow green"))))
+ '(web-mode-doctype-face ((t (:foreground "dim gray" :bold t))))
+ '(web-mode-html-attr-name-face ((t (:foreground "dark green"))))
+ '(web-mode-html-tag-face ((t (:foreground "blue")))))
