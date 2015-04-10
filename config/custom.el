@@ -4,19 +4,34 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ajc-tag-file (concat kec:config-dir "java-base.tag"))
- '(c-default-style (quote ((java-mode . "java") (awk-mode . "awk") (other . "kevwargo"))))
+ '(c-default-style
+   (quote
+    ((java-mode . "java")
+     (awk-mode . "awk")
+     (other . "kevwargo"))))
  '(case-replace nil)
  '(comint-input-ignoredups t)
  '(custom-file (concat kec:config-dir "config/custom.el"))
  '(font-use-system-font t)
  '(jde-compiler (quote ("javac")))
  '(jde-gen-k&r nil)
- '(jde-jdk-registry (quote (("1.7.0.72" . "/opt/oracle-jdk-bin-1.7.0.72"))))
- '(jde-mode-line-format (quote ("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position "  " mode-line-modes mode-line-misc-info mode-line-end-spaces)))
+ '(jde-jdk-registry (quote (("1.8.0.31" . "/opt/oracle-jdk-bin-1.8.0.31"))))
+ '(jde-mode-line-format
+   (quote
+    ("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position "  " mode-line-modes mode-line-misc-info mode-line-end-spaces)))
  '(jit-lock-stealth-verbose t)
  '(package-user-dir (concat kec:config-dir "elpa"))
  '(require-final-newline t)
- '(safe-local-variable-values (quote ((Package ITERATE :use "COMMON-LISP" :colon-mode :external) (syntax . COMMON-LISP) (Syntax . Ansi-Common-Lisp) (Package . CL-USER) (Package . CL-FAD) (Syntax . COMMON-LISP) (Base . 10) (Syntax . ANSI-Common-Lisp))))
+ '(safe-local-variable-values
+   (quote
+    ((Package ITERATE :use "COMMON-LISP" :colon-mode :external)
+     (syntax . COMMON-LISP)
+     (Syntax . Ansi-Common-Lisp)
+     (Package . CL-USER)
+     (Package . CL-FAD)
+     (Syntax . COMMON-LISP)
+     (Base . 10)
+     (Syntax . ANSI-Common-Lisp))))
  '(tool-bar-mode nil))
 
 (custom-set-faces
