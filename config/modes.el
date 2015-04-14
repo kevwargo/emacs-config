@@ -30,6 +30,7 @@
 (autoload 'global-undo-tree-mode "undo-tree" "Enable undo-trees globally" t)
 (setq undo-tree-enable-undo-in-region nil)
 (global-undo-tree-mode t)
+(global-auto-revert-mode t)
 
 ;; This need to be set BEFORE enabling winner
 (setq winner-dont-bind-my-keys t)
