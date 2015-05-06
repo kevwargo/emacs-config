@@ -25,6 +25,7 @@
 (load "utils/lisp-utils")
 (load "utils/general-utils")
 (load "utils/windmove-extra")
+(load "utils/term")
 (load "utils/window-expand")
 
 (load "config/modes")

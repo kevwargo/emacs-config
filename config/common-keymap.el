@@ -62,6 +62,12 @@
 (global-set-key (kbd "C-c t <left>") 'multi-term-left)
 (global-set-key (kbd "C-c t <right>") 'multi-term-right)
 
+(global-set-key (kbd "C-c d") (make-sparse-keymap))
+(global-set-key (kbd "C-c d <up>") 'copy-cwd-up)
+(global-set-key (kbd "C-c d <down>") 'copy-cwd-down)
+(global-set-key (kbd "C-c d <left>") 'copy-cwd-left)
+(global-set-key (kbd "C-c d <right>") 'copy-cwd-right)
+
 (global-set-key (kbd "C-c z") (make-sparse-keymap))
 (global-set-key (kbd "C-c z <up>") 'ielm-up)
 (global-set-key (kbd "C-c z <down>") 'ielm-down)
