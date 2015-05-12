@@ -8,3 +8,4 @@
 (push 'jde-mode ac-modes)
 (push 'asm-mode ac-modes)
 (push 'PDDL-mode ac-modes)
+(push 'web-mode ac-modes)
