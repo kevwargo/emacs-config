@@ -32,7 +32,8 @@
      (Syntax . COMMON-LISP)
      (Base . 10)
      (Syntax . ANSI-Common-Lisp))))
- '(tool-bar-mode nil))
+ '(tool-bar-mode nil)
+ '(wisent-parse-max-stack-size 1500))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

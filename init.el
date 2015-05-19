@@ -43,3 +43,5 @@
 (load "config/comint")
 (load "config/term")
 (load "config/web")
+
+(load-theme 'deeper-blue)
