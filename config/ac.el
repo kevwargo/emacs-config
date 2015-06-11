@@ -9,4 +9,4 @@
 (push 'asm-mode ac-modes)
 (push 'PDDL-mode ac-modes)
 (push 'web-mode ac-modes)
-(push 'makefile-mode ac-modes)
+(push 'makefile-gmake-mode ac-modes)
