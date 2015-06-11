@@ -22,6 +22,8 @@
 
 ;; (add-to-list 'load-path kec:config-dir)
 
+;; (load-theme 'deeper-blue)
+
 (load "utils/lisp-utils")
 (load "utils/general-utils")
 (load "utils/windmove-extra")
@@ -44,4 +46,3 @@
 (load "config/term")
 (load "config/web")
 
-(load-theme 'deeper-blue)
