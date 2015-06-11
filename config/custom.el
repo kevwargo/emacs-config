@@ -4,6 +4,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ajc-tag-file (concat kec:config-dir "java-base.tag"))
+ '(ansi-color-names-vector
+   ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
  '(c-default-style
    (quote
     ((java-mode . "java")
@@ -11,11 +13,12 @@
      (other . "kevwargo"))))
  '(case-replace nil)
  '(comint-input-ignoredups t)
+ '(custom-enabled-themes (quote (deeper-blue)))
  '(custom-file (concat kec:config-dir "config/custom.el"))
  '(font-use-system-font t)
  '(jde-compiler (quote ("javac")))
  '(jde-gen-k&r nil)
- '(jde-jdk-registry (quote (("1.8.0.31" . "/opt/oracle-jdk-bin-1.8.0.31"))))
+ '(jde-jdk-registry (quote (("1.8.0.45" . "/opt/oracle-jdk-bin-1.8.0.45"))))
  '(jde-mode-line-format
    (quote
     ("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position "  " mode-line-modes mode-line-misc-info mode-line-end-spaces)))
@@ -45,7 +48,7 @@
  '(font-lock-function-name-fac ((t :foreground "DarkBlue")) t)
  '(font-lock-keyword-face ((t :bold t)))
  '(font-lock-string-face ((t :foreground "#bf0303")))
- '(font-lock-variable-name-face ((t :foreground "DarkGreen")))
+ '(font-lock-variable-name-face ((t (:foreground "lime green"))))
  '(py-builtins-face ((t :foreground "#0057ae")))
  '(py-class-name-face ((t :foreground "DarkOliveGreen")))
  '(py-decorators-face ((t :foreground "SaddleBrown")))
@@ -55,6 +58,7 @@
  '(py-variable-name-face ((t :foreground "DarkMagenta")))
  '(region ((t :background "steelblue1")))
  '(sh-escaped-newline ((t :foreground "Magenta")))
+ '(term-bold ((t (:foreground "DodgerBlue1" :weight bold))))
  '(trailing-whitespace ((t (:background "yellow green"))))
  '(web-mode-doctype-face ((t (:foreground "dim gray" :bold t))))
  '(web-mode-html-attr-name-face ((t (:foreground "dark green"))))
