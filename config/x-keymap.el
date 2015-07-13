@@ -19,3 +19,6 @@
 (global-set-key (kbd "M-<down>") 'windmove-down)
 (global-set-key (kbd "s-<left>") 'backward-sexp)
 (global-set-key (kbd "s-<right>") 'forward-sexp)
+(global-set-key (kbd "<backtab>") '(lambda ()
+                                     (interactive)
+                                     (insert 9)))

@@ -15,4 +15,9 @@
   (local-set-key (kbd "C-d") 'web-mode-comment-or-uncomment)
   (local-set-key (kbd "C-S-d") 'web-mode-comment-or-uncomment))
 
+(defun web-mode-hook-misc ()
+  (electric-indent-mode 0)
+  (setq indent-tabs-mode t))
+
 (add-hook 'web-mode-hook 'web-mode-keymap-modify)
+(add-hook 'web-mode-hook 'web-mode-hook-misc)

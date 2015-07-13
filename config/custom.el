@@ -35,6 +35,7 @@
      (Syntax . COMMON-LISP)
      (Base . 10)
      (Syntax . ANSI-Common-Lisp))))
+ '(send-mail-function (quote smtpmail-send-it))
  '(tool-bar-mode nil)
  '(wisent-parse-max-stack-size 1500))
 
@@ -47,7 +48,7 @@
  '(font-lock-comment-face ((t :foreground "grey53" :italic t)))
  '(font-lock-function-name-fac ((t :foreground "DarkBlue")) t)
  '(font-lock-keyword-face ((t :bold t)))
- '(font-lock-string-face ((t :foreground "#bf0303")))
+ '(font-lock-string-face ((t (:foreground "orange red"))))
  '(font-lock-variable-name-face ((t (:foreground "lime green"))))
  '(py-builtins-face ((t :foreground "#0057ae")))
  '(py-class-name-face ((t :foreground "DarkOliveGreen")))

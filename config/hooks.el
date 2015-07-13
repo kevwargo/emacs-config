@@ -11,6 +11,9 @@
 (defun enable-linum-mode ()
   (linum-mode 1))
 
+(defun css-mode-hook-misc ()
+  (setq indent-tabs-mode t))
+
 (add-hook 'after-make-frame-functions 'make-frame-set-parameters)
 (add-hook 'emacs-lisp-mode-hook 'elisp-mode-hook)
 (add-hook 'isearch-mode-hook
@@ -20,4 +23,5 @@
              (define-key isearch-mode-map "\C-t" 'isearch-toggle-regexp)
              (define-key isearch-mode-map "\C-c" 'isearch-toggle-case-fold)
              (define-key isearch-mode-map "\C-j" 'isearch-edit-string))))
+(add-hook 'css-mode-hook 'css-mode-hook-misc)
 ;; (add-hook 'find-file-hook 'enable-linum-mode)
