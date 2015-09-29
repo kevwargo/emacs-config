@@ -23,6 +23,8 @@
          (jde-compile-javac-17 "javac 1.7.x"))))
 
 (defun jde-keymap-modify ()
+  (local-set-key (kbd "(") 'self-insert-command)
+  (local-set-key (kbd ")") 'self-insert-command)
   (local-set-key (kbd "C-c C-v g") 'jde-wiz-get-set-methods)
   (local-set-key (kbd "C-<left>") 'jde-beginning-of-camel-tok)
   (local-set-key (kbd "C-<right>") 'jde-end-of-camel-tok)

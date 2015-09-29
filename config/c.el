@@ -2,6 +2,8 @@
   (dolist (key '("C-d" "C-c C-d" "C-c C-\\"))
     (eval `(local-unset-key (kbd ,key))))
   (local-unset-key (kbd "C-M-q"))
+  (local-set-key (kbd "(") 'self-insert-command)
+  (local-set-key (kbd ")") 'self-insert-command)
   (local-set-key (kbd "C-{") 'c-embrace-selected-lines)
   (local-set-key (kbd "C-;") 'c-finalize-string))
 
