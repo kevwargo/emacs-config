@@ -41,7 +41,11 @@
 (electric-pair-mode 1)
 
 (autoload 'php-mode "php-mode" "Major mode for editing php code." t)
-(add-to-list 'auto-mode-alist '("\\.php$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.inc$" . php-mode))
+
+(add-to-list 'auto-mode-alist '("\\.less$" . css-mode))
+
+(add-hook 'js-mode-hook '(lambda ()
+                           (setq indent-tabs-mode t)))
 
 (add-hook 'after-change-major-mode-hook 'enable-linum-in-some-buffers)
