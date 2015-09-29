@@ -16,9 +16,10 @@
  '(custom-enabled-themes (quote (deeper-blue)))
  '(custom-file (concat kec:config-dir "config/custom.el"))
  '(font-use-system-font t)
+ '(ido-auto-merge-delay-time 2)
  '(jde-compiler (quote ("javac")))
  '(jde-gen-k&r nil)
- '(jde-jdk-registry (quote (("1.8.0.45" . "/opt/oracle-jdk-bin-1.8.0.45"))))
+ '(jde-jdk-registry (quote (("1.8.0.51" . "/opt/oracle-jdk-bin-1.8.0.51"))))
  '(jde-mode-line-format
    (quote
     ("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position "  " mode-line-modes mode-line-misc-info mode-line-end-spaces)))
@@ -36,6 +37,8 @@
      (Base . 10)
      (Syntax . ANSI-Common-Lisp))))
  '(send-mail-function (quote smtpmail-send-it))
+ '(smtpmail-smtp-server "smtp.googlemail.com")
+ '(smtpmail-smtp-service 25)
  '(tool-bar-mode nil)
  '(wisent-parse-max-stack-size 1500))
 
@@ -63,4 +66,4 @@
  '(trailing-whitespace ((t (:background "yellow green"))))
  '(web-mode-doctype-face ((t (:foreground "dim gray" :bold t))))
  '(web-mode-html-attr-name-face ((t (:foreground "dark green"))))
- '(web-mode-html-tag-face ((t (:foreground "blue")))))
+ '(web-mode-html-tag-face ((t (:foreground "deep sky blue")))))
