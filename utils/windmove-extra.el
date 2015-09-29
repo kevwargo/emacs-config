@@ -22,6 +22,7 @@ and selects that window. If CUT is non-nil, deletes selected text in current buf
     (when cut
       (barf-if-buffer-read-only)
       (delete-region beg end))
+    (deactivate-mark)
     (select-window window)
     (barf-if-buffer-read-only)
     (if (derived-mode-p 'term-mode)
