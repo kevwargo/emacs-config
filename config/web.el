@@ -6,13 +6,14 @@
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.xml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 
 
 
 (defun web-mode-keymap-modify ()
   (local-unset-key (kbd "M-;"))
-  (local-set-key (kbd "C-{") 'c-embrace-selected-lines)
+  (local-set-key (kbd "C-{") 'embrace-selected-lines)
   (local-set-key (kbd "C-d") 'web-mode-comment-or-uncomment)
   (local-set-key (kbd "C-S-d") 'web-mode-comment-or-uncomment))
 
