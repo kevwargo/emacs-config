@@ -140,4 +140,32 @@ If point was already at that position, move point to beginning of line."
                                    (not (buffer-file-name b))))
                              (buffer-list))))))
 
-
+(defun embrace-selected-lines ()
+  (interactive)
+  (let ((oldpoint (point))
+        (oldmark (mark))
+        (mark-was-set-p (use-region-p))
+        (oldsize (buffer-size))
+        (indent-function (key-binding [9])) ; function on tab key
+        increment)
+    (destructuring-bind (open close) (selected-lines)
+      (when (= (char-before close) 10)
+        (setq close (1- close)))
+      (deactivate-mark)
+      (goto-char open)
+      (newline-and-indent)
+      (previous-line)
+      (insert "{")
+      (funcall indent-function)
+      (setq increment (- (buffer-size) oldsize))
+      (goto-char (setq close (+ increment close)))
+      (newline-and-indent)
+      (insert "}")
+      (funcall indent-function)
+      (save-excursion
+        (goto-char (+ increment open))
+        (set-mark close)
+        (funcall indent-function)))
+    (goto-char (+ oldpoint increment))
+    (when mark-was-set-p
+      (set-mark (+ oldmark increment)))))
