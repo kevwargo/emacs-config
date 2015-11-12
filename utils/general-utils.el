@@ -169,3 +169,24 @@ If point was already at that position, move point to beginning of line."
     (goto-char (+ oldpoint increment))
     (when mark-was-set-p
       (set-mark (+ oldmark increment)))))
+
+(defun escape-non-ascii ()
+  (interactive)
+  (let (begin end char)
+    (if (region-active-p)
+        (progn
+          (setq begin (region-beginning))
+          (setq end (region-end)))
+      (setq begin (point-min))
+      (setq end (point-max)))
+    (save-excursion
+      (goto-char begin)
+      (while (< (point) end)
+        (setq char (char-after))
+        (if (< char 128)
+            (forward-char)
+          (when (> char 65535)
+              (setq char (logand char 255)))
+          (insert (format "\\u%04X" char))
+          (delete-char 1)
+          (setq end (+ end 5)))))))
