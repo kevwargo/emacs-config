@@ -3,26 +3,14 @@
   (server-start))
 (setq server-log t)
 
-;; (package-initialize)
+(require 'package)
+(package-initialize)
 
 (setq kec:config-dir
       (file-name-directory (file-truename load-file-name)))
 
-(message "%S" kec:config-dir)
 
-(dolist (path '(""  
-                "kiwanami/emacs-window-manager/"
-                ;; "elpa/multi-term-20110326.608/"
-                "elpa/auto-complete-20131128.233"
-                "elpa/yasnippet-20131031.628"
-                "elpa/auto-complete-clang-20120612.2224"
-                "elpa/popup-20130708.2245"
-                "auto-java-complete"))
-  (add-to-list 'load-path (concat kec:config-dir path)))
-
-;; (add-to-list 'load-path kec:config-dir)
-
-;; (load-theme 'deeper-blue)
+(add-to-list 'load-path kec:config-dir)
 
 (load "utils/lisp-utils")
 (load "utils/general-utils")
@@ -41,10 +29,10 @@
 (load "config/asm")
 ;; (load "config/jde-mode-extra")
 (load "config/slime")
-(load "config/ac")
 (load "config/comint")
 (load "config/term")
 (load "config/web")
+(load "config/after-init")
 
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)

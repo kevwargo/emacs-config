@@ -36,7 +36,7 @@
   ; In this function we execute `jde-compile' and define hook to execute `jde-run'
   ; after it's finished
   (interactive)
-  ; I know it's a dirty hack, but I don't give damn, I just love LISP :P
+  ; I know it's a dirty hack, but I don't give a damn, I just love LISP :P
   ; Seriously that code will be executed in unknown moment of time and
   ; definitely not in any `let' we can define
   (defun _tmp-jde-compile-handler (buf msg)

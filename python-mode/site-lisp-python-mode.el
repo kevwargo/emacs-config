@@ -3,6 +3,7 @@
 
 (add-to-list 'load-path (concat kec:config-dir "python-mode"))
 
+(load (concat kec:config-dir "python-mode/python-mode.el"))
 (autoload 'python-mode "python-mode" "Major mode for editing Python files." t)
 (autoload 'jython-mode "python-mode" "Major mode for editing Jython files." t)
 (autoload 'py-shell "python-mode"
