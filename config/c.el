@@ -25,6 +25,8 @@
                                   (substatement-label . 0)
                                   (label . 0)
                                   (case-label . +)
+                                  (arglist-intro . 8)
+                                  (arglist-cont-nonempty . 8)
                                   (statement-cont . +)))))))
 
 (defun c-mode-for-lex-yacc ()

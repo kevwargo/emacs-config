@@ -2,8 +2,9 @@
 (require 'eclimd)
 
 (custom-set-variables
- '(eclim-eclipse-dirs '("/opt/eclipse-sdk-bin-4.3" "~/.eclipse"))
- '(eclim-executable "~/.eclipse/plugins/org.eclim_2.5.0.21-gca00af8/bin/eclim"))
+ '(eclim-eclipse-dirs '("/opt/eclipse"))
+ '(eclim-executable "/opt/eclipse/eclim")
+ '(eclimd-executable "/opt/eclipse/eclimd"))
 
 (require 'ac-emacs-eclim-source)
 (ac-emacs-eclim-config)

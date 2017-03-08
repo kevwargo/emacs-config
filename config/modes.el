@@ -1,5 +1,4 @@
 (require 'show-point-mode)
-(require 'goto-last-change)
 (require 'ido)
 ;; (require 'auto-complete-clang)
 
@@ -44,8 +43,8 @@
 (add-to-list 'auto-mode-alist '("\\.inc$" . php-mode))
 
 (add-to-list 'auto-mode-alist '("\\.less$" . css-mode))
+(add-to-list 'auto-mode-alist '("\\.scss$" . css-mode))
+(add-to-list 'auto-mode-alist '("\\.ts$" . js-mode))
 
-(add-hook 'js-mode-hook '(lambda ()
-                           (setq indent-tabs-mode t)))
 
 (add-hook 'after-change-major-mode-hook 'enable-linum-in-some-buffers)

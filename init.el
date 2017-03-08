@@ -17,6 +17,7 @@
 (load "utils/windmove-extra")
 (load "utils/term")
 (load "utils/window-expand")
+(load "utils/isearch-sexp")
 
 (load "config/modes")
 (load "config/vars")
@@ -32,6 +33,7 @@
 (load "config/comint")
 (load "config/term")
 (load "config/web")
+(load "config/js")
 (load "config/after-init")
 
 (put 'downcase-region 'disabled nil)

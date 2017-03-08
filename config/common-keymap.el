@@ -23,6 +23,7 @@
 (global-set-key (kbd "C-c C-f") 'find-function)
 (global-set-key (kbd "C-x DEL") 'join-line)
 (global-set-key (kbd "C-x C-b") 'list-buffers-dwim)
+(global-set-key (kbd "M-X") 'command-all-buffers-same-major-mode)
 
 
 (global-set-key (kbd "C-c 1") (make-sparse-keymap))
@@ -67,6 +68,7 @@
 (global-set-key (kbd "C-c d <down>") 'copy-cwd-down)
 (global-set-key (kbd "C-c d <left>") 'copy-cwd-left)
 (global-set-key (kbd "C-c d <right>") 'copy-cwd-right)
+(global-set-key (kbd "C-c d x") 'normalize-buffer-working-directory)
 
 (global-set-key (kbd "C-c z") (make-sparse-keymap))
 (global-set-key (kbd "C-c z <up>") 'ielm-up)

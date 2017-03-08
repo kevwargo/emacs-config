@@ -7,12 +7,14 @@
          (set-frame-parameter frame 'menu-bar-lines 0))))
 
 (defun elisp-mode-hook ()
+  (setq-local electric-pair-pairs (list '(?\" . ?\")))
   (setq tab-width 8))
 
 (defun enable-linum-mode ()
   (linum-mode 1))
 
 (defun css-mode-hook-misc ()
+  (local-set-key (kbd "C-{") 'embrace-selected-lines)
   (setq indent-tabs-mode t))
 
 (add-hook 'after-make-frame-functions 'make-frame-set-parameters)
@@ -26,3 +28,5 @@
              (define-key isearch-mode-map "\C-j" 'isearch-edit-string))))
 (add-hook 'css-mode-hook 'css-mode-hook-misc)
 ;; (add-hook 'find-file-hook 'enable-linum-mode)
+
+(remove-hook 'find-file-hook 'vc-find-file-hook)
