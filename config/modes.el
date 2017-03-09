@@ -1,5 +1,4 @@
 (require 'show-point-mode)
-(require 'goto-last-change)
 (require 'ido)
 ;; (require 'auto-complete-clang)
 
@@ -30,6 +29,7 @@
 (autoload 'global-undo-tree-mode "undo-tree" "Enable undo-trees globally" t)
 (setq undo-tree-enable-undo-in-region nil)
 (global-undo-tree-mode t)
+(global-auto-revert-mode t)
 
 ;; This need to be set BEFORE enabling winner
 (setq winner-dont-bind-my-keys t)
@@ -40,7 +40,11 @@
 (electric-pair-mode 1)
 
 (autoload 'php-mode "php-mode" "Major mode for editing php code." t)
-(add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
 (add-to-list 'auto-mode-alist '("\\.inc$" . php-mode))
+
+(add-to-list 'auto-mode-alist '("\\.less$" . css-mode))
+(add-to-list 'auto-mode-alist '("\\.scss$" . css-mode))
+(add-to-list 'auto-mode-alist '("\\.ts$" . js-mode))
+
 
 (add-hook 'after-change-major-mode-hook 'enable-linum-in-some-buffers)
