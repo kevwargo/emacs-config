@@ -13,6 +13,7 @@
 (setq blink-cursor-blinks 0)
 
 (setq scroll-step 1)
+(setq scroll-margin 4)
 (setq mouse-wheel-scroll-amount '(3 ((shift) . 3)))
 (setq mouse-wheel-progressive-speed nil)
 (setq mouse-yank-at-point t)

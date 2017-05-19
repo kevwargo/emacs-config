@@ -35,7 +35,8 @@
   (interactive)
   (term-send-raw-string "\e\C-?"))
 
-(defun term-mode-keymap-modify ()
+(defun term-mode-customize ()
+  (setq-local scroll-margin 0)
   (dolist (key '("<M-left>" "<M-right>"))
     (eval `(define-key term-raw-map (kbd ,key) nil)))
   (define-key term-raw-map (kbd "C-r") 'term-send-raw)
@@ -45,4 +46,4 @@
   (define-key term-raw-map (kbd "C-w") 'term-backward-kill-word-custom)
   (define-key term-raw-map (kbd "C-<backspace>") 'term-backward-kill-word-custom))
 
-(add-hook 'term-mode-hook 'term-mode-keymap-modify)
+(add-hook 'term-mode-hook 'term-mode-customize)
