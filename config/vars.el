@@ -1,7 +1,3 @@
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-
-
 (setq auto-mode-alist (append auto-mode-alist '(("/etc/cdnet" . conf-mode)
                                                 ("\\.e\\(build\\|class\\)" . sh-mode)
                                                 ("\\.pddl" . PDDL-mode))))
@@ -21,3 +17,5 @@
 (set-language-environment "utf-8")
 
 (put 'narrow-to-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)

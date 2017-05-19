@@ -21,7 +21,6 @@
     ("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position "  " mode-line-modes mode-line-misc-info mode-line-end-spaces)))
  '(jdee-server-dir "/mnt/develop/my/lisp/emacs/emacs-config/jdee-server")
  '(jit-lock-stealth-verbose t)
- '(package-user-dir (concat kec:config-dir "elpa"))
  '(require-final-newline t)
  '(safe-local-variable-values
    (quote

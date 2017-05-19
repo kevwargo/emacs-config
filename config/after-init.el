@@ -1,6 +1,5 @@
 (defun kec:after-init ()
-  ;; (load "config/eclim")
   (tramp-unload-tramp)
-  (load "config/ac"))
+  (load "config/packages"))
 
 (add-hook 'after-init-hook 'kec:after-init)

@@ -1,4 +1,4 @@
-(load "python-mode/site-lisp-python-mode")
+;; (load "python-mode/site-lisp-python-mode")
 
 (defface py-preprocessor-face
   '((t (:inherit default :foreground "#ff80ff")))

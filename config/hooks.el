@@ -10,9 +10,6 @@
   (setq-local electric-pair-pairs (list '(?\" . ?\")))
   (setq tab-width 8))
 
-(defun enable-linum-mode ()
-  (linum-mode 1))
-
 (defun css-mode-hook-misc ()
   (local-set-key (kbd "C-{") 'embrace-selected-lines)
   (setq indent-tabs-mode t))
@@ -27,6 +24,5 @@
              (define-key isearch-mode-map "\C-c" 'isearch-toggle-case-fold)
              (define-key isearch-mode-map "\C-j" 'isearch-edit-string))))
 (add-hook 'css-mode-hook 'css-mode-hook-misc)
-;; (add-hook 'find-file-hook 'enable-linum-mode)
 
 (remove-hook 'find-file-hook 'vc-find-file-hook)

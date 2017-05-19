@@ -72,7 +72,7 @@ If point was already at that position, move point to beginning of line."
     (list (line-beginning-position) (line-end-respecting-newline))))
 
 (defun move-lines (n &optional keep-text)
-  "Partly by Ji Han from StackOverflow.com."
+  "Partly from Ji Han's answer: http://stackoverflow.com/questions/2423834/move-line-region-up-and-down-in-emacs/19378355"
   (destructuring-bind (beg end) (selected-lines)
     (when (and (= end (point-max))
                (/= (char-before end) 10))
