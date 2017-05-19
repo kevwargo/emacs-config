@@ -19,6 +19,7 @@
        'python-mode
        'web-mode
        'php-mode
+       'bison-mode
        'multi-term))
 
 (defun kec:install-packages ()
