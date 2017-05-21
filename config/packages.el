@@ -20,6 +20,7 @@
        'web-mode
        'php-mode
        'bison-mode
+       'goto-last-change
        'multi-term))
 
 (defun kec:install-packages ()
