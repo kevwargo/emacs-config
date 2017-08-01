@@ -40,7 +40,6 @@
   (local-set-key (kbd "C-S-d") 'web-mode-comment-or-uncomment))
 
 (defun web-mode-hook-misc ()
-  (require 'php-mode)
   (setq electric-pair-pairs (append electric-pair-pairs (list '(?' . ?'))))
   ;; (if (assoc "lineup-args" web-mode-indentation-params)
   ;;     (setcdr (assoc "lineup-args" web-mode-indentation-params) nil)

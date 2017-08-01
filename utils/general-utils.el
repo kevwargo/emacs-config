@@ -233,3 +233,11 @@ If point was already at that position, move point to beginning of line."
         (push word words)
       (setq i (1+ i))))
   (insert (mapconcat 'identity words " "))))
+
+(defun insert-line-number ()
+  (interactive)
+  (insert
+   (format "%d"
+           (save-excursion
+             (beginning-of-line)
+             (1+ (count-lines 1 (point)))))))

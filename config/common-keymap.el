@@ -79,3 +79,4 @@
 (global-set-key (kbd "C-x 4 /") 'winner-undo)
 (global-set-key (kbd "C-x 4 ?") 'winner-redo)
 
+(global-set-key (kbd "C-x M-l") 'insert-line-number)

@@ -2,4 +2,8 @@
   (local-set-key (kbd "C-{") 'embrace-selected-lines)
   (setq indent-tabs-mode t))
 
+(defun js-set-local-indent-level (level)
+  (interactive "N")
+  (setq-local js-indent-level level))
+
 (add-hook 'js-mode-hook 'js-mode-hook-custom)

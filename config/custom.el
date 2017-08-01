@@ -21,6 +21,12 @@
     ("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position "  " mode-line-modes mode-line-misc-info mode-line-end-spaces)))
  '(jdee-server-dir "/mnt/develop/my/lisp/emacs/emacs-config/jdee-server")
  '(jit-lock-stealth-verbose t)
+ '(package-archives
+   (quote
+    (("gnu" . "https://elpa.gnu.org/packages/")
+     ("marmalade" . "https://marmalade-repo.org/packages/")
+     ("melpa" . "https://melpa.org/packages/"))))
+ '(package-user-dir (concat kec:config-dir "elpa"))
  '(require-final-newline t)
  '(safe-local-variable-values
    (quote
@@ -36,6 +42,7 @@
  '(smtpmail-smtp-server "smtp.googlemail.com")
  '(smtpmail-smtp-service 25)
  '(tool-bar-mode nil)
+ '(web-mode-enable-auto-indentation nil)
  '(wisent-parse-max-stack-size 1500))
 
 (custom-set-faces

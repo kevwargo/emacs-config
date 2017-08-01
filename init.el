@@ -28,4 +28,5 @@
 (load "config/slime")
 (load "config/comint")
 (load "config/js")
+(load "config/makefile")
 (load "config/after-init")
