@@ -29,4 +29,5 @@
 (load "config/comint")
 (load "config/js")
 (load "config/makefile")
+(load "config/sh")
 (load "config/after-init")

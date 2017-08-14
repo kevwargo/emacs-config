@@ -12,6 +12,7 @@
                    (progn (forward-line) nil)))))))
 
 (defun customize-makefile-mode ()
+  (local-unset-key (kbd "C-c C-\\"))
   (setq-local comment-region-function 'makefile-comment-region))
 
 (add-hook 'makefile-mode-hook 'customize-makefile-mode)
