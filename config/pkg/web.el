@@ -44,7 +44,7 @@
   ;; (if (assoc "lineup-args" web-mode-indentation-params)
   ;;     (setcdr (assoc "lineup-args" web-mode-indentation-params) nil)
   ;;   (add-to-list 'web-mode-indentation-params '("lineup-args" . nil)))
-  (setq indent-tabs-mode t))
+  )
 
 (add-hook 'web-mode-hook 'web-mode-keymap-modify)
 (add-hook 'web-mode-hook 'web-mode-hook-misc)

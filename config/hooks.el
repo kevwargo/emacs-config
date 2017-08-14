@@ -11,8 +11,7 @@
   (setq tab-width 8))
 
 (defun css-mode-hook-misc ()
-  (local-set-key (kbd "C-{") 'embrace-selected-lines)
-  (setq indent-tabs-mode t))
+  (local-set-key (kbd "C-{") 'embrace-selected-lines))
 
 (add-hook 'after-make-frame-functions 'make-frame-set-parameters)
 (add-hook 'emacs-lisp-mode-hook 'elisp-mode-hook)

@@ -1,6 +1,5 @@
 (defun js-mode-hook-custom ()
-  (local-set-key (kbd "C-{") 'embrace-selected-lines)
-  (setq indent-tabs-mode t))
+  (local-set-key (kbd "C-{") 'embrace-selected-lines))
 
 (defun js-set-local-indent-level (level)
   (interactive "N")
