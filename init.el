@@ -1,3 +1,10 @@
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (load "server")
 (unless (server-running-p)
   (server-start))
@@ -17,6 +24,7 @@
 (load "utils/term")
 (load "utils/window-expand")
 (load "utils/isearch-sexp")
+(load "utils/konsole")
 
 (load "config/modes")
 (load "config/vars")

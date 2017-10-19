@@ -36,6 +36,8 @@
 (add-to-list 'auto-mode-alist '("\\.less$" . css-mode))
 (add-to-list 'auto-mode-alist '("\\.scss$" . css-mode))
 (add-to-list 'auto-mode-alist '("\\.ts$" . js-mode))
+(add-to-list 'auto-mode-alist '(".*stumpwmrc$" . lisp-mode))
+(add-to-list 'auto-mode-alist '("\\.gitignore$" . conf-mode))
 
 
 (add-hook 'after-change-major-mode-hook 'enable-linum-in-some-buffers)

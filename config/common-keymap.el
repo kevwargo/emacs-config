@@ -80,3 +80,8 @@
 (global-set-key (kbd "C-x 4 ?") 'winner-redo)
 
 (global-set-key (kbd "C-x M-l") 'insert-line-number)
+
+(global-set-key (kbd "C-x t") 'konsole-tailf)
+(global-set-key (kbd "C-x c") 'konsole-cd)
+
+(global-set-key (kbd "C-x F") 'custom-find-grep)

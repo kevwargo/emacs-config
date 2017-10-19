@@ -34,4 +34,4 @@
 (load "config/pkg/web")
 (load "config/pkg/term")
 (load "config/pkg/ac")
-(load "config/pkg/python")
+;; (load "config/pkg/python")

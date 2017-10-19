@@ -39,7 +39,7 @@ nil otherwise."
 (defun read-file (file-path)
   "Return FILEPATH's file content."
   (with-temp-buffer
-    (insert-file-contents file-path)
+    (insert-file-contents-literally file-path)
     (buffer-string)))
 
 (defun find-head-in-file (list file-path)
@@ -84,5 +84,15 @@ Counting starts from 0. Returns resulting list"
   (with-current-buffer "*scratch*"
     (goto-char (point-max))
     (insert (apply 'format string objects) 10)))
+
+(defun read-whole-string (string)
+  (let (result start)
+    (condition-case e
+        (while t
+          (destructuring-bind (sexp . end)
+              (read-from-string string start)
+            (setq result (append result (list sexp)))
+            (setq start end)))
+      (error result))))
 
 (provide 'kec:lisp-utils)

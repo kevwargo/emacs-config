@@ -1,11 +1,5 @@
 ;; (load "python-mode/site-lisp-python-mode")
 
-(defface py-preprocessor-face
-  '((t (:inherit default :foreground "#ff80ff")))
-  "Face for \"preprocessor\" commands: import, from, as."
-  :group 'python-mode)
-(defvar py-preprocessor-face 'py-preprocessor-face)
-
 (defface py-overloaders-face
   '((t (:inherit font-lock-keyword-face :foreground "DarkBlue")))
   "Face for functions-overloaders: __init__, __new__, etc."
@@ -14,51 +8,7 @@
 
 ;; Editing python highlighting
 (defun py-kw-customize-manual ()
-  (let ((keywords (eval (car font-lock-defaults))))
-                                        ; Making new keyword list (without print: python3-compat)
-    (setcar keywords
-            (rx symbol-start
-                (or "and"    "assert" "break" "class"  "continue" "def"
-                    "del"    "elif"   "else"  "except" "finally"  "for"
-                    "global" "if"     "in"    "is"     "lambda"   "nonlocal"
-                    "not"    "or"     "pass"  "raise"  "return"   "try"
-                    "while"  "with"   "yield")
-                symbol-end))
-                                        ; Fixing highlighting for hex-numbers
-    (setf (caar (last keywords))
-          (rx symbol-start (or (1+ digit)
-                               (group "0x" (1+ hex-digit)))
-              symbol-end))
-                                        ; Making class highlighting like for functions
-    (let* ((kw (cdr keywords))
-           (def (car kw))
-           (class (cdr kw)))
-      (setcar class (copy-tree def))
-      (setcar (car class) (replace-regexp-in-string "def" "class"
-                                                    (caar class)))
-      (setf (cdadar class) '(py-class-name-face)))
-    (setf (nth 6 keywords)
-          `(,(rx (or line-start
-                     (group (not (any "." space))
-                            (* space)))
-                 symbol-start
-                 (group (or "_" "__build_class__" "__doc__" "__future__"
-                            "__import__" "__name__" "__package__" "abs" "all"
-                            "any" "ascii" "bin" "bool" "bytearray" "bytes"
-                            "callable" "chr" "classmethod" "compile" "complex"
-                            "copyright" "credits" "delattr" "dict" "dir" "divmod"
-                            "enumerate" "eval" "exec" "exit"
-                            "filter" "float" "frozenset" "getattr" "globals"
-                            "hasattr" "hash" "help" "hex" "id" "input" "int"
-                            "isinstance" "issubclass" "iter" "len" "license" "list"
-                            "locals" "map" "max" "memoryview" "min" "next" "object"
-                            "oct" "open" "ord" "pow" "print" "property" "quit"
-                            "range" "repr" "reversed" "round" "set" "setattr"
-                            "slice" "sorted" "staticmethod" "str" "sum" "super"
-                            "tuple" "type" "vars" "zip"))
-                 symbol-end)
-            (2 py-builtins-face))))
-                                        ; Adding highlighting for overloaders (__init__, __new__, __str__, etc.)
+  ; Adding highlighting for overloaders (__init__, __new__, __str__, etc.)
   (font-lock-add-keywords nil
                           `((,(rx symbol-start "__"
                                   (or "new"     "init" "del" "repr" "str" "lt"   "le"
@@ -74,18 +24,7 @@
                                       "neg" "pos" "abs" "invert" "complex" "int" "long"
                                       "float" "oct" "hex" "index" "coerce" "enter" "exit")
                                   "__" symbol-end)
-                             . py-overloaders-face)))
-                                        ; Adding highlighting for "preprocessor" commands
-  (font-lock-add-keywords nil
-                          `((,(rx symbol-start
-                                  (or "import" "from" "as")
-                                  symbol-end)
-                             . py-preprocessor-face))
-                          t))
-
-;(defun py-kw-customize ()
- ; (let* ((whole-def-list (find-head-in-file '(setq python-font-lock-keywords)
-;					    "/usr/share/emacs/"
+                             . py-overloaders-face))))
 
 (defun py-keymap-customize ()
   (local-set-key (kbd "#") 'self-insert-command)
@@ -150,8 +89,10 @@
 
 
 (add-hook 'python-mode-hook 'py-kw-customize-manual)
-;(remove-hook 'python-mode-hook 'py-kw-customize-manual)
+;; (remove-hook 'python-mode-hook 'py-kw-customize-manual)
 (add-hook 'python-mode-hook 'py-keymap-customize)
 (add-hook 'py-shell-hook 'py-kill-buffer-on-shell-exit)
 (add-hook 'py-shell-hook 'comint-mode-keymap-modify)
 (add-hook 'py-shell-hook 'py-shell-keymap-modify)
+
+(define-key python-mode-map [(control backspace)] nil)
