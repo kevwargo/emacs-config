@@ -1,5 +1,5 @@
 (defun kec:after-init ()
-  (tramp-unload-tramp)
+  (setq tramp-mode nil)
   (load "config/packages"))
 
 (add-hook 'after-init-hook 'kec:after-init)
