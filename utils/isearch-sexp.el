@@ -1,7 +1,7 @@
 (defun insert-current-sexp ()
   (interactive)
   (let (sexp search-string)
-    (if (not (setq sexp (thing-at-point 'sexp t)))
+    (if (not (setq sexp (substring-no-properties (thing-at-point 'sexp))))
         (message "No sexp at point")
       (setq search-string (concat "\\<" sexp "\\>")
             isearch-regexp t
