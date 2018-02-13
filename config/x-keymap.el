@@ -22,3 +22,4 @@
 (global-set-key (kbd "<backtab>") '(lambda ()
                                      (interactive)
                                      (insert 9)))
+(global-set-key (kbd "s-z") 'keyboard-quit)

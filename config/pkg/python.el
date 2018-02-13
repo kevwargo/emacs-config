@@ -1,30 +1,38 @@
 ;; (load "python-mode/site-lisp-python-mode")
 
-(defface py-overloaders-face
-  '((t (:inherit font-lock-keyword-face :foreground "DarkBlue")))
-  "Face for functions-overloaders: __init__, __new__, etc."
-  :group 'python-mode)
-(defvar py-overloaders-face 'py-overloaders-face)
+;; (defface py-overloaders-face
+;;   '((t (:inherit font-lock-keyword-face :foreground "DarkBlue")))
+;;   "Face for functions-overloaders: __init__, __new__, etc."
+;;   :group 'python-mode)
+;; (defvar py-overloaders-face 'py-overloaders-face)
 
-;; Editing python highlighting
-(defun py-kw-customize-manual ()
-  ; Adding highlighting for overloaders (__init__, __new__, __str__, etc.)
-  (font-lock-add-keywords nil
-                          `((,(rx symbol-start "__"
-                                  (or "new"     "init" "del" "repr" "str" "lt"   "le"
-                                      "eq"      "ne"   "gt"  "ge"   "cmp" "rcmp" "hash"
-                                      "nonzero" "unicode" "getattr" "setattr" "delattr"
-                                      "getattribute" "get" "set" "delete" "call" "len"
-                                      "getitem" "setitem" "delitem" "iter" "reversed"
-                                      "contains" "getslice" "setslice" "delslice"
-                                      (group (opt (or "r" "i"))
-                                             (or "add" "sub" "mul" "floordiv" "mod"
-                                                 "divmod" "pow" "lshift" "rshift"
-                                                 "and" "xor" "or" "div" "truediv"))
-                                      "neg" "pos" "abs" "invert" "complex" "int" "long"
-                                      "float" "oct" "hex" "index" "coerce" "enter" "exit")
-                                  "__" symbol-end)
-                             . py-overloaders-face))))
+;; ;; Editing python highlighting
+;; (defun py-kw-customize-manual ()
+;;   ; Adding highlighting for overloaders (__init__, __new__, __str__, etc.)
+;;   (font-lock-add-keywords nil
+;;                           `((,(rx symbol-start "__"
+;;                                   (or "new"     "init" "del" "repr" "str" "lt"   "le"
+;;                                       "eq"      "ne"   "gt"  "ge"   "cmp" "rcmp" "hash"
+;;                                       "nonzero" "unicode" "getattr" "setattr" "delattr"
+;;                                       "getattribute" "get" "set" "delete" "call" "len"
+;;                                       "getitem" "setitem" "delitem" "iter" "reversed"
+;;                                       "contains" "getslice" "setslice" "delslice"
+;;                                       (group (opt (or "r" "i"))
+;;                                              (or "add" "sub" "mul" "floordiv" "mod"
+;;                                                  "divmod" "pow" "lshift" "rshift"
+;;                                                  "and" "xor" "or" "div" "truediv"))
+;;                                       "neg" "pos" "abs" "invert" "complex" "int" "long"
+;;                                       "float" "oct" "hex" "index" "coerce" "enter" "exit")
+;;                                   "__" symbol-end)
+;;                              . py-overloaders-face))))
+
+(defun py-shift-lines-left ()
+  (interactive)
+  (apply 'py-shift-left 1 (selected-lines)))
+
+(defun py-shift-lines-right ()
+  (interactive)
+  (apply 'py-shift-right 1 (selected-lines)))
 
 (defun py-keymap-customize ()
   (local-set-key (kbd "#") 'self-insert-command)
@@ -56,6 +64,9 @@
   (local-set-key (kbd "C-c a i") 'py-beginning-of-if-block)
   (local-set-key (kbd "C-c a t") 'py-beginning-of-try-block)
   (local-set-key (kbd "C-c a p") 'py-beginning-of-top-level)
+  (local-set-key (kbd "C-<") 'py-shift-lines-left)
+  (local-set-key (kbd "C->") 'py-shift-lines-right)
+  (local-unset-key [(control backspace)])
   (local-unset-key (kbd "<C-backspace>")))
 
 (defun py-kill-buffer-on-shell-exit ()
@@ -68,8 +79,8 @@
 (defun py-shell-keymap-modify ()
   (local-set-key (kbd "C-c TAB") 'py-shell-complete))
 
-(setq py-install-directory
-      "/home/jarasz/dev/programming/lisp/emacs/emacs-config/python-mode/")
+;; (setq py-install-directory
+;;       "/home/jarasz/dev/programming/lisp/emacs/emacs-config/python-mode/")
 
 ;;; use IPython
 ;; (setq-default py-shell-name "ipython")
@@ -77,7 +88,7 @@
 ; use the wx backend, for both mayavi and matplotlib
 ;; (setq py-python-command-args
 ;;   '("--gui=wx" "--pylab=wx" "-colors" "Linux"))
-(setq py-force-py-shell-name-p nil)
+;; (setq py-force-py-shell-name-p nil)
 
 ; switch to the interpreter after executing code
 ;; (setq py-shell-switch-buffers-on-execute-p t)
@@ -88,11 +99,8 @@
 (setq py-smart-indentation t)
 
 
-(add-hook 'python-mode-hook 'py-kw-customize-manual)
-;; (remove-hook 'python-mode-hook 'py-kw-customize-manual)
 (add-hook 'python-mode-hook 'py-keymap-customize)
 (add-hook 'py-shell-hook 'py-kill-buffer-on-shell-exit)
 (add-hook 'py-shell-hook 'comint-mode-keymap-modify)
 (add-hook 'py-shell-hook 'py-shell-keymap-modify)
 
-(define-key python-mode-map [(control backspace)] nil)

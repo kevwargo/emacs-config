@@ -38,4 +38,5 @@
 (load "config/js")
 (load "config/makefile")
 (load "config/sh")
+(load "config/debug")
 (load "config/after-init")

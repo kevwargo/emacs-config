@@ -3,6 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ac-candidate-limit 2000)
  '(ajc-tag-file (concat kec:config-dir "java-base.tag"))
  '(ansi-color-names-vector
    ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
@@ -19,21 +20,54 @@
  '(jde-mode-line-format
    (quote
     ("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position "  " mode-line-modes mode-line-misc-info mode-line-end-spaces)))
- '(jdee-server-dir "/mnt/develop/my/lisp/emacs/emacs-config/jdee-server")
+ '(jdee-ant-enable-find t)
+ '(jdee-ant-read-target t)
+ '(jdee-flycheck-enable-p nil)
+ '(jdee-mode-line-format
+   (quote
+    ("-" mode-line-mule-info mode-line-modified mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position
+     (jdee-which-method-mode
+      ("--" jdee-which-method-format "--"))
+     mode-line-modes mode-line-misc-info mode-line-end-spaces)))
+ '(jdee-server-dir (concat kec:config-dir "jdee-server"))
  '(jit-lock-stealth-verbose t)
  '(package-archives
    (quote
     (("gnu" . "https://elpa.gnu.org/packages/")
      ("marmalade" . "https://marmalade-repo.org/packages/")
      ("melpa" . "https://melpa.org/packages/"))))
- '(package-selected-packages (quote (undo-tree)))
+ '(package-selected-packages
+   (quote
+    (ac-c-headers yasnippet rjsx-mode multi-term jdee dockerfile-mode yaml-mode goto-last-change bison-mode php-mode web-mode python-mode auto-complete undo-tree)))
  '(package-user-dir (concat kec:config-dir "elpa"))
  '(py-split-window-on-execute t)
  '(py-split-windows-on-execute-function (quote split-window-horizontally))
  '(require-final-newline t)
  '(safe-local-variable-values
    (quote
-    ((css-indent-offset . 4)
+    ((eval setq cc-search-directories
+           (append
+            (list
+             (concat
+              (locate-dominating-file
+               (buffer-file-name)
+               ".dir-locals.el")
+              "/include"))
+            cc-search-directories))
+     (eval setq cc-search-directories
+           (append
+            (list
+             (file-name-directory load-file-name))
+            cc-search-directories))
+     (cc-search-directories append
+                            (list
+                             (file-name-directory load-file-name))
+                            cc-search-directories)
+     (kec:c-func lambda nil load-file-name)
+     (kec:c-func lambda nil
+                 (load-file-name))
+     (kec:c-var . "Lepecbeke")
+     (css-indent-offset . 4)
      (css-indent-offset . 2)
      (Package ITERATE :use "COMMON-LISP" :colon-mode :external)
      (syntax . COMMON-LISP)

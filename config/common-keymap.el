@@ -83,5 +83,8 @@
 
 (global-set-key (kbd "C-x t") 'konsole-tailf)
 (global-set-key (kbd "C-x c") 'konsole-cd)
+(global-set-key (kbd "C-x I") 'imv-open)
 
 (global-set-key (kbd "C-x F") 'custom-find-grep)
+
+(global-set-key (kbd "C-M-z") 'eval-defun)

@@ -217,22 +217,23 @@ If point was already at that position, move point to beginning of line."
 
 (defun insert-random-words (arg)
   (interactive "P")
-  (let* ((words-count (cond
-                       ((numberp arg) arg)
-                       ((consp arg) (car arg))
-                       (t (+ 4 (random 50)))))
-         (i 0)
-         (words))
-    (while (< i words-count)
-      (let ((letters (1+ (random 20)))
-            (j 0)
-            (word ""))
-        (while (< j letters)
-          (setq word (concat word (list (+ 97 (random 26)))))
-          (setq j (1+ j)))
-        (push word words)
-      (setq i (1+ i))))
-  (insert (mapconcat 'identity words " "))))
+  (let ((words))
+    (dotimes (i (cond
+                 ((numberp arg) arg)
+                 ((consp arg) (car arg))
+                 (t (+ 4 (random 50)))))
+      (let ((word ""))
+        (dotimes (j (1+ (random 20)))
+          (setq word (concat word (list
+                                   (let ((n (random 64)))
+                                     (cond
+                                      ((< n 10) (+ n ?0))
+                                      ((< n 36) (+ (- n 10) ?A))
+                                      ((< n 62) (+ (- n 36) ?a))
+                                      ((= n 62) ?_)
+                                      (t ?-)))))))
+        (push word words)))
+    (insert (mapconcat 'identity words " "))))
 
 (defun insert-line-number ()
   (interactive)
@@ -256,6 +257,11 @@ If point was already at that position, move point to beginning of line."
                                                            "*"
                                                            "*.php"
                                                            "*.js"
+                                                           "*.ts"
+                                                           "*.html"
+                                                           "*.java"
+                                                           "*.lisp"
+                                                           "*.py"
                                                            "*.c"
                                                            "*.cpp"
                                                            "*.h"
@@ -268,3 +274,16 @@ If point was already at that position, move point to beginning of line."
   (let ((null-device nil))
     (grep command)))
   
+(defun rename-current-file (newname)
+  "Rename the file associated with the current buffer to NEWNAME"
+  (interactive "sRename current file to: ")
+  (let ((oldname (buffer-file-name (current-buffer))))
+    (if oldname
+        (let ((default-directory (file-name-directory oldname)))
+          (rename-file oldname newname)
+          (find-alternate-file newname)))))
+
+(defun imv-open (filename)
+  (interactive
+   (list (ido-read-file-name "imv-open: ")))
+  (start-process "imv" nil "imv" filename))

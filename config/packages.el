@@ -3,12 +3,13 @@
 (custom-set-variables
  '(package-user-dir (concat kec:config-dir "elpa"))
  '(package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                      ("marmalade" . "https://marmalade-repo.org/packages/")
+                      ;; ("marmalade" . "https://marmalade-repo.org/packages/")
                       ("melpa" . "https://melpa.org/packages/"))))
 
 (unless package--initialized
   (package-initialize))
 (unless package-archive-contents
+  (message "before package-refresh-contens undo-tree %S" (package-installed-p 'undo-tree))
   (package-refresh-contents))
 
 (defvar kec:packages nil)
@@ -21,11 +22,20 @@
        'php-mode
        'bison-mode
        'goto-last-change
-       'multi-term))
+       'yaml-mode
+       'dockerfile-mode
+       'jdee
+       'multi-term
+       'yasnippet
+       'ac-c-headers
+       'rjsx-mode))
 
 (defun kec:install-packages ()
+  (message "elpa dir: %S" package-user-dir)
   (dolist (pkg kec:packages)
-    (unless (package-installed-p pkg)
+    (if (package-installed-p pkg)
+        (message "Package %S is already installed" pkg)
+      (message "Installing package %S..." pkg)
       (package-install pkg))))
 
 (kec:install-packages)
@@ -34,4 +44,8 @@
 (load "config/pkg/web")
 (load "config/pkg/term")
 (load "config/pkg/ac")
-;; (load "config/pkg/python")
+(load "config/pkg/c-ac")
+(load "config/pkg/jdee")
+(load "config/pkg/yasnippet")
+(load "config/pkg/rjsx")
+(load "config/pkg/python")
