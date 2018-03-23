@@ -25,6 +25,7 @@
 (load "utils/window-expand")
 (load "utils/isearch-sexp")
 (load "utils/konsole")
+(load "utils/findgrep")
 
 (load "config/modes")
 (load "config/vars")

@@ -265,8 +265,9 @@ If point was already at that position, move point to beginning of line."
                                                            "*.c"
                                                            "*.cpp"
                                                            "*.h"
+
                                                            "*.el")))
-                       (cmd-start (concat "cd " (shell-quote-argument dir)
+                       (cmd-start (concat "cd " dir
                                           " && find . -type f -name " (shell-quote-argument name-pattern)
                                           " -exec grep -Hn -e " regex))
                        (cmd (cons (concat cmd-start " {} +") (1+ (length cmd-start)))))
@@ -287,3 +288,7 @@ If point was already at that position, move point to beginning of line."
   (interactive
    (list (ido-read-file-name "imv-open: ")))
   (start-process "imv" nil "imv" filename))
+
+(defun open-stumpwmrc ()
+  (interactive)
+  (find-file (file-truename "~/.stumpwmrc")))

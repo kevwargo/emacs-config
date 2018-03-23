@@ -49,3 +49,4 @@
 (load "config/pkg/yasnippet")
 (load "config/pkg/rjsx")
 (load "config/pkg/python")
+(load "config/pkg/ts")

@@ -88,3 +88,5 @@
 (global-set-key (kbd "C-x F") 'custom-find-grep)
 
 (global-set-key (kbd "C-M-z") 'eval-defun)
+
+(global-set-key (kbd "C-c C-s") 'open-stumpwmrc)
