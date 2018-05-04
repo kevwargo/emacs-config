@@ -79,6 +79,105 @@
 (defun py-shell-keymap-modify ()
   (local-set-key (kbd "C-c TAB") 'py-shell-complete))
 
+(defvar-local pyexecserver-port 35000)
+
+(defun pyexecserver-send (form)
+  (save-excursion
+    (let ((region (if (eq form 'lines)
+                      (selected-lines)
+                    (if (stringp form)
+                        (funcall (intern-soft (concat "py-mark-" form))))
+                    (if (region-active-p)
+                        (list (region-beginning) (region-end))))))
+      (if (consp region)
+          (call-process-region (car region) (cadr region) "pyexecserver" nil nil nil
+                               (int-to-string pyexecserver-port) "-")))))
+
+(defun pyexec-region ()
+  (interactive)
+  (pyexecserver-send 'region))
+
+(defun pyexec-block ()
+  (interactive)
+  (pyexecserver-send "block"))
+
+(defun pyexec-block-or-clause ()
+  (interactive)
+  (pyexecserver-send "block-or-clause"))
+
+(defun pyexec-class ()
+  (interactive)
+  (pyexecserver-send "class"))
+
+(defun pyexec-clause ()
+  (interactive)
+  (pyexecserver-send "clause"))
+
+(defun pyexec-def ()
+  (interactive)
+  (pyexecserver-send "def"))
+
+(defun pyexec-def-or-class ()
+  (interactive)
+  (pyexecserver-send "def-or-class"))
+
+(defun pyexec-elif-block ()
+  (interactive)
+  (pyexecserver-send "elif-block"))
+
+(defun pyexec-else-block ()
+  (interactive)
+  (pyexecserver-send "else-block"))
+
+(defun pyexec-except-block ()
+  (interactive)
+  (pyexecserver-send "except-block"))
+
+(defun pyexec-expression ()
+  (interactive)
+  (pyexecserver-send "expression"))
+
+(defun pyexec-for-block ()
+  (interactive)
+  (pyexecserver-send "for-block"))
+
+(defun pyexec-if-block ()
+  (interactive)
+  (pyexecserver-send "if-block"))
+
+(defun pyexec-line ()
+  (interactive)
+  (pyexecserver-send "line"))
+
+(defun pyexec-minor-block ()
+  (interactive)
+  (pyexecserver-send "minor-block"))
+
+(defun pyexec-paragraph ()
+  (interactive)
+  (pyexecserver-send "paragraph"))
+
+(defun pyexec-partial-expression ()
+  (interactive)
+  (pyexecserver-send "partial-expression"))
+
+(defun pyexec-section ()
+  (interactive)
+  (pyexecserver-send "section"))
+
+(defun pyexec-statement ()
+  (interactive)
+  (pyexecserver-send "statement"))
+
+(defun pyexec-top-level ()
+  (interactive)
+  (pyexecserver-send "top-level"))
+
+(defun pyexec-try-block ()
+  (interactive)
+  (pyexecserver-send "try-block"))
+
+
 ;; (setq py-install-directory
 ;;       "/home/jarasz/dev/programming/lisp/emacs/emacs-config/python-mode/")
 
