@@ -243,38 +243,6 @@ If point was already at that position, move point to beginning of line."
              (beginning-of-line)
              (1+ (count-lines 1 (point)))))))
 
-(defun custom-find-grep (command)
-  (interactive (list
-                (let* ((regex (if (region-active-p)
-                                  (shell-quote-argument (regexp-quote
-                                                         (buffer-substring-no-properties
-                                                          (region-beginning)
-                                                          (region-end))))
-                                ""))
-                       (dir (ido-read-directory-name "Directory to search in: "))
-                       (name-pattern (ido-completing-read "Filename pattern: "
-                                                          (list
-                                                           "*"
-                                                           "*.php"
-                                                           "*.js"
-                                                           "*.ts"
-                                                           "*.html"
-                                                           "*.java"
-                                                           "*.lisp"
-                                                           "*.py"
-                                                           "*.c"
-                                                           "*.cpp"
-                                                           "*.h"
-
-                                                           "*.el")))
-                       (cmd-start (concat "cd " dir
-                                          " && find . -type f -name " (shell-quote-argument name-pattern)
-                                          " -exec grep -Hn -e " regex))
-                       (cmd (cons (concat cmd-start " {} +") (1+ (length cmd-start)))))
-                  (read-shell-command "Run findgrep: " cmd 'grep-find-history))))
-  (let ((null-device nil))
-    (grep command)))
-  
 (defun rename-current-file (newname)
   "Rename the file associated with the current buffer to NEWNAME"
   (interactive "sRename current file to: ")

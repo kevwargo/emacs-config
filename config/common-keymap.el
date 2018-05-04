@@ -2,6 +2,7 @@
 (global-unset-key (kbd "M-<left>"))
 (global-unset-key (kbd "M-<right>"))
 (global-unset-key (kbd "C-x h"))
+(global-unset-key (kbd "C-x C-z"))
 
 
 ;; Common keybindins
@@ -85,7 +86,7 @@
 (global-set-key (kbd "C-x c") 'konsole-cd)
 (global-set-key (kbd "C-x I") 'imv-open)
 
-(global-set-key (kbd "C-x F") 'custom-find-grep)
+(global-set-key (kbd "C-x F") 'findgrep)
 
 (global-set-key (kbd "C-M-z") 'eval-defun)
 

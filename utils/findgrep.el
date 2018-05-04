@@ -22,21 +22,22 @@
    "*.py"
    "*.c"
    "*.cpp"
+   "*.go"
    "*.h"
    "*.el"))
 
 (defvar-local findgrep-current-name nil)
 
 (defvar-local findgrep-keys
-  '(((kbd "C-v") . fg-reset-opts-cmd)
+  '(((kbd "C-r") . fg-reset-opts-cmd)
     ((kbd "C-#") . fg-toggle-ignore-autosave-cmd)
     ((kbd "C-~") . fg-toggle-ignore-backup-cmd)
     ((kbd "<C-up>") . fg-prev-name-cmd)
     ((kbd "<C-down>") . fg-next-name-cmd)
-    ((kbd "C-n") . fg-enable-name-cmd)
-    ((kbd "C-S-n") . fg-disable-name-cmd)
-    ((kbd "C-S-c") . fg-toggle-exclude-node-modules-cmd)
-    ((kbd "C-S-x") . fg-toggle-exclude-vendor-cmd)
+    ((kbd "C-M-n") . fg-enable-name-cmd)
+    ((kbd "C-M-S-n") . fg-disable-name-cmd)
+    ((kbd "C-S-n") . fg-toggle-exclude-node-modules-cmd)
+    ((kbd "C-S-v") . fg-toggle-exclude-vendor-cmd)
     ((kbd "C-S-i") . fg-toggle-case-insensitive-cmd)
     ((kbd "C-S-p") . fg-toggle-perl-regex-cmd)
     ((kbd "C-S-e") . fg-toggle-extended-regex-cmd)))
@@ -241,7 +242,6 @@
                                   (define-key map [10] 'exit-minibuffer)
                                   (define-key map [13] 'exit-minibuffer)
                                   (define-key map [7] 'minibuffer-keyboard-quit)
-                                  (define-key map (kbd "C-S-b") 'test-region)
                                   map)
                                 nil
                                 'grep-find-history))))
