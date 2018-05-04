@@ -265,3 +265,10 @@ If point was already at that position, move point to beginning of line."
   (interactive)
   (message
    (md5 (apply 'buffer-substring-no-properties (selected-lines)))))
+
+(defun html-format-selected-lines ()
+  (interactive)
+  (let ((old-mode major-mode))
+    (sgml-mode)
+    (apply 'sgml-pretty-print (selected-lines))
+    (funcall old-mode)))
