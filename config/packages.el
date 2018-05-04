@@ -28,7 +28,8 @@
        'multi-term
        'yasnippet
        'ac-c-headers
-       'rjsx-mode))
+       'rjsx-mode
+       'go-mode))
 
 (defun kec:install-packages ()
   (message "elpa dir: %S" package-user-dir)
