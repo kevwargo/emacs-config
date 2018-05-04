@@ -5,6 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(ac-candidate-limit 2000)
  '(ajc-tag-file (concat kec:config-dir "java-base.tag"))
+ '(android-mode-sdk-dir "/mnt/develop/sdk/android-sdk/android-sdk-linux")
  '(ansi-color-names-vector
    ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
  '(c-default-style (quote ((awk-mode . "awk") (other . "kevwargo"))))
@@ -23,6 +24,7 @@
  '(jdee-ant-enable-find t)
  '(jdee-ant-read-target t)
  '(jdee-flycheck-enable-p nil)
+ '(jdee-maven-disabled-p t)
  '(jdee-mode-line-format
    (quote
     ("-" mode-line-mule-info mode-line-modified mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position
@@ -34,7 +36,6 @@
  '(package-archives
    (quote
     (("gnu" . "https://elpa.gnu.org/packages/")
-     ("marmalade" . "https://marmalade-repo.org/packages/")
      ("melpa" . "https://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
@@ -82,8 +83,7 @@
  '(smtpmail-smtp-service 25)
  '(tool-bar-mode nil)
  '(web-mode-enable-auto-indentation nil)
- '(wisent-parse-max-stack-size 1500)
- '(android-mode-sdk-dir "/mnt/develop/sdk/android-sdk/android-sdk-linux"))
+ '(wisent-parse-max-stack-size 1500))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
