@@ -260,3 +260,8 @@ If point was already at that position, move point to beginning of line."
 (defun open-stumpwmrc ()
   (interactive)
   (find-file (file-truename "~/.stumpwmrc")))
+
+(defun md5-line-or-region ()
+  (interactive)
+  (message
+   (md5 (apply 'buffer-substring-no-properties (selected-lines)))))
