@@ -8,6 +8,12 @@
 
 (unless package--initialized
   (package-initialize))
+
+(unless (require 'quelpa nil t)
+  (with-temp-buffer
+    (url-insert-file-contents "https://raw.github.com/quelpa/quelpa/master/bootstrap.el")
+    (eval-buffer)))
+
 (unless package-archive-contents
   (message "before package-refresh-contens undo-tree %S" (package-installed-p 'undo-tree))
   (package-refresh-contents))
@@ -29,7 +35,10 @@
        'yasnippet
        'ac-c-headers
        'rjsx-mode
-       'go-mode))
+       'go-mode
+       'kotlin-mode
+       'typescript-mode
+       ))
 
 (defun kec:install-packages ()
   (message "elpa dir: %S" package-user-dir)
