@@ -12,9 +12,9 @@
             (and (symbolp what)
                  (setq what (symbol-name what))))
     (enclosure-list (append (remove-if 'null
-                                       (mapcar '(lambda (c)
-                                                  (cond ((= c ?a) 'car)
-                                                        ((= c ?d) 'cdr)))
+                                       (mapcar (lambda (c)
+                                                 (cond ((= c ?a) 'car)
+                                                       ((= c ?d) 'cdr)))
                                                what))
                             (list lst))
                     2)))
@@ -40,7 +40,7 @@ nil otherwise."
   "Return FILEPATH's file content."
   (with-temp-buffer
     (insert-file-contents-literally file-path)
-    (buffer-string)))
+    (buffer-substring-no-properties (point-min) (point-max))))
 
 (defun find-head-in-file (list file-path)
   (find-head list (read (concat "(" (read-file file-path) ")"))))
@@ -83,6 +83,11 @@ Counting starts from 0. Returns resulting list"
 (defun scratch-log (string &rest objects)
   (with-current-buffer "*scratch*"
     (goto-char (point-max))
+    (insert (apply 'format string objects) 10)))
+
+(defun scratch-log-prepend (string &rest objects)
+  (with-current-buffer "*scratch*"
+    (goto-char (point-min))
     (insert (apply 'format string objects) 10)))
 
 (defun read-whole-string (string)
