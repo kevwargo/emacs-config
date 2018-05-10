@@ -245,9 +245,10 @@ If point was already at that position, move point to beginning of line."
 
 (defun rename-current-file (newname)
   "Rename the file associated with the current buffer to NEWNAME"
-  (interactive "sRename current file to: ")
+  (interactive (list (read-from-minibuffer "Rename current file to: "
+                                           (buffer-file-name (current-buffer)))))
   (let ((oldname (buffer-file-name (current-buffer))))
-    (if oldname
+    (if (and oldname newname)
         (let ((default-directory (file-name-directory oldname)))
           (rename-file oldname newname)
           (find-alternate-file newname)))))
