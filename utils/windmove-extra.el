@@ -123,14 +123,10 @@ and selects that window."
   (move-buffer-dir 'down))
 
 (defun find-file-other-window-dir (dir)
-  (let* ((cwd (buffer-working-directory))
-         (oldbuf (window-buffer (find-other-window-dir dir)))
-         (oldwd (with-current-buffer oldbuf default-directory)))
+  (let* ((cwd (buffer-working-directory)))
     (windmove-do-window-select dir)
-    (cd cwd)
-    (ido-find-file)
-    (with-current-buffer oldbuf
-      (cd oldwd))))
+    (let ((default-directory cwd))
+      (ido-find-file))))
 
 (defun find-file-other-window-left ()
   (interactive)
