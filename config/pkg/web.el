@@ -13,22 +13,24 @@
 (defun web-mode-beginning-of-defun (&optional arg)
   (interactive "^p")
   (let* ((language (plist-get (web-mode-point-context (point)) :language))
+         (beginning-of-defun-function-orig beginning-of-defun-function)
          (beginning-of-defun-function
           (cond ((string= language "php") 'php-beginning-of-defun)
                 ;; ((string= language "javascript") 'js-beginning-of-defun)
-                )))
+                (t beginning-of-defun-function-orig))))
     ;; (scratch-log "beg defun %S" beginning-of-defun-function)
     (beginning-of-defun arg)))
 
 (defun web-mode-end-of-defun (&optional arg)
   (interactive "^p")
   (let* ((language (plist-get (web-mode-point-context (point)) :language))
+         (end-of-defun-function-orig end-of-defun-function)
          (end-of-defun-function
           (cond ((string= language "php") 'php-end-of-defun)
                 ;; ((string= language "javascript") 'js-end-of-defun)
-                )))
+                (t end-of-defun-function-orig))))
     ;; (scratch-log "end defun %S" end-of-defun-function)
-    (beginning-of-defun arg)))
+    (end-of-defun arg)))
 
 
 (defun web-mode-keymap-modify ()
