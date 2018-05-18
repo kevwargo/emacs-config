@@ -18,7 +18,7 @@
 
 (defun slime-stumpwm ()
   (interactive)
-  (slime-connect "localhost" 4005))
+  (slime-connect "localhost" 44005))
 
 (add-hook 'slime-repl-mode-hook 'slime-repl-custom-keys-hook)
 (add-hook 'slime-repl-mode-hook 'slime-set-package-to-stumpwm)
