@@ -273,3 +273,11 @@ If point was already at that position, move point to beginning of line."
     (sgml-mode)
     (apply 'sgml-pretty-print (selected-lines))
     (funcall old-mode)))
+
+(defun make-current-file-writable ()
+  (interactive)
+  (let ((file (buffer-file-name)))
+    (when file
+      (if (not (= (call-process "sudo" nil nil nil "chmod" "a+rw" file) 0))
+          (message "Cannot chmod file %S" file)))))
+      
