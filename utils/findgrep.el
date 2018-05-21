@@ -11,6 +11,8 @@
 
 (defvar-local findgrep-regex "")
 
+(defvar-local findgrep-whole-word nil)
+
 (defvar-local findgrep-names
   (list
    "*.php"
@@ -90,8 +92,14 @@
                                  long)))
     opt-string))
 
+(defun findgrep-build-regex ()
+  (if findgrep-whole-word
+      (concat "\\\\\\<" findgrep-regex "\\\\\\>")
+    findgrep-regex))
+
 (defun findgrep-build-cmdline ()
-  (let* ((cmd (concat
+  (let* ((regex (findgrep-build-regex))
+         (cmd (concat
                "cd "
                (or findgrep-dir default-directory)
                " && find . "
@@ -102,8 +110,8 @@
                (build-opt-string findgrep-grep-opts)
                " "))
          (pos (+ (1+ (length cmd))
-                 (length findgrep-regex))))
-    (cons (concat cmd findgrep-regex " {} +") pos)))
+                 (length regex))))
+    (cons (concat cmd regex " {} +") pos)))
 
 (defun findgrep-update-cmdline (&optional regex)
   (when (active-minibuffer-window)
@@ -229,7 +237,7 @@
 
 (add-hook 'grep-setup-hook 'grep-unset-grep-options)
 
-(defun findgrep (dir regex)
+(defun findgrep (dir regex &optional whole-word)
   (interactive
    (list (ido-read-directory-name "Findgrep dir: " (or findgrep-dir default-directory))
          (if (region-active-p)
@@ -238,8 +246,10 @@
                (buffer-substring-no-properties
                 (region-beginning)
                 (region-end))))
-           "")))
+           "")
+         current-prefix-arg))
   (setq findgrep-dir dir)
+  (setq findgrep-whole-word whole-word)
   (setq findgrep-regex regex)
   (let ((null-device nil))
     (grep (read-from-minibuffer "FindGrep: "
