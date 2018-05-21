@@ -171,7 +171,7 @@ If point was already at that position, move point to beginning of line."
       (set-mark (+ oldmark increment)))))
 
 (defun escape-non-ascii (arg)
-  (interactive "p")
+  (interactive "P")
   (let ((begin (if (region-active-p)
                    (region-beginning)
                  (point-min)))
