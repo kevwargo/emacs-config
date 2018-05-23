@@ -32,6 +32,7 @@
 
 (defvar-local findgrep-keys
   '(((kbd "C-r") . fg-reset-opts-cmd)
+    ((kbd "C-S-r") . fg-reset-dir-cmd)
     ((kbd "C-#") . fg-toggle-ignore-autosave-cmd)
     ((kbd "C-~") . fg-toggle-ignore-backup-cmd)
     ((kbd "<C-up>") . fg-prev-name-cmd)
@@ -231,6 +232,9 @@
   (setq findgrep-current-name "*.h"))
 (define-findgrep-cmd set-name-go ()
   (setq findgrep-current-name "*.go"))
+
+(define-findgrep-cmd reset-dir ()
+  (setq findgrep-dir nil))
 
 (defun grep-unset-grep-options ()
   (setenv "GREP_OPTIONS" nil))
