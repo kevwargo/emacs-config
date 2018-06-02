@@ -67,7 +67,8 @@
   (local-set-key (kbd "C-<") 'py-shift-lines-left)
   (local-set-key (kbd "C->") 'py-shift-lines-right)
   (local-unset-key [(control backspace)])
-  (local-unset-key (kbd "<C-backspace>")))
+  (local-unset-key (kbd "<C-backspace>"))
+  (local-unset-key (kbd "C-c C-d")))
 
 (defun py-kill-buffer-on-shell-exit ()
   (set-process-sentinel (get-buffer-process py-buffer-name)
