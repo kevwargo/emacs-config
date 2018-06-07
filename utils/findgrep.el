@@ -241,6 +241,17 @@
 
 (add-hook 'grep-setup-hook 'grep-unset-grep-options)
 
+(defun findgrep-ido-setup-hook ()
+  (define-key ido-completion-map (kbd "C-S-r")
+    (lambda ()
+      (interactive)
+      (setq ido-matches (list
+                         (with-minibuffer-origin
+                           (buffer-working-directory))))
+      (ido-exit-minibuffer))))
+
+(add-hook 'ido-setup-hook 'findgrep-ido-setup-hook)
+
 (defun findgrep (dir regex &optional whole-word)
   (interactive
    (list (ido-read-directory-name "Findgrep dir: " (or findgrep-dir default-directory))
