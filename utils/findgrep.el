@@ -23,6 +23,7 @@
    "*.lisp"
    "*.py"
    "*.c"
+   "*.cc"
    "*.cpp"
    "*.go"
    "*.h"
@@ -38,6 +39,7 @@
     ((kbd "<C-up>") . fg-prev-name-cmd)
     ((kbd "<C-down>") . fg-next-name-cmd)
     ((kbd "C-c") . fg-set-name-c-cmd)
+    ((kbd "C-M-c") . fg-set-name-cc-cmd)
     ((kbd "C-S-c") . fg-set-name-cpp-cmd)
     ((kbd "C-S-h") . fg-set-name-h-cmd)
     ((kbd "C-S-g") . fg-set-name-go-cmd)
@@ -226,6 +228,8 @@
 
 (define-findgrep-cmd set-name-c ()
   (setq findgrep-current-name "*.c"))
+(define-findgrep-cmd set-name-cc ()
+  (setq findgrep-current-name "*.cc"))
 (define-findgrep-cmd set-name-cpp ()
   (setq findgrep-current-name "*.cpp"))
 (define-findgrep-cmd set-name-h ()
