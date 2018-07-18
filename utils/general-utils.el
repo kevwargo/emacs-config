@@ -199,10 +199,11 @@ If point was already at that position, move point to beginning of line."
         (when (eq major-mode original-major-mode)
           (execute-extended-command prefixarg command-name))))))
 
-(defun buffer-working-directory ()
-  (if (buffer-file-name)
-      (file-name-directory (buffer-file-name))
-    default-directory))
+(defun buffer-working-directory (&optional buffer)
+  (with-current-buffer (or buffer (current-buffer))
+    (if (buffer-file-name)
+        (file-name-directory (buffer-file-name))
+      default-directory)))
 
 (defun pcd ()
   "Print directory name containing current file (if no file, acts like `pwd')"
