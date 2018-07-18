@@ -21,6 +21,7 @@
 (load "utils/isearch-sexp")
 (load "utils/konsole")
 (load "utils/findgrep")
+(load "utils/sort-imports")
 
 (load "config/modes")
 (load "config/vars")
