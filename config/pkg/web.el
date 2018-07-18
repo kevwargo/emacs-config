@@ -43,6 +43,7 @@
 
 (defun web-mode-hook-misc ()
   (setq electric-pair-pairs (append electric-pair-pairs (list '(?' . ?'))))
+  (push 'ac-source-yasnippet ac-sources)
   ;; (if (assoc "lineup-args" web-mode-indentation-params)
   ;;     (setcdr (assoc "lineup-args" web-mode-indentation-params) nil)
   ;;   (add-to-list 'web-mode-indentation-params '("lineup-args" . nil)))
