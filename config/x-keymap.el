@@ -23,3 +23,8 @@
                                      (interactive)
                                      (insert 9)))
 (global-set-key (kbd "s-z") 'keyboard-quit)
+
+(global-set-key (kbd "C-x f <C-left>") 'findgrep)
+(global-set-key (kbd "C-x f <C-right>") 'findgrep)
+(global-set-key (kbd "C-x f <C-up>") 'findgrep)
+(global-set-key (kbd "C-x f <C-down>") 'findgrep)

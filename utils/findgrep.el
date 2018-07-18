@@ -258,15 +258,33 @@
 
 (defun findgrep (dir regex &optional whole-word)
   (interactive
-   (list (ido-read-directory-name "Findgrep dir: " (or findgrep-dir default-directory))
-         (if (region-active-p)
-             (shell-quote-argument
-              (regexp-quote
-               (buffer-substring-no-properties
-                (region-beginning)
-                (region-end))))
-           "")
-         current-prefix-arg))
+   (let* ((keyseq (concatenate 'vector (this-command-keys)))
+          last-key
+          (direction
+           (and (equalp (substring keyseq 0 2) (concatenate 'vector (kbd "C-x f")))
+                (eq (length keyseq) 3)
+                (symbolp (setq last-key (aref keyseq 2)))
+                (case last-key
+                  ('C-left 'left)
+                  ('C-up 'up)
+                  ('C-right 'right)
+                  ('C-down 'down))))
+          (window (and direction
+                       (windmove-find-other-window direction)))
+          (dir-by-direction (and window
+                                 (buffer-working-directory
+                                  (window-buffer window)))))
+     (list (ido-read-directory-name "Findgrep dir: " (or dir-by-direction
+                                                         findgrep-dir
+                                                         default-directory))
+           (if (region-active-p)
+               (shell-quote-argument
+                (regexp-quote
+                 (buffer-substring-no-properties
+                  (region-beginning)
+                  (region-end))))
+             "")
+           current-prefix-arg)))
   (setq findgrep-dir dir)
   (setq findgrep-whole-word whole-word)
   (setq findgrep-regex regex)
