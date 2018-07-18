@@ -47,6 +47,8 @@
     ((kbd "C-M-S-n") . fg-disable-name-cmd)
     ((kbd "C-S-n") . fg-toggle-exclude-node-modules-cmd)
     ((kbd "C-S-v") . fg-toggle-exclude-vendor-cmd)
+    ((kbd "C-M-S-r") . fg-toggle-exclude-runtime-cmd)
+    ((kbd "C-S-w") . fg-toggle-exclude-web-app-cmd)
     ((kbd "C-S-i") . fg-toggle-case-insensitive-cmd)
     ((kbd "C-S-p") . fg-toggle-perl-regex-cmd)
     ((kbd "C-S-e") . fg-toggle-extended-regex-cmd)))
@@ -200,6 +202,12 @@
 
 (define-findgrep-cmd toggle-exclude-vendor ()
   (findgrep-toggle-opt 'findgrep-find-opts "! -path" "*/vendor/*"))
+
+(define-findgrep-cmd toggle-exclude-runtime ()
+  (findgrep-toggle-opt 'findgrep-find-opts "! -path" "*/runtime/*"))
+
+(define-findgrep-cmd toggle-exclude-web-app ()
+  (findgrep-toggle-opt 'findgrep-find-opts "! -path" "*/web/app/*"))
 
 (define-findgrep-cmd toggle-case-insensitive ()
   (findgrep-toggle-opt 'findgrep-grep-opts "-i" nil))
