@@ -44,6 +44,8 @@
 (defun web-mode-hook-misc ()
   (setq electric-pair-pairs (append electric-pair-pairs (list '(?' . ?'))))
   (push 'ac-source-yasnippet ac-sources)
+  (setq sort-imports:filters '(("^use Yii;$" . 0)
+                               ("^use yii.*$" . 1)))
   ;; (if (assoc "lineup-args" web-mode-indentation-params)
   ;;     (setcdr (assoc "lineup-args" web-mode-indentation-params) nil)
   ;;   (add-to-list 'web-mode-indentation-params '("lineup-args" . nil)))
