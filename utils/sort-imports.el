@@ -8,7 +8,10 @@
       (error "No import filters defined")
     (let* ((lines (remove-if 'string-empty-p
                              (split-string (buffer-substring-no-properties beg end) "\n")))
-           (groups (mapcar (lambda (line)
+           groups
+           sorted
+           last-group)
+      (setq groups (mapcar (lambda (line)
                              (let ((filters sort-imports:filters)
                                    group)
                                (while filters
@@ -19,17 +22,17 @@
                                    (setq filters nil)))
                                (cons group line)))
                            lines))
-           (sorted (sort groups
+      (setq sorted (sort groups
                          (lambda (a b)
-                           (cond ((not (car a))
-                                  nil)
-                                 ((not (car b))
-                                  t)
-                                 ((< (car a) (car b))
-                                  t)
-                                 ((= (car a) (car b))
-                                  (string< (cdr a) (cdr b)))))))
-           last-group)
+                           (cond
+                            ((eq (car a) (car b))
+                             (string< (cdr a) (cdr b)))
+                            ((not (car a))
+                             nil)
+                            ((not (car b))
+                             t)
+                            ((< (car a) (car b))
+                             t)))))
       (delete-region beg end)
       (goto-char beg)
       (mapc (lambda (entry)
@@ -40,5 +43,5 @@
               (insert (cdr entry))
               (insert "\n")
               (setq last-group (car entry)))
-            groups))))
+            sorted))))
       
