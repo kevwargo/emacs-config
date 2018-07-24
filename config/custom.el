@@ -83,7 +83,8 @@
  '(smtpmail-smtp-service 25)
  '(tool-bar-mode nil)
  '(web-mode-enable-auto-indentation nil)
- '(wisent-parse-max-stack-size 1500))
+ '(wisent-parse-max-stack-size 1500)
+ '(enable-local-variables :all))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
