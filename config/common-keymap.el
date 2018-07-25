@@ -56,6 +56,7 @@
 (global-set-key (kbd "C-x f <right>") 'find-file-other-window-right)
 (global-set-key (kbd "C-x f <up>") 'find-file-other-window-up)
 (global-set-key (kbd "C-x f <down>") 'find-file-other-window-down)
+(global-set-key (kbd "C-x f b") 'find-file-from-buffer)
 
 (global-set-key (kbd "C-t") 'multi-term)
 (global-set-key (kbd "C-c t") (make-sparse-keymap))

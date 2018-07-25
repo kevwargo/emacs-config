@@ -282,3 +282,8 @@ If point was already at that position, move point to beginning of line."
       (if (not (= (call-process "sudo" nil nil nil "chmod" "a+rw" file) 0))
           (message "Cannot chmod file %S" file)))))
       
+(defun find-file-from-buffer ()
+  (interactive)
+  (let* ((buf (ido-read-buffer "Buffer: " nil t))
+         (default-directory (buffer-working-directory buf)))
+    (ido-find-file)))
