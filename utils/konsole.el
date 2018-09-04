@@ -12,3 +12,10 @@
                          (shell-quote-argument dirname)
                          " >/dev/null")))
 
+(defun konsole-tig-file (filename)
+  (interactive
+   (list
+    (ido-read-file-name "TIG: " (buffer-working-directory) (buffer-file-name))))
+  (shell-command (concat "konsole-tig "
+                         (shell-quote-argument filename)
+                         " >/dev/null")))
