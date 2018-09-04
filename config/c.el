@@ -24,7 +24,7 @@
                                   (substatement-open . 0)
                                   (substatement-label . 0)
                                   (label . 0)
-                                  (case-label . +)
+                                  (case-label . 0)
                                   (arglist-intro . 8)
                                   (arglist-cont-nonempty . 8)
                                   (statement-cont . +)))))))
