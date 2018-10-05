@@ -61,3 +61,4 @@
 (load "config/pkg/rjsx")
 (load "config/pkg/python")
 (load "config/pkg/ts")
+(load "config/pkg/default-text-scale")
