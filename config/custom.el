@@ -13,6 +13,7 @@
  '(case-replace nil)
  '(comint-input-ignoredups t)
  '(custom-file (concat kec:config-dir "config/custom.el"))
+ '(enable-local-variables :all)
  '(font-use-system-font t)
  '(ido-auto-merge-delay-time 2)
  '(jde-compiler (quote ("javac")))
@@ -39,7 +40,7 @@
      ("melpa" . "https://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (ac-c-headers yasnippet rjsx-mode multi-term jdee dockerfile-mode yaml-mode goto-last-change bison-mode php-mode web-mode python-mode auto-complete undo-tree)))
+    (default-text-scale typescript-mode kotlin-mode go-mode quelpa ac-c-headers yasnippet rjsx-mode multi-term jdee dockerfile-mode yaml-mode goto-last-change bison-mode php-mode web-mode python-mode auto-complete undo-tree)))
  '(package-user-dir (concat kec:config-dir "elpa"))
  '(py-split-window-on-execute t)
  '(py-split-windows-on-execute-function (quote split-window-horizontally))
@@ -83,8 +84,7 @@
  '(smtpmail-smtp-service 25)
  '(tool-bar-mode nil)
  '(web-mode-enable-auto-indentation nil)
- '(wisent-parse-max-stack-size 1500)
- '(enable-local-variables :all))
+ '(wisent-parse-max-stack-size 1500))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

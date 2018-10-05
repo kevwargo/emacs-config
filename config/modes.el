@@ -41,5 +41,6 @@
 (add-to-list 'auto-mode-alist '("\\.gitignore$" . conf-mode))
 (add-to-list 'auto-mode-alist '("crontab\\.[a-zA-Z0-9]+\\'" . conf-mode))
 
-
 (add-hook 'after-change-major-mode-hook 'enable-linum-in-some-buffers)
+
+(default-text-scale-mode)

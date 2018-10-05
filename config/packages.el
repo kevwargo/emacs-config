@@ -38,6 +38,7 @@
        'go-mode
        'kotlin-mode
        'typescript-mode
+       'default-text-scale
        ))
 
 (defun kec:install-packages ()
