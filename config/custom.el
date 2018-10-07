@@ -40,7 +40,7 @@
      ("melpa" . "https://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (default-text-scale typescript-mode kotlin-mode go-mode quelpa ac-c-headers yasnippet rjsx-mode multi-term jdee dockerfile-mode yaml-mode goto-last-change bison-mode php-mode web-mode python-mode auto-complete undo-tree)))
+    (jedi indent-tools default-text-scale typescript-mode kotlin-mode go-mode quelpa ac-c-headers yasnippet rjsx-mode multi-term jdee dockerfile-mode yaml-mode goto-last-change bison-mode php-mode web-mode python-mode auto-complete undo-tree)))
  '(package-user-dir (concat kec:config-dir "elpa"))
  '(py-split-window-on-execute t)
  '(py-split-windows-on-execute-function (quote split-window-horizontally))

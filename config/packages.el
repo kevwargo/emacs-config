@@ -39,6 +39,7 @@
        'kotlin-mode
        'typescript-mode
        'default-text-scale
+       'jedi
        ))
 
 (defun kec:install-packages ()
@@ -51,6 +52,8 @@
 
 (kec:install-packages)
 
+(require 's)
+
 (load "config/pkg/undo-tree")
 (load "config/pkg/web")
 (load "config/pkg/term")
@@ -62,3 +65,4 @@
 (load "config/pkg/python")
 (load "config/pkg/ts")
 (load "config/pkg/default-text-scale")
+(load "config/pkg/jedi")
