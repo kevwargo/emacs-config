@@ -15,6 +15,7 @@
  '(custom-file (concat kec:config-dir "config/custom.el"))
  '(enable-local-variables :all)
  '(font-use-system-font t)
+ '(grep-save-buffers nil)
  '(ido-auto-merge-delay-time 2)
  '(jde-compiler (quote ("javac")))
  '(jde-gen-k&r nil)
@@ -33,6 +34,10 @@
       ("--" jdee-which-method-format "--"))
      mode-line-modes mode-line-misc-info mode-line-end-spaces)))
  '(jdee-server-dir (concat kec:config-dir "jdee-server"))
+ '(jedi:environment-root "python3")
+ '(jedi:environment-virtualenv
+   (quote
+    ("virtualenv" "--system-site-packages" "--python=python3")))
  '(jit-lock-stealth-verbose t)
  '(package-archives
    (quote
@@ -40,7 +45,7 @@
      ("melpa" . "https://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (jedi indent-tools default-text-scale typescript-mode kotlin-mode go-mode quelpa ac-c-headers yasnippet rjsx-mode multi-term jdee dockerfile-mode yaml-mode goto-last-change bison-mode php-mode web-mode python-mode auto-complete undo-tree)))
+    (json-mode ac-slime paredit rainbow-delimiters slime jedi indent-tools default-text-scale typescript-mode kotlin-mode go-mode quelpa ac-c-headers yasnippet rjsx-mode multi-term jdee dockerfile-mode yaml-mode goto-last-change bison-mode php-mode web-mode python-mode auto-complete undo-tree)))
  '(package-user-dir (concat kec:config-dir "elpa"))
  '(py-split-window-on-execute t)
  '(py-split-windows-on-execute-function (quote split-window-horizontally))
@@ -91,8 +96,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t :height 90)))
- '(font-lock-comment-face ((t :foreground "grey53" :italic t)))
+ '(default ((t :height 120)))
+ '(font-lock-comment-face ((t (:foreground "color-243" :slant italic))))
  '(font-lock-function-name-fac ((t :foreground "DarkBlue")) t)
  '(font-lock-keyword-face ((t :bold t)))
  '(font-lock-string-face ((t (:foreground "orange red"))))
