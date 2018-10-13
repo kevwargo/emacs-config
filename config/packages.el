@@ -26,6 +26,7 @@
        'default-text-scale
        'jedi
        'indent-tools
+       'ac-slime
        'paredit
        'rainbow-delimiters
        ))
@@ -46,6 +47,7 @@
 (load "config/pkg/term")
 (load "config/pkg/ac")
 (load "config/pkg/c-ac")
+(load "config/pkg/slime-ac")
 (load "config/pkg/jdee")
 (load "config/pkg/yasnippet")
 (load "config/pkg/rjsx")
