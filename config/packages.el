@@ -1,22 +1,6 @@
 (require 'package)
 
-(custom-set-variables
- '(package-user-dir (concat kec:config-dir "elpa"))
- '(package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                      ;; ("marmalade" . "https://marmalade-repo.org/packages/")
-                      ("melpa" . "https://melpa.org/packages/"))))
-
-(unless package--initialized
-  (package-initialize))
-
-(unless (require 'quelpa nil t)
-  (with-temp-buffer
-    (url-insert-file-contents "https://raw.github.com/quelpa/quelpa/master/bootstrap.el")
-    (eval-buffer)))
-
-(unless package-archive-contents
-  (message "before package-refresh-contens undo-tree %S" (package-installed-p 'undo-tree))
-  (package-refresh-contents))
+(package-initialize)
 
 (defvar kec:packages nil)
 (setq kec:packages
@@ -36,14 +20,17 @@
        'ac-c-headers
        'rjsx-mode
        'go-mode
+       'quelpa
        'kotlin-mode
        'typescript-mode
        'default-text-scale
        'jedi
+       'indent-tools
+       'paredit
+       'rainbow-delimiters
        ))
 
 (defun kec:install-packages ()
-  (message "elpa dir: %S" package-user-dir)
   (dolist (pkg kec:packages)
     (if (package-installed-p pkg)
         (message "Package %S is already installed" pkg)
