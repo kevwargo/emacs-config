@@ -55,3 +55,5 @@
 (load "config/pkg/ts")
 (load "config/pkg/default-text-scale")
 (load "config/pkg/jedi")
+(load "config/pkg/indent-tools")
+(load "config/pkg/yaml")
