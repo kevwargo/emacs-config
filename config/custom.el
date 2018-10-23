@@ -45,7 +45,7 @@
      ("melpa" . "https://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (json-mode ac-slime paredit rainbow-delimiters slime jedi indent-tools default-text-scale typescript-mode kotlin-mode go-mode quelpa ac-c-headers yasnippet rjsx-mode multi-term jdee dockerfile-mode yaml-mode goto-last-change bison-mode php-mode web-mode python-mode auto-complete undo-tree)))
+    (magit uuidgen json-mode ac-slime paredit rainbow-delimiters slime jedi indent-tools default-text-scale typescript-mode kotlin-mode go-mode quelpa ac-c-headers yasnippet rjsx-mode multi-term jdee dockerfile-mode yaml-mode goto-last-change bison-mode php-mode web-mode python-mode auto-complete undo-tree)))
  '(package-user-dir (concat kec:config-dir "elpa"))
  '(py-split-window-on-execute t)
  '(py-split-windows-on-execute-function (quote split-window-horizontally))
@@ -87,6 +87,7 @@
  '(send-mail-function (quote smtpmail-send-it))
  '(smtpmail-smtp-server "smtp.googlemail.com")
  '(smtpmail-smtp-service 25)
+ '(tab-always-indent t)
  '(tool-bar-mode nil)
  '(web-mode-enable-auto-indentation nil)
  '(wisent-parse-max-stack-size 1500))

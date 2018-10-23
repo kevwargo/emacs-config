@@ -29,6 +29,8 @@
        'ac-slime
        'paredit
        'rainbow-delimiters
+       'uuidgen
+       'magit
        ))
 
 (defun kec:install-packages ()
