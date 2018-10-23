@@ -1,3 +1,5 @@
+(require 'python-mode)
+
 ;; (load "python-mode/site-lisp-python-mode")
 
 ;; (defface py-overloaders-face
@@ -37,10 +39,10 @@
 (defun py-keymap-customize ()
   (local-set-key (kbd "#") 'self-insert-command)
   (local-set-key (kbd "C-c x") (make-sparse-keymap))
-  (local-set-key (kbd "C-c x c") 'py-execute-class)
-  (local-set-key (kbd "C-c x d") 'py-execute-def)
-  (local-set-key (kbd "C-c x b") 'py-execute-buffer)
-  (local-set-key (kbd "C-c x B") 'py-execute-block)
+  (local-set-key (kbd "C-c x c") 'pyexec-class)
+  (local-set-key (kbd "C-c x d") 'pyexec-def)
+  (local-set-key (kbd "C-c x b") 'pyexec-buffer)
+  (local-set-key (kbd "C-c x B") 'pyexec-block)
   (local-set-key (kbd "C-c e") (make-sparse-keymap))
   (local-set-key (kbd "C-c e d") 'py-end-of-def-or-class)
   (local-set-key (kbd "C-c e c") 'py-end-of-class)
@@ -66,6 +68,9 @@
   (local-set-key (kbd "C-c a p") 'py-beginning-of-top-level)
   (local-set-key (kbd "C-<") 'py-shift-lines-left)
   (local-set-key (kbd "C->") 'py-shift-lines-right)
+  (local-set-key (kbd "C-c =") 'pyexec-port-inc)
+  (local-set-key (kbd "C-c -") 'pyexec-port-dec)
+  (local-set-key (kbd "C-c p") 'pyexec-port-set)
   (local-unset-key [(control backspace)])
   (local-unset-key (kbd "<C-backspace>"))
   (local-unset-key (kbd "C-c C-d")))
@@ -82,21 +87,62 @@
 
 (defvar-local pyexecserver-port 35000)
 
+(defun pyexec-port-set (port)
+  (interactive "nPyExec port: ")
+  (setq pyexecserver-port port)
+  (message "pyexec port is now %d" port))
+
+(defun pyexec-port-inc (&optional amount)
+  (interactive "p")
+  (pyexec-port-set (+ pyexecserver-port (or amount 1))))
+
+(defun pyexec-port-dec (&optional amount)
+  (interactive "p")
+  (pyexec-port-set (- pyexecserver-port (or amount 1))))
+
 (defun pyexecserver-send (form)
-  (save-excursion
-    (let ((region (if (eq form 'lines)
-                      (selected-lines)
-                    (if (stringp form)
-                        (funcall (intern-soft (concat "py-mark-" form))))
-                    (if (region-active-p)
-                        (list (region-beginning) (region-end))))))
-      (if (consp region)
-          (call-process-region (car region) (cadr region) "pyexecserver" nil nil nil
-                               (int-to-string pyexecserver-port) "-")))))
+  (if (fboundp 'save-mark-and-excursion)
+      (save-mark-and-excursion
+        (pyexecserver-send-1 form))
+    (save-excursion
+      (pyexecserver-send-1 form))))
+
+(defun pyexecserver-send-1 (form)
+  (let ((region (cond
+                 ((eq form 'lines)
+                  (selected-lines))
+                 ((eq form 'buffer)
+                  (list (point-min) (point-max)))
+                 ((stringp form)
+                  (funcall (intern-soft (concat "py-mark-" form))))
+                 ((region-active-p)
+                  (list (region-beginning) (region-end))))))
+    (if (consp region)
+        (let ((workbuf (current-buffer)))
+          (with-temp-buffer
+            (if (/= (let ((tempbuf (current-buffer)))
+                      (with-current-buffer workbuf
+                        (call-process-region (car region) (cadr region)
+                                             "pyexecserver"
+                                             nil tempbuf nil
+                                             "--port" (int-to-string pyexecserver-port)
+                                             "--exec-stdin")))
+                    0)
+                (message "pyexec error: %s" (buffer-substring-no-properties (point-min)
+                                                                            (point-max)))
+              (message "Python form `%S' executed successfully" form)))))))
+
+(defun pyexec-buffer ()
+  (interactive)
+  (pyexecserver-send 'buffer))
 
 (defun pyexec-region ()
   (interactive)
   (pyexecserver-send 'region))
+
+(defun pyexec-lines ()
+  (interactive)
+  (pyexecserver-send 'lines))
 
 (defun pyexec-block ()
   (interactive)
@@ -200,6 +246,7 @@
 
 
 (add-hook 'python-mode-hook 'py-keymap-customize)
+
 (add-hook 'py-shell-hook 'py-kill-buffer-on-shell-exit)
 (add-hook 'py-shell-hook 'comint-mode-keymap-modify)
 (add-hook 'py-shell-hook 'py-shell-keymap-modify)
