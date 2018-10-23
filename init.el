@@ -15,6 +15,7 @@
 
 (load "utils/lisp-utils")
 (load "utils/general-utils")
+(load "utils/convert")
 (load "utils/windmove-extra")
 (load "utils/term")
 (load "utils/window-expand")

@@ -170,27 +170,6 @@ If point was already at that position, move point to beginning of line."
     (when mark-was-set-p
       (set-mark (+ oldmark increment)))))
 
-(defun escape-non-ascii (arg)
-  (interactive "P")
-  (let ((begin (if (region-active-p)
-                   (region-beginning)
-                 (point-min)))
-        (end (if (region-active-p)
-                 (region-end)
-               (point-max)))
-        char)
-    (save-excursion
-      (goto-char begin)
-      (while (< (point) end)
-        (setq char (char-after))
-        (if (< char 128)
-            (forward-char)
-          (when (> char 65535)
-            (setq char (logand char 255)))
-          (insert (format (if arg "&#x%X" "\\u%04X") char))
-          (delete-char 1)
-          (setq end (+ end 5)))))))
-
 (defun command-all-buffers-same-major-mode (prefixarg &optional command-name)
   (interactive (list current-prefix-arg (read-extended-command)))
   (let ((original-major-mode major-mode))
