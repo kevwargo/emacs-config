@@ -9,5 +9,6 @@
 (push 'web-mode ac-modes)
 (push 'makefile-gmake-mode ac-modes)
 (push 'typescript-mode ac-modes)
+(push 'yaml-mode ac-modes)
 
 (define-key ac-mode-map (kbd "C-c TAB") 'auto-complete)
