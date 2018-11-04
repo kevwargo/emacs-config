@@ -17,8 +17,7 @@
     (when (and venv-path (file-directory-p venv-path))
       (setq-local jedi:server-args (list
                                     "--virtual-env" venv-path
-                                    "--log" (concat kec:config-dir "jedi-logs/" (uuidgen-4) ".log")
-                                    "--log-level" "DEBUG"))))
+                                    ))))
   (jedi:setup))
 
 (add-hook 'python-mode-hook 'jedi-setup)

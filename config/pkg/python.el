@@ -110,19 +110,19 @@
 (defun pyexecserver-send-1 (form)
   (let ((region (cond
                  ((eq form 'lines)
-                  (selected-lines))
+                  (selected-lines t))
                  ((eq form 'buffer)
-                  (list (point-min) (point-max)))
+                  (cons (point-min) (point-max)))
                  ((stringp form)
-                  (funcall (intern-soft (concat "py-mark-" form))))
+                  (py--mark-base form))
                  ((region-active-p)
-                  (list (region-beginning) (region-end))))))
+                  (cons (region-beginning) (region-end))))))
     (if (consp region)
         (let ((workbuf (current-buffer)))
           (with-temp-buffer
             (if (/= (let ((tempbuf (current-buffer)))
                       (with-current-buffer workbuf
-                        (call-process-region (car region) (cadr region)
+                        (call-process-region (car region) (cdr region)
                                              "pyexecserver"
                                              nil tempbuf nil
                                              "--port" (int-to-string pyexecserver-port)
