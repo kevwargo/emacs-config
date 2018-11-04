@@ -23,6 +23,7 @@
 (load "utils/konsole")
 (load "utils/findgrep")
 (load "utils/sort-imports")
+(load "utils/easy-window-split")
 
 (load "config/modes")
 (load "config/vars")
