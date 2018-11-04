@@ -19,20 +19,30 @@
           (delete-char 1)
           (setq end (+ end 5)))))))
 
-(defun json-to-yaml ()
-  (interactive)
+(defun convert-buffer (cmd args &optional new-major-mode)
   (let ((oldbuf (current-buffer)))
     (with-temp-buffer
       (let ((tempbuf (current-buffer)))
         (with-current-buffer oldbuf
-          (when (= (call-process-region (point-min) (point-max)
-                                        "j2y"
-                                        nil
-                                        (list tempbuf nil)
-                                        t
-                                        "/dev/stdin")
-                   0)
+          (if (/= (apply 'call-process-region (point-min) (point-max)
+                         cmd nil tempbuf t args)
+                  0)
+              (message "j2y convert error: %s" (with-current-buffer tempbuf
+                                                 (buffer-string)))
             (delete-region (point-min) (point-max))
             (insert (with-current-buffer tempbuf
                       (buffer-string)))
-            (yaml-mode)))))))
+            (if new-major-mode
+                (funcall new-major-mode))))))))
+
+(defun json-to-yaml ()
+  (interactive)
+  (convert-buffer "j2y" '("/dev/stdin") 'yaml-mode))
+
+(defun yaml-to-json ()
+  (interactive)
+  (convert-buffer "j2y" '("-r" "/dev/stdin") 'json-mode))
+
+(defun xmllint-buffer ()
+  (interactive)
+  (convert-buffer "xmllint" '("--format" "-")))
