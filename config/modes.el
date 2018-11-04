@@ -15,6 +15,13 @@
        'term-mode)
       (linum-mode 1)))
 
+(defun enable-subword-in-some-buffers ()
+  (or (minibufferp)
+      (derived-mode-p
+       'python-mode
+       'go-mode)
+      (subword-mode 1)))
+
 (ido-mode 1)
 (column-number-mode t)
 (show-point-mode t)
@@ -32,8 +39,6 @@
 (show-paren-mode 1)
 (electric-pair-mode 1)
 
-(global-subword-mode)
-
 (add-to-list 'auto-mode-alist '("\\.less$" . css-mode))
 (add-to-list 'auto-mode-alist '("\\.scss$" . css-mode))
 (add-to-list 'auto-mode-alist '("\\.ts$" . js-mode))
@@ -42,3 +47,5 @@
 (add-to-list 'auto-mode-alist '("crontab\\.[a-zA-Z0-9]+\\'" . conf-mode))
 
 (add-hook 'after-change-major-mode-hook 'enable-linum-in-some-buffers)
+(add-hook 'after-change-major-mode-hook 'enable-subword-in-some-buffers)
+
