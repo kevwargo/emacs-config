@@ -8,13 +8,18 @@
 
 (defun elisp-mode-hook ()
   (setq-local electric-pair-pairs (list '(?\" . ?\")))
+  (local-set-key (kbd "C-M-z") 'eval-defun)
   (setq tab-width 8))
+
+(defun lisp-mode-customize ()
+  (local-set-key (kbd "C-M-z") 'slime-eval-defun))
 
 (defun css-mode-hook-misc ()
   (local-set-key (kbd "C-{") 'embrace-selected-lines))
 
 (add-hook 'after-make-frame-functions 'make-frame-set-parameters)
 (add-hook 'emacs-lisp-mode-hook 'elisp-mode-hook)
+(add-hook 'lisp-mode-hook 'lisp-mode-customize)
 (add-hook 'isearch-mode-hook
           (function
            (lambda ()

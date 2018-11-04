@@ -28,3 +28,6 @@
 (global-set-key (kbd "C-x f <C-right>") 'findgrep)
 (global-set-key (kbd "C-x f <C-up>") 'findgrep)
 (global-set-key (kbd "C-x f <C-down>") 'findgrep)
+
+(global-set-key (kbd "C-M-SPC") 'mark-current-word)
+(global-set-key (kbd "M-SPC") 'mark-current-sexp)

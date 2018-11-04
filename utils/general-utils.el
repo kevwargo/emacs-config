@@ -59,7 +59,7 @@ If point was already at that position, move point to beginning of line."
        (goto-char (line-end-position))
        (if (eobp) 0 1))))
 
-(defun selected-lines ()
+(defun selected-lines (&optional as-cons)
   (if (region-active-p)
       (save-excursion
         (let ((start (region-beginning))
@@ -69,7 +69,9 @@ If point was already at that position, move point to beginning of line."
           (goto-char end)
           (setq end (line-end-respecting-newline))
           (list start end)))
-    (list (line-beginning-position) (line-end-respecting-newline))))
+    (if as-cons
+        (cons (line-beginning-position) (line-end-respecting-newline))
+      (list (line-beginning-position) (line-end-respecting-newline)))))
 
 (defun move-lines (n &optional keep-text)
   "Partly from Ji Han's answer: http://stackoverflow.com/questions/2423834/move-line-region-up-and-down-in-emacs/19378355"
@@ -266,3 +268,40 @@ If point was already at that position, move point to beginning of line."
   (let* ((buf (ido-read-buffer "Buffer: " nil t))
          (default-directory (buffer-working-directory buf)))
     (ido-find-file)))
+
+(defun mark-current-sexp ()
+  (interactive)
+  (destructuring-bind (beg . end)
+      (bounds-of-thing-at-point 'sexp)
+    (push-mark beg nil t)
+    (goto-char end)))
+
+(defun mark-current-word ()
+  (interactive)
+  (destructuring-bind (beg . end)
+      (bounds-of-thing-at-point 'word)
+    (goto-char beg)
+    (push-mark beg nil t)
+    (goto-char end)))
+
+(defun find-file-in-kec ()
+  (interactive)
+  (let ((default-directory kec:config-dir))
+    (ido-find-file)))
+
+(defun find-file-in-stumpwmrc ()
+  (interactive)
+  (let ((default-directory (file-name-directory (file-truename "~/.stumpwmrc"))))
+    (ido-find-file)))
+
+(defun find-file-in-stumpwm ()
+  (interactive)
+  (let ((default-directory kec:config-dir))
+    (ido-find-file)))
+
+(defun file-name-to-clipboard ()
+  (interactive)
+  (when-let ((filename (buffer-file-name)))
+    (with-temp-buffer
+      (insert filename)
+      (kill-ring-save (point-min) (point-max)))))
