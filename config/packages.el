@@ -31,6 +31,9 @@
        'rainbow-delimiters
        'uuidgen
        'magit
+       'go-autocomplete
+       'neotree
+       'go-guru
        ))
 
 (defun kec:install-packages ()
@@ -59,3 +62,6 @@
 (load "config/pkg/jedi")
 (load "config/pkg/indent-tools")
 (load "config/pkg/yaml")
+(load "config/pkg/go")
+
+(exec-path-from-shell-initialize)
