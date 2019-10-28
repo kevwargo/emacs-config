@@ -26,14 +26,15 @@
        'default-text-scale
        'jedi
        'indent-tools
+       'magit
        'ac-slime
        'paredit
        'rainbow-delimiters
        'uuidgen
        'magit
-       'go-autocomplete
        'neotree
        'go-guru
+       'pylint
        ))
 
 (defun kec:install-packages ()
@@ -63,5 +64,7 @@
 (load "config/pkg/indent-tools")
 (load "config/pkg/yaml")
 (load "config/pkg/go")
+(load "config/pkg/neotree")
+(load "config/pkg/magit")
 
 (exec-path-from-shell-initialize)

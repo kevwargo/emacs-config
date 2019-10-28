@@ -10,11 +10,21 @@
    ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
  '(c-default-style (quote ((awk-mode . "awk") (other . "kevwargo"))))
  '(c-report-syntactic-errors t)
- '(case-replace nil)
+ '(case-fold-search t)
+ '(case-replace t)
  '(comint-input-ignoredups t)
  '(custom-file (concat kec:config-dir "config/custom.el"))
+ '(custom-safe-themes
+   (quote
+    ("08a89acffece58825e75479333109e01438650d27661b29212e6560070b156cf" "ae3a3bed17b28585ce84266893fa3a4ef0d7d721451c887df5ef3e24a9efef8c" "2642a1b7f53b9bb34c7f1e032d2098c852811ec2881eec2dc8cc07be004e45a0" "adf5275cc3264f0a938d97ded007c82913906fc6cd64458eaae6853f6be287ce" default)))
+ '(eclim-eclipse-dirs (quote ("/mnt/data/eclipse/image/eclipse")))
  '(enable-local-variables :all)
  '(font-use-system-font t)
+ '(go-guess-gopath-functions
+   (quote
+    (go-dep-gopath go-godep-gopath go-wgo-gopath go-gb-gopath go-plain-gopath)))
+ '(gofmt-command "goimports")
+ '(graphql-indent-level 2)
  '(grep-save-buffers nil)
  '(ido-auto-merge-delay-time 2)
  '(jde-compiler (quote ("javac")))
@@ -39,16 +49,19 @@
    (quote
     ("virtualenv" "--system-site-packages" "--python=python3")))
  '(jit-lock-stealth-verbose t)
+ '(js2-strict-missing-semi-warning nil)
+ '(markdown-command-needs-filename t)
  '(package-archives
    (quote
     (("gnu" . "https://elpa.gnu.org/packages/")
      ("melpa" . "https://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (go-guru neotree go-autocomplete exec-path-from-shell magit uuidgen json-mode ac-slime paredit rainbow-delimiters slime jedi indent-tools default-text-scale typescript-mode kotlin-mode go-mode quelpa ac-c-headers yasnippet rjsx-mode multi-term jdee dockerfile-mode yaml-mode goto-last-change bison-mode php-mode web-mode python-mode auto-complete undo-tree)))
+    (magit-popup magit-tbdiff graphql-mode gotest pylint ido-completing-read+ evil jinja2-mode jtags eclim lsp-java powershell python-mode flycheck-mypy csharp-mode magit-find-file magit-imerge malinka green-phosphor-theme green-screen-theme atom-dark-theme atom-one-dark-theme markdown-mode markdown-preview-mode flymd java-snippets go-guru neotree exec-path-from-shell magit uuidgen json-mode ac-slime paredit rainbow-delimiters slime jedi indent-tools default-text-scale typescript-mode kotlin-mode go-mode quelpa ac-c-headers yasnippet rjsx-mode multi-term jdee dockerfile-mode yaml-mode goto-last-change bison-mode php-mode web-mode auto-complete undo-tree)))
  '(package-user-dir (concat kec:config-dir "elpa"))
  '(py-split-window-on-execute t)
  '(py-split-windows-on-execute-function (quote split-window-horizontally))
+ '(py-underscore-word-syntax-p nil)
  '(require-final-newline t)
  '(safe-local-variable-values
    (quote
@@ -98,7 +111,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t :height 120)))
- '(font-lock-comment-face ((t (:foreground "color-243" :slant italic))))
+ '(diff-file-header ((t (:background "grey60"))))
+ '(diff-header ((t (:background "grey45" :foreground "black"))))
+ '(font-lock-comment-face ((t (:foreground "gray50" :slant italic))))
  '(font-lock-function-name-fac ((t :foreground "DarkBlue")) t)
  '(font-lock-keyword-face ((t :bold t)))
  '(font-lock-string-face ((t (:foreground "orange red"))))

@@ -1,7 +1,6 @@
 (defun c-mode-keymap-modify ()
   (dolist (key '("C-d" "C-c C-d" "C-c C-\\"))
     (eval `(local-unset-key (kbd ,key))))
-  (local-unset-key (kbd "C-M-q"))
   (local-set-key (kbd "(") 'self-insert-command)
   (local-set-key (kbd ")") 'self-insert-command)
   (local-set-key (kbd "C-{") 'embrace-selected-lines)

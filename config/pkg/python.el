@@ -1,4 +1,7 @@
 (require 'python-mode)
+(require 'pylint)
+
+(defvar-local py-venv-path nil)
 
 ;; (load "python-mode/site-lisp-python-mode")
 
@@ -36,13 +39,33 @@
   (interactive)
   (apply 'py-shift-right 1 (selected-lines)))
 
-(defun py-keymap-customize ()
+(defun py-get-venv ()
+  (or py-venv-path
+      (setq py-venv-path
+            (let ((default-directory (or (and (buffer-file-name)
+                                              (locate-dominating-file (buffer-file-name) "Pipfile"))
+                                         default-directory)))
+              (with-temp-buffer
+                (let ((code (call-process shell-file-name
+                                          nil
+                                          '(t nil)
+                                          nil
+                                          "-c" "pipenv --venv"))
+                      (output (buffer-substring-no-properties (point-min)
+                                                              (point-max))))
+                  (if (zerop code)
+                      (s-trim output))))))))
+
+
+(defun py-set-local-keys ()
   (local-set-key (kbd "#") 'self-insert-command)
   (local-set-key (kbd "C-c x") (make-sparse-keymap))
   (local-set-key (kbd "C-c x c") 'pyexec-class)
   (local-set-key (kbd "C-c x d") 'pyexec-def)
   (local-set-key (kbd "C-c x b") 'pyexec-buffer)
   (local-set-key (kbd "C-c x B") 'pyexec-block)
+  (local-set-key (kbd "C-c x r") 'pyexec-region)
+  (local-set-key (kbd "C-c x l") 'pyexec-lines)
   (local-set-key (kbd "C-c e") (make-sparse-keymap))
   (local-set-key (kbd "C-c e d") 'py-end-of-def-or-class)
   (local-set-key (kbd "C-c e c") 'py-end-of-class)
@@ -71,9 +94,78 @@
   (local-set-key (kbd "C-c =") 'pyexec-port-inc)
   (local-set-key (kbd "C-c -") 'pyexec-port-dec)
   (local-set-key (kbd "C-c p") 'pyexec-port-set)
+  (local-set-key (kbd "C-c v") (let ((m (make-sparse-keymap)))
+                                 (define-key m (kbd "RET") 'py-find-in-venv)
+                                 (define-key m (kbd "<left>") 'py-find-in-venv-left)
+                                 (define-key m (kbd "<right>") 'py-find-in-venv-right)
+                                 (define-key m (kbd "<up>") 'py-find-in-venv-up)
+                                 (define-key m (kbd "<down>") 'py-find-in-venv-down)
+                                 m))
   (local-unset-key [(control backspace)])
   (local-unset-key (kbd "<C-backspace>"))
   (local-unset-key (kbd "C-c C-d")))
+
+(defun setup-py-mode ()
+  (message "setup-py-mode called")
+  (py-set-local-keys)
+  (if (py-get-venv)
+      (setq-local pylint-command "pipenv run pylint"))
+  (setq-local auto-fill-function nil)
+  (setq-local pylint-options
+              (append pylint-options
+                      '("--disable=missing-docstring"
+                        "--disable=wrong-import-order"
+                        "--disable=too-many-arguments"
+                        "--disable=line-too-long"
+                        "--disable=invalid-name"
+                        "--disable=bare-except"
+                        "--disable=too-many-ancestors"))))
+
+(defun pylint-dir (dir)
+  (interactive (list (ido-read-directory-name "Pylint whole dir: ")))
+  (let ((command (mapconcat
+                  'identity
+                  (append `(,pylint-command) pylint-options `(,dir))
+                  " ")))
+    (compilation-start command 'pylint-mode)))
+
+(defun py-get-venv-path ()
+  (let* ((py-venv-path (py-get-venv))
+         (site-packages-template (and py-venv-path
+                                      (concat py-venv-path "/lib/python*/site-packages")))
+         (site-packages (and site-packages-template
+                             (car-safe (file-expand-wildcards site-packages-template)))))
+    (or site-packages
+        py-venv-path)))
+
+(defun py-find-in-venv ()
+  (interactive)
+  (let ((default-directory (or (py-get-venv-path)
+                               (buffer-working-directory))))
+    (ido-find-file)))
+
+(defun py-find-in-venv-dir (dir)
+  (let ((cwd (or (py-get-venv-path)
+                 (buffer-working-directory))))
+    (windmove-do-window-select dir)
+    (let ((default-directory cwd))
+      (ido-find-file))))
+
+(defun py-find-in-venv-left ()
+  (interactive)
+  (py-find-in-venv-dir 'left))
+
+(defun py-find-in-venv-right ()
+  (interactive)
+  (py-find-in-venv-dir 'right))
+
+(defun py-find-in-venv-up ()
+  (interactive)
+  (py-find-in-venv-dir 'up))
+
+(defun py-find-in-venv-down ()
+  (interactive)
+  (py-find-in-venv-dir 'down))
 
 (defun py-kill-buffer-on-shell-exit ()
   (set-process-sentinel (get-buffer-process py-buffer-name)
@@ -245,9 +337,8 @@
 (setq py-smart-indentation t)
 
 
-(add-hook 'python-mode-hook 'py-keymap-customize)
+(add-hook 'python-mode-hook 'setup-py-mode)
 
 (add-hook 'py-shell-hook 'py-kill-buffer-on-shell-exit)
 (add-hook 'py-shell-hook 'comint-mode-keymap-modify)
 (add-hook 'py-shell-hook 'py-shell-keymap-modify)
-

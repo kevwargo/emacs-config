@@ -14,6 +14,8 @@
 (setq mouse-wheel-progressive-speed nil)
 (setq mouse-yank-at-point t)
 
+(setq split-width-threshold 150)
+
 (set-language-environment "utf-8")
 
 (put 'narrow-to-region 'disabled nil)

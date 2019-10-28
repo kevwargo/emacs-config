@@ -14,7 +14,6 @@
 (global-set-key (kbd "C-d") 'comment-lines)
 (global-set-key (kbd "C-a") 'mark-whole-buffer)
 (global-set-key (kbd "<home>") 'smart-beginning-of-line)
-(global-set-key (kbd "C-M-q") 'quoted-insert)
 (global-set-key (kbd "C-x k") 'kill-this-buffer)
 (global-set-key (kbd "C-x x") 'kmacro-call-macro)
 (global-set-key (kbd "C-c r") 'replace-string)
@@ -94,4 +93,4 @@
 
 (global-set-key (kbd "C-c C-s") 'open-stumpwmrc)
 
-(global-set-key (kbd "C-x C-n") 'neotree-toggle)
+(global-set-key (kbd "C-c C") 'to-camel-case-at-point)

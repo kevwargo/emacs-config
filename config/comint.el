@@ -36,14 +36,21 @@
       (comint-next-input-straight arg)
     (next-line arg)))
 
+(defun comint-run-network (name host service)
+  (interactive "sName: \nsHost: \nsPort: ")
+  (switch-to-buffer
+   (make-comint name (cons host service))))
+
+(defun comint-tuxguitar ()
+  (interactive)
+  (comint-run-network "tuxguitar" "localhost" 39012))
+
 (defun comint-mode-keymap-modify ()
   ;; (local-set-key [up] 'comint-previous-input)
   ;; (local-set-key [down] 'comint-next-input)
   (local-set-key [up] 'comint-up-or-prev-input)
   (local-set-key [down] 'comint-down-or-next-input)
   (local-set-key (kbd "C-<up>") 'previous-line)
-  (local-set-key (kbd "C-<down>") 'next-line)
-  (dolist (key '("l" "a" "s" "w" "d" "x"))
-    (eval `(local-unset-key (kbd ,(concat "C-c C-" key))))))
+  (local-set-key (kbd "C-<down>") 'next-line))
 
 (add-hook 'comint-mode-hook 'comint-mode-keymap-modify)

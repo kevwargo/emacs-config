@@ -6,7 +6,7 @@
          (name (car method))
          (return (cadr method))
          (args (mapcar (lambda (class)
-                         (string-match "\\.?[[:space:]]*\\([a-zA-Z_][0-9a-zA-Z_]*\\)\\'" class)
+                         (string-match "\\.?[[:space:]]*\\([a-zA-Z_][][0-9a-zA-Z_]*\\)\\'" class)
                          (match-string 1 class))
                        (cddr method))))
     (cons
@@ -42,7 +42,7 @@
              (methods (mapcar 'ac-jdee--build-method-snippet
                               (nth jdee-complete-methods classinfo))))
         methods)
-    (error
+   (error
      (message "Error during jdee auto-complete: %S" err))))
 
 (defun ac-jdee-action ()
@@ -61,6 +61,12 @@
 (defun ac-jdee-hook ()
   (add-to-list 'ac-sources 'ac-source-jdee)
   (local-set-key (kbd "<C-tab>") 'ac-complete-jdee))
+
+(defun ac-jdee-toggle ()
+  (interactive)
+  (if (member 'ac-source-jdee ac-sources)
+      (setq ac-sources (remove 'ac-source-jdee ac-sources))
+    (add-to-list 'ac-sources 'ac-source-jdee)))
 
 (add-hook 'jdee-mode-hook 'ac-jdee-hook)
 

@@ -19,6 +19,7 @@
        m))))
 
 (defun indent-tools-hook ()
-  (define-key indent-tools-command-map "U" 'indent-tools-show-parent))
+  (define-key indent-tools-command-map "U" 'indent-tools-show-parent)
+  (local-set-key (kbd "C-c <") 'indent-tools-hydra/body))
 
 (add-hook 'indent-tools-minor-mode-hook 'indent-tools-hook)

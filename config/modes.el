@@ -15,12 +15,7 @@
        'term-mode)
       (linum-mode 1)))
 
-(defun enable-subword-in-some-buffers ()
-  (or (minibufferp)
-      (derived-mode-p
-       'python-mode
-       'go-mode)
-      (subword-mode 1)))
+(global-subword-mode)
 
 (ido-mode 1)
 (column-number-mode t)
@@ -41,11 +36,12 @@
 
 (add-to-list 'auto-mode-alist '("\\.less$" . css-mode))
 (add-to-list 'auto-mode-alist '("\\.scss$" . css-mode))
-(add-to-list 'auto-mode-alist '("\\.ts$" . js-mode))
+(add-to-list 'auto-mode-alist '("\\.ts$" . typescript-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx$" . typescript-mode))
 (add-to-list 'auto-mode-alist '(".*stumpwmrc$" . lisp-mode))
 (add-to-list 'auto-mode-alist '("\\.gitignore$" . conf-mode))
 (add-to-list 'auto-mode-alist '("crontab\\.[a-zA-Z0-9]+\\'" . conf-mode))
+(add-to-list 'auto-mode-alist '("\\.mdx$" . markdown-mode))
 
 (add-hook 'after-change-major-mode-hook 'enable-linum-in-some-buffers)
-(add-hook 'after-change-major-mode-hook 'enable-subword-in-some-buffers)
 
