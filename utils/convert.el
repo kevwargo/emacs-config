@@ -20,6 +20,12 @@
           (setq end (+ end 5)))))))
 
 (defun convert-buffer (cmd args &optional new-major-mode)
+  (interactive (let ((shell-cmd (read-shell-command "Convert command: "))
+                     (new-major-mode (read-string "New major mode (leave empty to use the same): ")))
+                 (list shell-file-name
+                       (list "-c" shell-cmd)
+                       (and (not (string= new-major-mode ""))
+                            (intern new-major-mode)))))
   (let ((oldbuf (current-buffer)))
     (with-temp-buffer
       (let ((tempbuf (current-buffer)))
