@@ -90,6 +90,11 @@ Counting starts from 0. Returns resulting list"
     (goto-char (point-min))
     (insert (apply 'format string objects) 10)))
 
+(defmacro scratch-log-expr (expr)
+  `(let ((val ,expr))
+     (scratch-log "%s: %S" ',expr val)
+     val))
+
 (defun read-whole-string (string)
   (let (result start)
     (condition-case e
