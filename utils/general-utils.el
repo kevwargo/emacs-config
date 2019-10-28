@@ -60,18 +60,17 @@ If point was already at that position, move point to beginning of line."
        (if (eobp) 0 1))))
 
 (defun selected-lines (&optional as-cons)
-  (if (region-active-p)
-      (save-excursion
-        (let ((start (region-beginning))
-              (end (region-end)))
-          (goto-char start)
-          (setq start (line-beginning-position))
-          (goto-char end)
-          (setq end (line-end-respecting-newline))
-          (list start end)))
-    (if as-cons
-        (cons (line-beginning-position) (line-end-respecting-newline))
-      (list (line-beginning-position) (line-end-respecting-newline)))))
+  (let ((collect-fn (if as-cons 'cons 'list)))
+    (if (region-active-p)
+        (save-excursion
+          (let ((start (region-beginning))
+                (end (region-end)))
+            (goto-char start)
+            (setq start (line-beginning-position))
+            (goto-char end)
+            (setq end (line-end-respecting-newline))
+            (funcall collect-fn start end)))
+      (funcall collect-fn (line-beginning-position) (line-end-respecting-newline)))))
 
 (defun move-lines (n &optional keep-text)
   "Partly from Ji Han's answer: http://stackoverflow.com/questions/2423834/move-line-region-up-and-down-in-emacs/19378355"
@@ -128,19 +127,6 @@ If point was already at that position, move point to beginning of line."
 (defun uncomment-lines (arg)
   (interactive "*p")
   (apply 'uncomment-region (selected-lines)))
-
-(defun list-buffers-dwim (&optional arg)
-  (interactive "P")
-  (if (eq major-mode 'Buffer-menu-mode)
-      (list-buffers arg)
-    (switch-to-buffer
-     (list-buffers-noselect nil ; it's ignored anyway in `list-buffers--refresh'
-                            (remove-if
-                             (lambda (b)
-                               (or (string-match-p "^ " (buffer-name b))
-                                   (not (buffer-modified-p b))
-                                   (not (buffer-file-name b))))
-                             (buffer-list))))))
 
 (defun embrace-selected-lines ()
   (interactive)
@@ -247,7 +233,14 @@ If point was already at that position, move point to beginning of line."
 (defun md5-line-or-region ()
   (interactive)
   (message
-   (md5 (apply 'buffer-substring-no-properties (selected-lines)))))
+   (md5 (apply 'buffer-substring-no-properties
+               (if (region-active-p)
+                   (list
+                    (region-beginning)
+                    (region-end))
+                 (list
+                  (line-beginning-position)
+                  (line-end-respecting-newline)))))))
 
 (defun html-format-selected-lines ()
   (interactive)
@@ -284,6 +277,16 @@ If point was already at that position, move point to beginning of line."
     (push-mark beg nil t)
     (goto-char end)))
 
+(defun mark-current-line (arg)
+  "Mark current line. If prefix argument ARG is not nil,
+mark from the beginning of line instead of from the first non-whitespace character"
+  (interactive "P")
+  (beginning-of-line)
+  (unless arg
+    (back-to-indentation))
+  (push-mark (point) nil t)
+  (goto-char (line-end-position)))
+
 (defun find-file-in-kec ()
   (interactive)
   (let ((default-directory kec:config-dir))
@@ -305,3 +308,47 @@ If point was already at that position, move point to beginning of line."
     (with-temp-buffer
       (insert filename)
       (kill-ring-save (point-min) (point-max)))))
+
+(defun insert-at (pos text)
+  (save-excursion
+    (goto-char pos)
+    (insert text)))
+
+(defun sudo-save-buffer ()
+  (interactive)
+  (when-let* ((filename (shell-quote-argument (buffer-file-name)))
+              (tmpfile (make-temp-file "emacs-sudofile"))) 
+    (unwind-protect
+        (progn
+          (write-region (point-min) (point-max) tmpfile)
+          (with-temp-buffer
+            (let* ((cmd (format "sudo -S cp %s %s && sudo -S chown %d:%d %s"
+                                tmpfile
+                                filename
+                                (user-uid)
+                                (group-gid)
+                                filename))
+                   (pwd (read-passwd (concat cmd ": "))))
+              (insert pwd)
+              (shell-command-on-region (point-min) (point-max) cmd
+                                       (current-buffer) t nil t)))
+          (set-buffer-modified-p nil))
+      (delete-file tmpfile))))
+
+(defun to-camel-case (string)
+  (let ((parts (split-string string "_")))
+    (apply #'concat
+           (append (list (car parts))
+                   (mapcar #'capitalize (cdr parts))))))
+
+(defun to-camel-case-at-point ()
+  (interactive)
+  (let ((bounds (bounds-of-thing-at-point 'sexp))
+        sexp)
+    (when bounds
+      (destructuring-bind (start . end)
+          bounds
+        (setq sexp (buffer-substring-no-properties start end))
+        (goto-char start)
+        (delete-region start end)
+        (insert (to-camel-case sexp))))))
