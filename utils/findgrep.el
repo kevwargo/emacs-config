@@ -2,7 +2,9 @@
 
 (defvar-local findgrep-grep-opts
   '(("-H")
-    ("-n")))
+    ("-n")
+    ("-I")
+    ("--color=always")))
 
 (defvar-local findgrep-find-opts
   '(("-type" . "f")
@@ -43,10 +45,13 @@
     ((kbd "C-S-c") . fg-set-name-cpp-cmd)
     ((kbd "C-S-h") . fg-set-name-h-cmd)
     ((kbd "C-S-g") . fg-set-name-go-cmd)
+    ((kbd "C-M-p") . fg-set-name-py-cmd)
     ((kbd "C-M-n") . fg-enable-name-cmd)
     ((kbd "C-M-S-n") . fg-disable-name-cmd)
     ((kbd "C-S-n") . fg-toggle-exclude-node-modules-cmd)
     ((kbd "C-S-v") . fg-toggle-exclude-vendor-cmd)
+    ((kbd "C-o") . fg-toggle-exclude-cover-cmd)
+    ((kbd "C-l") . fg-toggle-exclude-serverless-cmd)
     ((kbd "C-M-S-r") . fg-toggle-exclude-runtime-cmd)
     ((kbd "C-S-w") . fg-toggle-exclude-web-app-cmd)
     ((kbd "C-S-i") . fg-toggle-case-insensitive-cmd)
@@ -102,11 +107,17 @@
       (concat "\\\\\\<" findgrep-regex "\\\\\\>")
     findgrep-regex))
 
+(defun smart-quote (arg)
+  (if (string-match-p "[ \"']" arg)
+      (shell-quote-argument arg)
+    arg))
+
 (defun findgrep-build-cmdline ()
   (let* ((regex (findgrep-build-regex))
          (cmd (concat
                "cd "
-               (or findgrep-dir default-directory)
+               (smart-quote
+                (or findgrep-dir default-directory))
                " && find . "
                (build-opt-string (append findgrep-find-opts
                                          (if findgrep-current-name
@@ -203,6 +214,12 @@
 (define-findgrep-cmd toggle-exclude-vendor ()
   (findgrep-toggle-opt 'findgrep-find-opts "! -path" "*/vendor/*"))
 
+(define-findgrep-cmd toggle-exclude-serverless ()
+  (findgrep-toggle-opt 'findgrep-find-opts "! -path" "./.serverless*"))
+
+(define-findgrep-cmd toggle-exclude-cover ()
+  (findgrep-toggle-opt 'findgrep-find-opts "! -path" "*/cover/*"))
+
 (define-findgrep-cmd toggle-exclude-runtime ()
   (findgrep-toggle-opt 'findgrep-find-opts "! -path" "*/runtime/*"))
 
@@ -244,6 +261,8 @@
   (setq findgrep-current-name "*.h"))
 (define-findgrep-cmd set-name-go ()
   (setq findgrep-current-name "*.go"))
+(define-findgrep-cmd set-name-py ()
+  (setq findgrep-current-name "*.py"))
 
 (define-findgrep-cmd reset-dir ()
   (setq findgrep-dir nil))
@@ -296,22 +315,25 @@
   (setq findgrep-dir dir)
   (setq findgrep-whole-word whole-word)
   (setq findgrep-regex regex)
-  (let ((null-device nil))
-    (grep (read-from-minibuffer "FindGrep: "
-                                (findgrep-build-cmdline)
-                                (let ((map (make-sparse-keymap)))
-                                  (dolist (keydef findgrep-keys)
-                                    (destructuring-bind (key . def) keydef
-                                      (define-key map
-                                        (if (consp key) (eval key) key)
-                                        (if (consp def)
-                                            (eval `(define-findgrep-cmd nil nil ,def))
-                                          def))))
-                                  (define-key map [up] 'previous-history-element)
-                                  (define-key map [down] 'next-history-element)
-                                  (define-key map [10] 'exit-minibuffer)
-                                  (define-key map [13] 'exit-minibuffer)
-                                  (define-key map [7] 'minibuffer-keyboard-quit)
-                                  map)
-                                nil
-                                'grep-find-history))))
+  (compilation-start (read-from-minibuffer "FindGrep: "
+                                           (findgrep-build-cmdline)
+                                           (let ((map (make-sparse-keymap)))
+                                             (dolist (keydef findgrep-keys)
+                                               (destructuring-bind (key . def) keydef
+                                                 (define-key map
+                                                   (if (consp key) (eval key) key)
+                                                   (if (consp def)
+                                                       (eval `(define-findgrep-cmd nil nil ,def))
+                                                     def))))
+                                             (define-key map [up] 'previous-history-element)
+                                             (define-key map [down] 'next-history-element)
+                                             (define-key map [10] 'exit-minibuffer)
+                                             (define-key map [13] 'exit-minibuffer)
+                                             (define-key map [7] 'minibuffer-keyboard-quit)
+                                             map)
+                                           nil
+                                           'grep-find-history)
+                     'grep-mode
+                     (lexical-let ((bufname (buffer-name (current-buffer))))
+                       (lambda (mode-name)
+                         (format "*%s-<%s>*" mode-name bufname)))))
