@@ -18,21 +18,24 @@
   (local-set-key (kbd "w") 'magit-diff-toggle-whitespace))
 
 (defun magit-handle-pull-request-create (proc string)
-  (when (string-match "^remote: *\\(https://bitbucket.org/.*/pull-requests/new[^ ]*\\)" string)
+  (when (string-match "^remote: *\\(https://bitbucket.org/.*/pull-requests/\\(new\\|[0-9]+\\)[^ ]*\\)" string)
     (let* ((url (match-string-no-properties 1 string))
            (gitdir (magit-gitdir))
-           (entry (assoc gitdir magit-pull-request-last-url-alist)))
+           (entry (assoc gitdir magit-pull-request-last-url-alist))
+           (url-entry (cons url (string= "new" (match-string-no-properties 2 string)))))
       (if entry
-          (setcdr entry url)
+          (setcdr entry url-entry)
         (setq magit-pull-request-last-url-alist
               (append magit-pull-request-last-url-alist
-                      `((,gitdir . ,url))))))))
+                      `((,gitdir . ,url-entry))))))))
 
 (defun magit-pull-request-create-post-refresh ()
   (when-let* ((entry (assoc (magit-gitdir) magit-pull-request-last-url-alist))
-              (url (cdr entry)))
-    (when (y-or-n-p (format "Create pull request (%s)? " url))
-      (browse-url url))
+              (url-entry (cdr entry)))
+    (when (y-or-n-p (format "%s pull request (%s)? "
+                            (if (cdr url-entry) "Create" "View")
+                            (car url-entry)))
+      (browse-url (car url-entry)))
     (setcdr entry nil)))
 
 (add-hook 'magit-process-prompt-functions 'magit-handle-pull-request-create)
