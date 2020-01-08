@@ -58,6 +58,8 @@
     ((kbd "C-S-p") . fg-toggle-perl-regex-cmd)
     ((kbd "C-S-e") . fg-toggle-extended-regex-cmd)))
 
+(defvar-local findgrep-custom-keys nil)
+
 
 (defun findgrep-reset-vars-in-all-buffers ()
   (interactive)
@@ -318,13 +320,16 @@
   (compilation-start (read-from-minibuffer "FindGrep: "
                                            (findgrep-build-cmdline)
                                            (let ((map (make-sparse-keymap)))
-                                             (dolist (keydef findgrep-keys)
-                                               (destructuring-bind (key . def) keydef
-                                                 (define-key map
-                                                   (if (consp key) (eval key) key)
-                                                   (if (consp def)
-                                                       (eval `(define-findgrep-cmd nil nil ,def))
-                                                     def))))
+                                             (dolist (keys (list
+                                                            findgrep-keys
+                                                            findgrep-custom-keys))
+                                               (dolist (keydef keys)
+                                                 (destructuring-bind (key . def) keydef
+                                                   (define-key map
+                                                     (if (consp key) (eval key) key)
+                                                     (if (consp def)
+                                                         (eval `(define-findgrep-cmd nil nil ,def))
+                                                       def)))))
                                              (define-key map [up] 'previous-history-element)
                                              (define-key map [down] 'next-history-element)
                                              (define-key map [10] 'exit-minibuffer)
