@@ -116,7 +116,7 @@
  '(font-lock-comment-face ((t (:foreground "gray50" :slant italic))))
  '(font-lock-function-name-fac ((t :foreground "DarkBlue")) t)
  '(font-lock-keyword-face ((t :bold t)))
- '(font-lock-string-face ((t (:foreground "orange red"))))
+ '(font-lock-string-face ((t (:foreground "blue violet"))))
  '(font-lock-variable-name-face ((t (:foreground "lime green"))))
  '(py-builtins-face ((t :foreground "#0057ae")))
  '(py-class-name-face ((t :foreground "DarkOliveGreen")))
