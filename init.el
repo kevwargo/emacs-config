@@ -21,7 +21,6 @@
 (load "utils/window-expand")
 (load "utils/isearch-sexp")
 (load "utils/konsole")
-(load "utils/findgrep")
 (load "utils/sort-imports")
 (load "utils/easy-window-split")
 (load "utils/key-overrides")

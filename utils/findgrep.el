@@ -1,344 +1,212 @@
-(defvar-local findgrep-dir nil)
+(require 'transient)
 
-(defvar-local findgrep-grep-opts
-  '(("-H")
-    ("-n")
-    ("-I")
-    ("--color=always")))
+(defvar-local findgrep-directory nil)
+(defvar-local findgrep-regexp nil)
 
-(defvar-local findgrep-find-opts
-  '(("-type" . "f")
-    ("! -name" . "*~")
-    ("! -name" . "#*#")))
+(defvar-local findgrep-exclude-cdk-out t)
+(defvar-local findgrep-exclude-cover t)
+(defvar-local findgrep-exclude-node-modules t)
+(defvar-local findgrep-exclude-serverless t)
+(defvar-local findgrep-exclude-autosave t)
+(defvar-local findgrep-exclude-temp t)
+(defvar-local findgrep-exclude-temp-sockets t)
+(defvar-local findgrep-exclude-js nil)
+(defvar-local findgrep-include-go nil)
+(defvar-local findgrep-include-typescript nil)
+(defvar-local findgrep-include-javascript nil)
+(defvar-local findgrep-include-java nil)
+(defvar-local findgrep-include-python nil)
 
-(defvar-local findgrep-regex "")
-
+(defvar-local findgrep-ignore-case nil)
+(defvar-local findgrep-extended-regexp nil)
+(defvar-local findgrep-perl-regexp nil)
 (defvar-local findgrep-whole-word nil)
+(defvar-local findgrep-show-filenames t)
+(defvar-local findgrep-show-line-numbers t)
+(defvar-local findgrep-ignore-binary-files t)
 
-(defvar-local findgrep-names
-  (list
-   "*.php"
-   "*.js"
-   "*.ts"
-   "*.html"
-   "*.java"
-   "*.lisp"
-   "*.py"
-   "*.c"
-   "*.cc"
-   "*.cpp"
-   "*.go"
-   "*.h"
-   "*.el"))
+(transient-define-prefix findgrep ()
+  ["Find args"
+   ("c" "Exclude cdk.out directories" "cdk.out"
+    :class findgrep--switch-exclude-path
+    :value-var findgrep-exclude-cdk-out)
+   ("v" "Exclude cover directories" "cover"
+    :class findgrep--switch-exclude-path
+    :value-var findgrep-exclude-cover)
+   ("n" "Exclude node_modules directories" "node_modules"
+    :class findgrep--switch-exclude-path
+    :value-var findgrep-exclude-node-modules)
+   ("s" "Exclude .serverless directories" ".serverless"
+    :class findgrep--switch-exclude-path
+    :value-var findgrep-exclude-serverless)
+   ("~" "Exclude autosave files" "*~"
+    :class findgrep--switch-exclude-name
+    :value-var findgrep-exclude-autosave)
+   ("#" "Exclude Emacs temp files" "#*#"
+    :class findgrep--switch-exclude-name
+    :value-var findgrep-exclude-temp)
+   (".#" "Exclude Emacs temp sockets" ".#*#"
+    :class findgrep--switch-exclude-name
+    :value-var findgrep-exclude-temp-sockets)
+   ("j" "Exclude *.js files" "*.js"
+    :class findgrep--switch-exclude-name
+    :value-var findgrep-exclude-js)
+   ("g" "Search *.go files only" "*.go"
+    :class findgrep--switch-include-name
+    :value-var findgrep-include-go)
+   ("t" "Search *.ts files only" "*.ts"
+    :class findgrep--switch-include-name
+    :value-var findgrep-include-typescript)
+   ("-j" "Search *.js files only" "*.js"
+    :class findgrep--switch-include-name
+    :value-var findgrep-include-javascript)
+   ("J" "Search *.java files only" "*.java"
+    :class findgrep--switch-include-name
+    :value-var findgrep-include-java)
+   ("p" "Search *.py files only" "*.py"
+    :class findgrep--switch-include-name
+    :value-var findgrep-include-python)]
+  ["Grep args"
+   ("-i" "Ignore case" "-i"
+    :class findgrep--switch-grep
+    :value-var findgrep-ignore-case)
+   ("-E" "Extended regexp" "-E"
+    :class findgrep--switch-grep
+    :value-var findgrep-extended-regexp)
+   ("-P" "Perl regexp" "-P"
+    :class findgrep--switch-grep
+    :value-var findgrep-perl-regexp)
+   ("-w" "Match whole word" "-w"
+    :class findgrep--switch-grep
+    :value-var findgrep-whole-word)
+   ("-H" "Show filename" "-H"
+    :class findgrep--switch-grep
+    :value-var findgrep-show-filenames)
+   ("-n" "Show line numbers" "-n"
+    :class findgrep--switch-grep
+    :value-var findgrep-show-line-numbers)
+   ("-I" "Ignore binary files" "-I"
+    :class findgrep--switch-grep
+    :value-var findgrep-ignore-binary-files)]
+  ["Main"
+   ("d" "Directory" "dir" :class findgrep--infix-dir)
+   ("r" "Regexp" "regexp" :class findgrep--infix-regexp)]
+  ["Actions"
+   ([RET] "Run" findgrep--run)])
 
-(defvar-local findgrep-current-name nil)
+(defclass findgrep--switch (transient-switch)
+  ((value-var :initarg :value-var))
+  :abstract t)
+(cl-defmethod transient-init-value ((obj findgrep--switch))
+  (oset obj value
+        (and (slot-boundp obj 'value-var)
+             (boundp (oref obj value-var))
+             (if (symbol-value (oref obj value-var))
+                 (oref obj argument)))))
+(cl-defmethod transient-infix-set :after ((obj findgrep--switch) value)
+  (if (slot-boundp obj 'value-var)
+      (set (oref obj value-var)
+           (oref obj value))))
 
-(defvar-local findgrep-keys
-  '(((kbd "C-r") . fg-reset-opts-cmd)
-    ((kbd "C-S-r") . fg-reset-dir-cmd)
-    ((kbd "C-#") . fg-toggle-ignore-autosave-cmd)
-    ((kbd "C-~") . fg-toggle-ignore-backup-cmd)
-    ((kbd "<C-up>") . fg-prev-name-cmd)
-    ((kbd "<C-down>") . fg-next-name-cmd)
-    ((kbd "C-c") . fg-set-name-c-cmd)
-    ((kbd "C-M-c") . fg-set-name-cc-cmd)
-    ((kbd "C-S-c") . fg-set-name-cpp-cmd)
-    ((kbd "C-S-h") . fg-set-name-h-cmd)
-    ((kbd "C-S-g") . fg-set-name-go-cmd)
-    ((kbd "C-M-p") . fg-set-name-py-cmd)
-    ((kbd "C-M-n") . fg-enable-name-cmd)
-    ((kbd "C-M-S-n") . fg-disable-name-cmd)
-    ((kbd "C-S-n") . fg-toggle-exclude-node-modules-cmd)
-    ((kbd "C-S-v") . fg-toggle-exclude-vendor-cmd)
-    ((kbd "C-o") . fg-toggle-exclude-cover-cmd)
-    ((kbd "C-l") . fg-toggle-exclude-serverless-cmd)
-    ((kbd "C-M-S-r") . fg-toggle-exclude-runtime-cmd)
-    ((kbd "C-S-w") . fg-toggle-exclude-web-app-cmd)
-    ((kbd "C-S-i") . fg-toggle-case-insensitive-cmd)
-    ((kbd "C-S-p") . fg-toggle-perl-regex-cmd)
-    ((kbd "C-S-e") . fg-toggle-extended-regex-cmd)))
+(defclass findgrep--switch-find (findgrep--switch)
+  ()
+  :abstract t)
 
-(defvar-local findgrep-custom-keys nil)
+(defgeneric findgrep--list-value ())
 
+(cl-defmethod transient-infix-value ((obj findgrep--switch-find))
+  (when (oref obj value)
+    (mapcar 'shell-quote-argument
+            (findgrep--list-value obj))))
 
-(defun findgrep-reset-vars-in-all-buffers ()
-  (interactive)
-  (dolist (buf (buffer-list))
-    (when (buffer-live-p buf)
-      (with-current-buffer buf
-        (setq findgrep-dir (default-value 'findgrep-dir))
-        (setq findgrep-grep-opts (default-value 'findgrep-grep-opts))
-        (setq findgrep-find-opts (default-value 'findgrep-find-opts))
-        (setq findgrep-regex (default-value 'findgrep-regex))
-        (setq findgrep-names (default-value 'findgrep-names))
-        (setq findgrep-keys (default-value 'findgrep-keys))))))
+(defclass findgrep--switch-exclude-path (findgrep--switch-find) ())
+(cl-defmethod findgrep--list-value ((obj findgrep--switch-exclude-path))
+  (list "!" "-path" (format "*/%s/*" (oref obj argument))))
 
-(defmacro with-minibuffer-origin (&rest body)
-  (declare (indent 0))
-  `(with-current-buffer (window-buffer (minibuffer-selected-window))
-     ,@body))
+(defclass findgrep--switch-name (findgrep--switch-find) ())
 
-(defun build-opt-string (opts)
-  (let* ((opt-filter (lambda (opt)
-                       (and (consp opt)
-                            (stringp (car opt))
-                            (null (cdr opt))
-                            (string-match-p "^-[a-zA-Z]$" (car opt)))))
-         (short (mapconcat (lambda (opt)
-                             (substring-no-properties (car opt) 1 2))
-                           (remove-if-not opt-filter opts)
-                           ""))
-         (short (if (string= short "") nil short))
-         (long (mapconcat (lambda (opt)
-                            (if (and (consp opt) (stringp (car opt)))
-                                (if (stringp (cdr opt))
-                                    (concat (car opt) " " (shell-quote-argument (cdr opt)))
-                                  (car opt))))
-                          (remove-if opt-filter opts)
-                          " "))
-         (opt-string ""))
-    (if short (setq opt-string (concat "-" short)))
-    (if (not (string= long ""))
-        (setq opt-string (concat opt-string
-                                 (if short " " "")
-                                 long)))
-    opt-string))
+(defclass findgrep--switch-exclude-name (findgrep--switch-name) ())
+(cl-defmethod findgrep--list-value ((obj findgrep--switch-exclude-name))
+  (list "!" "-name" (oref obj argument)))
 
-(defun findgrep-build-regex ()
-  (if findgrep-whole-word
-      (concat "\\\\\\<" findgrep-regex "\\\\\\>")
-    findgrep-regex))
+(defclass findgrep--switch-include-name (findgrep--switch-name) ())
+(cl-defmethod findgrep--list-value ((obj findgrep--switch-include-name))
+  (list "-name" (oref obj argument)))
 
-(defun smart-quote (arg)
+(defclass findgrep--switch-grep (findgrep--switch) ())
+
+(defclass findgrep--infix-regexp (transient-option)
+  ((always-read :initform t)
+   (allow-empty :initform nil)))
+
+(cl-defmethod transient-init-value ((obj findgrep--infix-regexp))
+  (oset obj value findgrep-regexp))
+
+(cl-defmethod transient-infix-value ((obj findgrep--infix-regexp))
+  (when-let ((value (oref obj value)))
+    (shell-quote-argument value)))
+
+(cl-defmethod transient-format-value ((obj findgrep--infix-regexp))
+  (or (oref obj value) ""))
+
+(cl-defmethod transient-infix-set :after ((obj findgrep--infix-regexp) value)
+  (setq findgrep-regexp value))
+
+(defclass findgrep--infix-dir (transient-option) ())
+
+(cl-defmethod transient-init-value ((obj findgrep--infix-dir))
+  (oset obj value
+        (or findgrep-directory
+            default-directory)))
+
+(cl-defmethod transient-infix-value ((obj findgrep--infix-dir))
+  (when-let ((value (oref obj value)))
+    (findgrep--smart-quote value)))
+
+(cl-defmethod transient-format-value ((obj findgrep--infix-dir))
+  (or (oref obj value) ""))
+
+(cl-defmethod transient-infix-read ((obj findgrep--infix-dir))
+  (ido-read-directory-name "Directory: " (oref obj value)))
+
+(cl-defmethod transient-infix-set :after ((obj findgrep--infix-dir) value)
+  (setq findgrep-directory value))
+
+(defun findgrep--extract-arg-values (class)
+  (delq nil (mapcar (lambda (arg)
+                      (if (object-of-class-p arg class)
+                          (transient-infix-value arg)))
+                    transient-current-suffixes)))
+
+(defun findgrep--smart-quote (arg)
   (if (string-match-p "[ \"']" arg)
       (shell-quote-argument arg)
     arg))
 
-(defun findgrep-build-cmdline ()
-  (let* ((regex (findgrep-build-regex))
-         (cmd (concat
-               "cd "
-               (smart-quote
-                (or findgrep-dir default-directory))
-               " && find . "
-               (build-opt-string (append findgrep-find-opts
-                                         (if findgrep-current-name
-                                             `(("-name" . ,findgrep-current-name)))))
-               " -exec grep "
-               (build-opt-string findgrep-grep-opts)
-               " "))
-         (pos (+ (1+ (length cmd))
-                 (length regex))))
-    (cons (concat cmd regex " {} +") pos)))
-
-(defun findgrep-update-cmdline (&optional regex)
-  (when (active-minibuffer-window)
-    (let ((cmd (with-minibuffer-origin
-                 (let ((findgrep-regex (if regex regex findgrep-regex)))
-                   (findgrep-build-cmdline)))))
-      (delete-minibuffer-contents)
-      (insert (car cmd))
-      (goto-char (+ (minibuffer-prompt-end) (1- (cdr cmd))))
-      (when regex
-        (let ((new-mark (- (point) (length regex))))
-          (set-mark new-mark)
-          (activate-mark))))))
-
-(defun findgrep-add-opt (opts-var opt value)
-  (add-to-list opts-var (cons opt value)))
-
-(defun findgrep--opt-predicate (opt)
-  (lambda (item)
-    (and (consp item)
-         (stringp (car item))
-         (string= (car item) opt))))
-
-(defun findgrep--opt-value-predicate (opt value)
-  (lambda (item)
-    (and (consp item)
-         (stringp (car item))
-         (string= (car item) opt)
-         (equalp (cdr item) value))))
-
-(defun findgrep-opt-set-p (opts-var opt)
-  (find-if (findgrep--opt-predicate opt)
-           (eval opts-var)))
-
-(defun findgrep-opt-value-set-p (opts-var opt value)
-  (find-if (findgrep--opt-value-predicate opt value)
-           (eval opts-var)))
-
-(defun findgrep-remove-opt (opts-var opt)
-  (set opts-var
-       (remove-if (findgrep--opt-predicate opt)
-                  (eval opts-var))))
-
-(defun findgrep-remove-opt-value (opts-var opt value)
-  (set opts-var
-       (remove-if (findgrep--opt-value-predicate opt value)
-                  (eval opts-var))))
-
-(defun findgrep-toggle-opt (opts-var opt value)
-  (if (findgrep-opt-value-set-p opts-var opt value)
-      (findgrep-remove-opt-value opts-var opt value)
-    (findgrep-add-opt opts-var opt value)))
-
-(defmacro define-findgrep-cmd (name args &rest body)
-  (declare (indent 2))
-  `(,@(if name
-          `(defun ,(intern (concat "fg-" (symbol-name name) "-cmd")))
-        '(lambda))
-    ,args
-    ,@(if (eq (car (car body)) 'interactive)
-          (prog1 (list `(interactive ,@(cdr (car body))))
-            (setq body (cdr body)))
-        (list '(interactive)))
-    (with-minibuffer-origin
-      ,@body)
-    (findgrep-update-cmdline (if (region-active-p)
-                                 (buffer-substring-no-properties
-                                  (region-beginning)
-                                  (region-end))))))
-
-(define-findgrep-cmd reset-opts ()
-  (setq findgrep-grep-opts (default-value 'findgrep-grep-opts))
-  (setq findgrep-find-opts (default-value 'findgrep-find-opts)))
-
-(define-findgrep-cmd toggle-ignore-backup ()
-  (findgrep-toggle-opt 'findgrep-find-opts "! -name" "*~"))
-
-(define-findgrep-cmd toggle-ignore-autosave ()
-  (findgrep-toggle-opt 'findgrep-find-opts "! -name" "#*#"))
-
-(define-findgrep-cmd toggle-exclude-node-modules ()
-  (findgrep-toggle-opt 'findgrep-find-opts "! -path" "*/node_modules/*"))
-
-(define-findgrep-cmd toggle-exclude-vendor ()
-  (findgrep-toggle-opt 'findgrep-find-opts "! -path" "*/vendor/*"))
-
-(define-findgrep-cmd toggle-exclude-serverless ()
-  (findgrep-toggle-opt 'findgrep-find-opts "! -path" "./.serverless*"))
-
-(define-findgrep-cmd toggle-exclude-cover ()
-  (findgrep-toggle-opt 'findgrep-find-opts "! -path" "*/cover/*"))
-
-(define-findgrep-cmd toggle-exclude-runtime ()
-  (findgrep-toggle-opt 'findgrep-find-opts "! -path" "*/runtime/*"))
-
-(define-findgrep-cmd toggle-exclude-web-app ()
-  (findgrep-toggle-opt 'findgrep-find-opts "! -path" "*/web/app/*"))
-
-(define-findgrep-cmd toggle-case-insensitive ()
-  (findgrep-toggle-opt 'findgrep-grep-opts "-i" nil))
-
-(define-findgrep-cmd toggle-extended-regex ()
-  (findgrep-toggle-opt 'findgrep-grep-opts "-E" nil))
-
-(define-findgrep-cmd toggle-perl-regex ()
-  (findgrep-toggle-opt 'findgrep-grep-opts "-P" nil))
-
-(define-findgrep-cmd enable-name ()
-  (setq findgrep-current-name (car findgrep-names)))
-
-(define-findgrep-cmd disable-name ()
-  (setq findgrep-current-name nil))
-
-(define-findgrep-cmd next-name ()
-  (setq findgrep-names (append (cdr findgrep-names)
-                               (list (car findgrep-names))))
-  (setq findgrep-current-name (car findgrep-names)))
-
-(define-findgrep-cmd prev-name ()
-  (setq findgrep-names (append (last findgrep-names)
-                               (butlast findgrep-names)))
-  (setq findgrep-current-name (car findgrep-names)))
-
-(define-findgrep-cmd set-name-c ()
-  (setq findgrep-current-name "*.c"))
-(define-findgrep-cmd set-name-cc ()
-  (setq findgrep-current-name "*.cc"))
-(define-findgrep-cmd set-name-cpp ()
-  (setq findgrep-current-name "*.cpp"))
-(define-findgrep-cmd set-name-h ()
-  (setq findgrep-current-name "*.h"))
-(define-findgrep-cmd set-name-go ()
-  (setq findgrep-current-name "*.go"))
-(define-findgrep-cmd set-name-py ()
-  (setq findgrep-current-name "*.py"))
-
-(define-findgrep-cmd reset-dir ()
-  (setq findgrep-dir nil))
-
-(defun grep-unset-grep-options ()
-  (setenv "GREP_OPTIONS" nil))
-
-(add-hook 'grep-setup-hook 'grep-unset-grep-options)
-
-(defun findgrep-ido-setup-hook ()
-  (define-key ido-completion-map (kbd "C-S-r")
-    (lambda ()
-      (interactive)
-      (setq ido-matches (list
-                         (with-minibuffer-origin
-                           (buffer-working-directory))))
-      (ido-exit-minibuffer))))
-
-(add-hook 'ido-setup-hook 'findgrep-ido-setup-hook)
-
-(defun findgrep (dir regex &optional whole-word)
-  (interactive
-   (let* ((keyseq (concatenate 'vector (this-command-keys)))
-          last-key
-          (direction
-           (and (equalp (substring keyseq 0 2) (concatenate 'vector (kbd "C-x f")))
-                (eq (length keyseq) 3)
-                (symbolp (setq last-key (aref keyseq 2)))
-                (case last-key
-                  ('C-left 'left)
-                  ('C-up 'up)
-                  ('C-right 'right)
-                  ('C-down 'down))))
-          (window (and direction
-                       (windmove-find-other-window direction)))
-          (dir-by-direction (and window
-                                 (buffer-working-directory
-                                  (window-buffer window)))))
-     (list (ido-read-directory-name "Findgrep dir: " (or dir-by-direction
-                                                         findgrep-dir
-                                                         default-directory))
-           (if (region-active-p)
-               (shell-quote-argument
-                (regexp-quote
-                 (buffer-substring-no-properties
-                  (region-beginning)
-                  (region-end))))
-             "")
-           current-prefix-arg)))
-  (setq findgrep-dir dir)
-  (setq findgrep-whole-word whole-word)
-  (setq findgrep-regex regex)
-  (compilation-start (read-from-minibuffer "FindGrep: "
-                                           (findgrep-build-cmdline)
-                                           (let ((map (make-sparse-keymap)))
-                                             (dolist (keys (list
-                                                            findgrep-keys
-                                                            findgrep-custom-keys))
-                                               (dolist (keydef keys)
-                                                 (destructuring-bind (key . def) keydef
-                                                   (define-key map
-                                                     (if (consp key) (eval key) key)
-                                                     (if (consp def)
-                                                         (eval `(define-findgrep-cmd nil nil ,def))
-                                                       def)))))
-                                             (define-key map [up] 'previous-history-element)
-                                             (define-key map [down] 'next-history-element)
-                                             (define-key map [10] 'exit-minibuffer)
-                                             (define-key map [13] 'exit-minibuffer)
-                                             (define-key map [7] 'minibuffer-keyboard-quit)
-                                             map)
-                                           nil
-                                           'grep-find-history)
-                     'grep-mode
-                     (lexical-let ((bufname (buffer-name (current-buffer))))
-                       (lambda (mode-name)
-                         (format "*%s-<%s>*" mode-name bufname)))))
+(defun findgrep--run ()
+  (interactive)
+  (let ((find-path-opts (mapconcat (lambda (arg)
+                                     (mapconcat 'identity arg " "))
+                                   (findgrep--extract-arg-values 'findgrep--switch-exclude-path)
+                                   " "))
+        (find-name-opts (mapconcat (lambda (arg)
+                                     (mapconcat 'identity arg " "))
+                                   (findgrep--extract-arg-values 'findgrep--switch-name)
+                                   " "))
+        (grep-opts (apply 'string ?- (mapcar (lambda (arg)
+                                               (aref arg 1))
+                                             (findgrep--extract-arg-values 'findgrep--switch-grep))))
+        (regexp (car-safe (findgrep--extract-arg-values 'findgrep--infix-regexp)))
+        (dir (car-safe (findgrep--extract-arg-values 'findgrep--infix-dir))))
+    (unless regexp
+      (user-error "No regexp provided"))
+    (compilation-start (format "cd %s && find . %s -type f %s -exec grep --color=always %s %s {} +"
+                               dir
+                               find-path-opts
+                               find-name-opts
+                               grep-opts
+                               regexp)
+                       'grep-mode
+                       (lexical-let ((bufname (buffer-name (current-buffer))))
+                         (lambda (mode-name)
+                           (format "*%s-<%s>*" mode-name bufname))))))
