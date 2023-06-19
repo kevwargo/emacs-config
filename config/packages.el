@@ -20,6 +20,7 @@
        'graphql-mode
        'indent-tools
        'lsp-java
+       'lsp-mode
        'magit
        'markdown-mode
        'multi-term
