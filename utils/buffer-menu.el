@@ -1,8 +1,10 @@
+(require 'cl-seq)
+
 (defun list-buffers-dwim (&optional arg)
   (interactive)
   (switch-to-buffer
    (list-buffers-noselect nil ; it's ignored anyway in `list-buffers--refresh'
-                          (remove-if
+                          (cl-remove-if
                            (lambda (b)
                              (or (string-match-p "^ " (buffer-name b))
                                  (not (buffer-modified-p b))
@@ -25,7 +27,7 @@
   (let* ((mode-names (if (listp mode-names)
                          mode-names
                        (list mode-names)))
-         (buffers (remove-if-not (lambda (b)
+         (buffers (cl-remove-if-not (lambda (b)
                                   (find (with-current-buffer b
                                           (symbol-name major-mode))
                                         mode-names
@@ -37,7 +39,7 @@
 
 (defun buffer-menu-show-orhpaned ()
   (interactive)
-  (let ((buffers (remove-if-not (lambda (b)
+  (let ((buffers (cl-remove-if-not (lambda (b)
                                   (and (buffer-file-name b)
                                        (not (file-exists-p (buffer-file-name b)))))
                                 (buffer-list))))
