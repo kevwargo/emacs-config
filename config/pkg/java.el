@@ -1,5 +1,5 @@
-(require 'lsp-java)
 (require 'f)
+(require 'lsp-java)
 
 (defconst lsp-java-custom-project-file ".lsp-java-project.el")
 

@@ -9,10 +9,12 @@
 (defvar kec:packages nil)
 (setq kec:packages
       (list
+       'company
        'connection
        'default-text-scale
        'dockerfile-mode
        'elpy
+       'f
        'go-mode
        'go-tag
        'gotest
@@ -32,6 +34,7 @@
        'python-black
        'python-isort
        'restclient
+       's
        'string-inflection
        'typescript-mode
        'undo-tree
@@ -45,15 +48,9 @@
     (if (package-installed-p pkg)
         (message "Package %S is already installed" pkg)
       (message "Installing package %S..." pkg)
-      (package-install pkg))
-    ;; (condition-case err
-    ;;     (load (file-name-concat "config/pkg" (symbol-name pkg)) t)
-    ;;   (file-missing nil))
-    ))
+      (package-install pkg))))
 
 (kec:install-packages)
-
-(require 's)
 
 (load "config/pkg/undo-tree")
 (load "config/pkg/term")
