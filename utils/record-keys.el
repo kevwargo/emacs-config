@@ -1,10 +1,12 @@
+(require 'cl-seq)
+
 (defvar key-seq-map (make-hash-table :test 'equal))
 
 (defun log-key-seq ()
   (let* ((seq (this-single-command-raw-keys))
          count)
     (unless (or (eq this-command 'self-insert-command)
-                (find-if 'consp seq))
+                (cl-find-if 'consp seq))
       (setq count (1+ (gethash seq key-seq-map 0)))
       (puthash seq count key-seq-map))))
 
@@ -17,6 +19,7 @@
                      (read (current-buffer)))))
         (dolist (item items)
           (puthash (car item) (cdr item) key-seq-map)))
+    (file-missing nil)
     (error (message "Error during loading key-seq-map: %S" err))))
 
 (defun dump-key-seq-map ()

@@ -1,3 +1,4 @@
+(require 'cl-seq)
 (require 'magit)
 
 (defvar magit-pull-request-last-url-alist nil)
@@ -35,7 +36,7 @@
   (local-set-key (kbd "p") 'magit-stash-pop))
 
 (defun magit-handle-pull-request-create (proc string)
-  (when (find-if (lambda (re) (string-match re string))
+  (when (cl-find-if (lambda (re) (string-match re string))
                  magit-pull-request-regex-list)
     (let* ((url (match-string-no-properties 1 string))
            (gitdir (magit-gitdir))
