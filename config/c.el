@@ -29,7 +29,8 @@
                                   (statement-cont . +)))))))
 
 (defun c-mode-for-lex-yacc ()
-  (when (string-match-p ".*\\.l$\\|.*\\.y$" (buffer-file-name))
+  (when (and (buffer-file-name)
+             (string-match-p ".*\\.l$\\|.*\\.y$" (buffer-file-name)))
     (local-set-key (kbd ";") 'self-insert-command)
     (local-set-key (kbd ":") 'self-insert-command)
     (local-set-key (kbd ",") 'self-insert-command)
