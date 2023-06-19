@@ -1,7 +1,7 @@
 (defun make-frame-set-parameters (frame)
   (cond ((window-system frame)
          (set-frame-parameter frame 'fullscreen 'maximized)
-         (load-theme 'deeper-blue)
+         (load-theme 'adwaita)
          (blink-cursor-mode 1))
         (t
          (set-frame-parameter frame 'menu-bar-lines 0))))
