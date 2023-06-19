@@ -74,7 +74,7 @@ If point was already at that position, move point to beginning of line."
 
 (defun move-lines (n &optional keep-text)
   "Partly from Ji Han's answer: http://stackoverflow.com/questions/2423834/move-line-region-up-and-down-in-emacs/19378355"
-  (destructuring-bind (beg end) (selected-lines)
+  (cl-destructuring-bind (beg end) (selected-lines)
     (when (and (= end (point-max))
                (/= (char-before end) 10))
       (save-excursion
@@ -136,7 +136,7 @@ If point was already at that position, move point to beginning of line."
         (oldsize (buffer-size))
         (indent-function (key-binding [9])) ; function on tab key
         increment)
-    (destructuring-bind (open close) (selected-lines)
+    (cl-destructuring-bind (open close) (selected-lines)
       (when (= (char-before close) 10)
         (setq close (1- close)))
       (deactivate-mark)
@@ -182,34 +182,6 @@ If point was already at that position, move point to beginning of line."
   (let ((cwd (buffer-working-directory)))
     (message "Setting working directory to %S" cwd)
     (cd cwd)))
-
-(defun insert-random-words (arg)
-  (interactive "P")
-  (let ((words))
-    (dotimes (i (cond
-                 ((numberp arg) arg)
-                 ((consp arg) (car arg))
-                 (t (+ 4 (random 50)))))
-      (let ((word ""))
-        (dotimes (j (1+ (random 20)))
-          (setq word (concat word (list
-                                   (let ((n (random 64)))
-                                     (cond
-                                      ((< n 10) (+ n ?0))
-                                      ((< n 36) (+ (- n 10) ?A))
-                                      ((< n 62) (+ (- n 36) ?a))
-                                      ((= n 62) ?_)
-                                      (t ?-)))))))
-        (push word words)))
-    (insert (mapconcat 'identity words " "))))
-
-(defun insert-line-number ()
-  (interactive)
-  (insert
-   (format "%d"
-           (save-excursion
-             (beginning-of-line)
-             (1+ (count-lines 1 (point)))))))
 
 (defun rename-current-file (newname)
   "Rename the file associated with the current buffer to NEWNAME"
@@ -264,14 +236,14 @@ If point was already at that position, move point to beginning of line."
 
 (defun mark-current-sexp ()
   (interactive)
-  (destructuring-bind (beg . end)
+  (cl-destructuring-bind (beg . end)
       (bounds-of-thing-at-point 'sexp)
     (push-mark beg nil t)
     (goto-char end)))
 
 (defun mark-current-word ()
   (interactive)
-  (destructuring-bind (beg . end)
+  (cl-destructuring-bind (beg . end)
       (bounds-of-thing-at-point 'word)
     (goto-char beg)
     (push-mark beg nil t)
@@ -309,11 +281,6 @@ mark from the beginning of line instead of from the first non-whitespace charact
       (insert filename)
       (kill-ring-save (point-min) (point-max)))))
 
-(defun insert-at (pos text)
-  (save-excursion
-    (goto-char pos)
-    (insert text)))
-
 (defun sudo-save-buffer ()
   (interactive)
   (when-let* ((filename (shell-quote-argument (buffer-file-name)))
@@ -346,7 +313,7 @@ mark from the beginning of line instead of from the first non-whitespace charact
   (let ((bounds (bounds-of-thing-at-point 'sexp))
         sexp)
     (when bounds
-      (destructuring-bind (start . end)
+      (cl-destructuring-bind (start . end)
           bounds
         (setq sexp (buffer-substring-no-properties start end))
         (goto-char start)

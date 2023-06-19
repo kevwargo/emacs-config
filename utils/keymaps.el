@@ -3,14 +3,14 @@
       nil
     (list 'keymap
           (mapcar (lambda (e)
-                    (if (null (consp e))
-                        e
-                      (destructuring-bind (key . def) e
-                        (cons (key-description (if (sequencep key)
-                                                   key
-                                                 (vector key)))
-                              (cond
-                               ((keymapp def) (keymap-prettify def))
-                               ((symbolp def) def)
-                               (t 'garbage))))))
+                    (if (consp e)
+                        (cl-destructuring-bind (key . def) e
+                          (cons (key-description (if (sequencep key)
+                                                     key
+                                                   (vector key)))
+                                (cond
+                                 ((keymapp def) (keymap-prettify def))
+                                 ((symbolp def) def)
+                                 (t 'garbage))))
+                      e))
                   (cdr-safe kmap)))))

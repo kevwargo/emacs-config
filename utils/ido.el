@@ -4,7 +4,7 @@
   (setq ido-exit 'done)
   (exit-minibuffer))
 
-(defun ido-all-matches-hook ()
+(defun ido-custom-keys-setup ()
   (define-key ido-completion-map (kbd "C-o") 'ido-all-matches))
 
-(add-hook 'ido-setup-hook 'ido-all-matches-hook)
+(add-hook 'ido-setup-hook 'ido-custom-keys-setup)

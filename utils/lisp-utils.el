@@ -99,7 +99,7 @@ Counting starts from 0. Returns resulting list"
   (let (result start)
     (condition-case e
         (while t
-          (destructuring-bind (sexp . end)
+          (cl-destructuring-bind (sexp . end)
               (read-from-string string start)
             (setq result (append result (list sexp)))
             (setq start end)))
