@@ -11,6 +11,7 @@
 
 (load "utils/lisp-utils")
 (load "utils/general-utils")
+(load "utils/insert")
 (load "utils/convert")
 (load "utils/windmove-extra")
 (load "utils/term")
@@ -24,8 +25,10 @@
 (load "utils/record-keys")
 (load "utils/keymaps")
 (load "utils/go-mod")
+(load "utils/recent-keys")
 
 (load "config/modes")
+(load "config/lisp-modes")
 (load "config/vars")
 (load "config/faces")
 (load "config/hooks")

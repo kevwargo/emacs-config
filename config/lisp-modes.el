@@ -1,0 +1,10 @@
+(defun custom-lisp-modes-map ()
+  (local-set-key (kbd "C-x J") 'jlp-send-defun)
+  (local-set-key (kbd "C-x j") (let ((m (make-sparse-keymap)))
+                                 (define-key m (kbd "d") 'jlp-send-defun)
+                                 (define-key m (kbd "s") 'jlp-send-sexp)
+                                 (define-key m (kbd "b") 'jlp-send-buffer)
+                                 m)))
+
+(add-hook 'lisp-mode-hook 'custom-lisp-modes-map)
+(add-hook 'emacs-lisp-mode-hook 'custom-lisp-modes-map)
