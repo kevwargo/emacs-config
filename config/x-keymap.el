@@ -13,18 +13,28 @@
 (global-set-key (kbd "C-S-<down>") 'move-lines-down)
 (global-set-key (kbd "C-M-<up>") 'copy-lines-up)
 (global-set-key (kbd "C-M-<down>") 'copy-lines-down)
-(global-set-key (kbd "M-<left>") 'windmove-left)
-(global-set-key (kbd "M-<right>") 'windmove-right)
-(global-set-key (kbd "M-<up>") 'windmove-up)
-(global-set-key (kbd "M-<down>") 'windmove-down)
 (global-set-key (kbd "s-<left>") 'backward-sexp)
 (global-set-key (kbd "s-<right>") 'forward-sexp)
-(global-set-key (kbd "<backtab>") '(lambda ()
-                                     (interactive)
-                                     (insert 9)))
+(global-set-key (kbd "<backtab>") 'insert-tab-command)
 (global-set-key (kbd "s-z") 'keyboard-quit)
 
 (global-set-key (kbd "C-S-f") 'findgrep)
 
-(global-set-key (kbd "C-M-SPC") 'mark-current-word)
-(global-set-key (kbd "M-SPC") 'mark-current-sexp)
+(global-set-key (kbd "M-S-SPC") 'mark-current-word)
+(global-set-key (kbd "C-M-SPC") 'mark-current-sexp)
+
+(global-set-key (kbd "M->") 'xref-find-definitions-other-window)
+
+(global-set-key (kbd "C-n") 'make-frame)
+
+(define-minor-mode x-keys
+  "Some custom keybindings working only from X"
+  :keymap (let ((m (make-sparse-keymap)))
+            (define-key m (kbd "M-<left>") 'windmove-left)
+            (define-key m (kbd "M-<right>") 'windmove-right)
+            (define-key m (kbd "M-<up>") 'windmove-up)
+            (define-key m (kbd "M-<down>") 'windmove-down)
+            m)
+  :global t)
+
+(x-keys 1)

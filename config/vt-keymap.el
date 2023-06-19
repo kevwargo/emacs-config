@@ -14,16 +14,16 @@
 
 (define-minor-mode vt-ctrl-pressed-mode
   "Defines"
-  nil
-  " CTRL"
-  vt-ctrl-pressed-mode-map
+  :init-value nil
+  :lighter " CTRL"
+  :keymap vt-ctrl-pressed-mode-map
   (setq vt-quick-move-lines-mode nil))
 
 (define-minor-mode vt-quick-move-lines-mode
   "Maps [up] and [down] to `move-lines-up' and `move-lines-down'."
-  nil
-  " Move-Lines"
-  vt-quick-move-lines-mode-map
+  :init-value nil
+  :lighter " Move-Lines"
+  :keymap vt-quick-move-lines-mode-map
   (setq vt-ctrl-pressed-mode nil))
 
 

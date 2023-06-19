@@ -9,6 +9,7 @@
 
 (defun elisp-mode-keymap-modify ()
   (local-unset-key (kbd "C-M-q"))
+  (local-set-key (kbd "C-c RET") 'eval-print-last-sexp)
   (local-set-key (kbd "C-(") (lambda () (interactive) (insert ?\())))
 
 (defun lisp-mode-keymap-modify ()

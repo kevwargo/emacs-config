@@ -94,3 +94,10 @@
 (global-set-key (kbd "C-c C-s") 'open-stumpwmrc)
 
 (global-set-key (kbd "C-c C") 'to-camel-case-at-point)
+
+(global-set-key (kbd "C-c C-v")
+                (let ((m (make-sparse-keymap)))
+                  (define-key m (kbd "d") 'insert-current-date)
+                  m))
+
+(global-set-key (kbd "C-x B") 'decode-base64)

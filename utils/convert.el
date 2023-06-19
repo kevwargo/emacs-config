@@ -19,7 +19,7 @@
           (delete-char 1)
           (setq end (+ end 5)))))))
 
-(defun convert-buffer (cmd args &optional new-major-mode)
+(defun -j2y-convert-buffer (cmd args &optional new-major-mode)
   (interactive (let ((shell-cmd (read-shell-command "Convert command: "))
                      (new-major-mode (read-string "New major mode (leave empty to use the same): ")))
                  (list shell-file-name
@@ -43,12 +43,27 @@
 
 (defun json-to-yaml ()
   (interactive)
-  (convert-buffer "j2y" '("/dev/stdin") 'yaml-mode))
+  (-j2y-convert-buffer "j2y" '("/dev/stdin") 'yaml-mode))
 
 (defun yaml-to-json ()
   (interactive)
-  (convert-buffer "j2y" '("-r" "/dev/stdin") 'json-mode))
+  (-j2y-convert-buffer "j2y" '("-r" "/dev/stdin") 'json-mode))
 
 (defun xmllint-buffer ()
   (interactive)
-  (convert-buffer "xmllint" '("--format" "-")))
+  (-j2y-convert-buffer "xmllint" '("--format" "-")))
+
+(defun decode-base64 (beg end &optional replace)
+  "Decodes the region using ULR-safe Base64 encoding.
+If the REPLACE is non-nil, replace the region with the resulting text.
+Otherwise print the text using `message'."
+  (interactive "r\nP")
+  (let ((text (base64-decode-string
+               (buffer-substring-no-properties beg end)
+               t)))
+    (scratch-log-expr replace)
+    (if replace (progn
+                  (delete-region beg end)
+                  (goto-char beg)
+                  (insert text))
+      (message text))))
