@@ -80,21 +80,6 @@ Counting starts from 0. Returns resulting list"
                  (cdr elt)))))
           keymap))
 
-(defun scratch-log (string &rest objects)
-  (with-current-buffer "*scratch*"
-    (goto-char (point-max))
-    (insert (apply 'format string objects) 10)))
-
-(defun scratch-log-prepend (string &rest objects)
-  (with-current-buffer "*scratch*"
-    (goto-char (point-min))
-    (insert (apply 'format string objects) 10)))
-
-(defmacro scratch-log-expr (expr)
-  `(let ((val ,expr))
-     (scratch-log "%s: %S" ',expr val)
-     val))
-
 (defun read-whole-string (string)
   (let (result start)
     (condition-case e

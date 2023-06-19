@@ -10,6 +10,7 @@
 (load "config/custom")
 
 (load "utils/lisp-utils")
+(load "utils/log")
 (load "utils/general-utils")
 (load "utils/insert")
 (load "utils/convert")
