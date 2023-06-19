@@ -18,13 +18,21 @@
         neo-buffer--expanded-node-list)
   (neo-buffer--refresh t))
 
+(defun neotree-change-root-dir (full-path &optional arg)
+  (neotree-change-root))
+
 (defun setup-neotree ()
   (local-set-key (kbd "<backspace>") 'neotree-go-up)
-  (local-set-key (kbd "F") 'neotree-fold-all))
+  (local-set-key (kbd "RET") (neotree-make-executor
+                              :file-fn 'neo-open-file
+                              :dir-fn  'neotree-change-root-dir))
+  (local-set-key (kbd "u") 'neotree-select-up-node)
+  (local-set-key (kbd "f") 'neotree-fold-all))
 
-(defcustom neotree-custom-map (let ((m (make-sparse-keymap)))
-                                (define-key m (kbd "RET") 'neotree-show-cwd)
-                                m)
+(defcustom neotree-custom-map
+  (let ((m (make-sparse-keymap)))
+    (define-key m (kbd "RET") 'neotree-show-cwd)
+    m)
   "Custom map enabled in minor mode for neotree bindings")
 
 (define-key key-overrides-mode-map (kbd "C-c n") neotree-custom-map)
