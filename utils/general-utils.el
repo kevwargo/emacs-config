@@ -1,3 +1,6 @@
+(require 'cl-lib)
+(require 'cl-extra)
+
 (defun delete-word (arg)
   (interactive "p")
   (delete-region (point) (progn (forward-word arg) (point))))
@@ -92,7 +95,7 @@ If point was already at that position, move point to beginning of line."
       (if keep-text
           (progn
             (setq text (buffer-substring beg end))
-            (forward-line (* (signum n) (1- (abs n)))))
+            (forward-line (* (cl-signum n) (1- (abs n)))))
         (setq text (delete-and-extract-region beg end))
         (forward-line n))
       (insert text)
