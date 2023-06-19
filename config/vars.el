@@ -1,10 +1,5 @@
-(setq auto-mode-alist (append auto-mode-alist '(("/etc/cdnet" . conf-mode)
-                                                ("\\.e\\(build\\|class\\)" . sh-mode)
-                                                ("\\.pddl" . PDDL-mode))))
-
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
-(setq tab-always-indent 'complete)
 
 (setq blink-cursor-blinks 0)
 
@@ -15,6 +10,8 @@
 (setq mouse-yank-at-point t)
 
 (setq split-width-threshold 150)
+
+(setq async-shell-command-display-buffer nil)
 
 (set-language-environment "utf-8")
 

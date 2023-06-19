@@ -1,25 +1,6 @@
-(require 'go-guru)
+(require 'go-tag)
 
 (defvar-local go-test-verbose nil)
-
-(defun go-dep-gopath ()
-  (let ((d (locate-dominating-file buffer-file-name
-                                   (lambda (dir)
-                                     (setq dir (or (and (file-directory-p dir) dir)
-                                                   (file-name-directory dir)))
-                                     ;; (scratch-log "dir: %S" dir)
-                                     ;; (let ((files (directory-files dir nil nil t))
-                                     ;;       gopkg-toml-found
-                                     ;;       gopkg-lock-found
-                                     ;;       vendor-found
-                                     ;;       src-found)
-                                     ;;   (dolist (file files)
-                                     ;;     (cond
-                                     ;;      ((string= file "Gopkg.toml")
-                                     ;;       )
-                                     nil))))
-    (if d
-        (list d))))
 
 (defun godef-smart-jump ()
   (interactive)
@@ -41,25 +22,51 @@
       ((equal keys (kbd "M->"))
        (godef-jump-other-window (point))))))
 
-(defun go-toggle-ac ()
-  (interactive)
-  (if (member 'ac-source-go ac-sources)
-      (progn
-        (setq ac-sources (delq 'ac-source-go ac-sources))
-        (message "Special autocompletion for Go disabled"))
-    (push 'ac-source-go ac-sources)
-    (message "Special autocompletion for Go enabled")))
-
-(defun go-toggle-ac-autostart ()
-  (interactive)
-  (setq-local ac-auto-start (null ac-auto-start))
-  (message "Go AutoComplete auto-start %sabled" (if ac-auto-start "en" "dis")))
-
 (defun go-toggle-test-verbose ()
   (interactive)
   (let ((new-val (null go-test-verbose)))
     (setq go-test-verbose new-val)
     (message "go-test-verbose set to %S" new-val)))
+
+(defun go-tag-add-json (&optional transform)
+  (interactive (list (-go-tag-read-transform current-prefix-arg)))
+  (let ((go-tag-args (append go-tag-args transform)))
+    (go-tag-add "json")))
+
+(defun go-tag-refresh-json (&optional transform)
+  (interactive (list (-go-tag-read-transform current-prefix-arg)))
+  (let ((go-tag-args (append go-tag-args transform)))
+    (scratch-log-expr go-tag-args)
+    (go-tag-refresh "json")))
+
+(defun -go-tag-read-transform (raw)
+  (when raw
+    (list "-transform"
+          (if (stringp raw)
+              raw
+            (read-string "Transform (letter case): " nil nil
+                         '("snakecase"
+                           "camelcase"
+                           "lispcase"
+                           "pascalcase"
+                           "keep"))))))
+
+(defun golangci-lint (dir)
+  (interactive
+   (list (ido-read-directory-name
+          "Run golangci-lint in: "
+          default-directory)))
+  (let ((default-directory dir))
+    (compilation-start "golangci-lint run --disable-all -E golint ./...")))
+
+(defun golangci-lint-temp (dir)
+  (interactive
+   (list (ido-read-directory-name
+          "Run golangci-lint in: "
+          default-directory)))
+  (let ((default-directory dir))
+    (compilation-start "git diff master | golangci-lint run --out-format colored-line-number --new-from-patch /dev/stdin ./core/... | sort -V")))
+
 
 (defun go-hook ()
   (local-set-key (kbd "C-c C-f") 'gofmt)
@@ -68,7 +75,8 @@
   (local-set-key (kbd "M->") 'godef-smart-jump)
   (local-set-key (kbd "C-x h") 'godoc-at-point)
   (local-set-key (kbd "C-{") 'embrace-selected-lines)
-  (local-set-key (kbd "C-c <C-tab>") 'go-toggle-ac-autostart))
+  (local-set-key (kbd "C-x t") 'go-tag-refresh-json)
+  (local-set-key (kbd "C-x T") 'go-tag-add-json))
 
 (add-hook 'go-mode-hook 'go-hook)
 (add-hook 'before-save-hook 'gofmt-before-save)
