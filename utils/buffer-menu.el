@@ -35,6 +35,16 @@
         (list-buffers-noselect nil buffers)
       (message "No buffers with mode `%S'" mode-names))))
 
+(defun buffer-menu-show-orhpaned ()
+  (interactive)
+  (let ((buffers (remove-if-not (lambda (b)
+                                  (and (buffer-file-name b)
+                                       (not (file-exists-p (buffer-file-name b)))))
+                                (buffer-list))))
+    (if buffers
+        (list-buffers-noselect nil buffers)
+      (message "No buffers for deleted files"))))
+
 (defun buffer-menu-find-alternate-file ()
   (interactive)
   (dolist (buf (Buffer-menu-marked-buffers))
@@ -42,11 +52,17 @@
       (find-alternate-file (buffer-file-name)))))
 
 
+(defun buffer-menu-sort-by-filename ()
+  (interactive)
+  (Buffer-menu-sort 6))
+
 (defun buffer-menu-keys ()
   (local-set-key (kbd "X") 'buffer-menu-execute-kill)
   (local-set-key (kbd "m") 'buffer-menu-filter-major-mode)
+  (local-set-key (kbd "O") 'buffer-menu-show-orhpaned)
   (local-set-key (kbd ">") 'Buffer-menu-mark)
   (local-set-key (kbd "V") 'buffer-menu-find-alternate-file)
+  (local-set-key (kbd "f") 'buffer-menu-sort-by-filename)
   (local-set-key (kbd "C-x C-b") 'list-buffers))
 
 
