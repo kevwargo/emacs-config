@@ -52,6 +52,7 @@
 
 (kec:install-packages)
 
+(load "config/pkg/company")
 (load "config/pkg/undo-tree")
 (load "config/pkg/term")
 (load "config/pkg/java")
