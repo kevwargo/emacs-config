@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t -*-
+
 (require 'transient)
 
 (defvar-local findgrep-directory nil)
@@ -233,7 +235,7 @@
                            (read-from-minibuffer "Findgrep command: " cmd nil nil 'findgrep--history)
                          cmd))
                      'grep-mode
-                     (lexical-let ((bufname (buffer-name (current-buffer))))
+                     (let ((bufname (buffer-name (current-buffer))))
                        (lambda (mode-name)
                          (format "*%s-<%s>*" mode-name bufname)))))
 

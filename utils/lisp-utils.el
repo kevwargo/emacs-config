@@ -1,4 +1,4 @@
-(require 'cl)
+(require 'cl-macs)
 
 (defun enclosure-list (list &optional tail)
   (or (and (numberp tail) (>= tail 1))
