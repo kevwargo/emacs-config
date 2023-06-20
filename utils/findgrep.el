@@ -15,8 +15,10 @@
 (defvar-local findgrep-exclude-js nil)
 (defvar-local findgrep-exclude-lock-files t)
 (defvar-local findgrep-include-go nil)
+(defvar-local findgrep-include-graphql nil)
 (defvar-local findgrep-include-typescript nil)
 (defvar-local findgrep-include-javascript nil)
+(defvar-local findgrep-include-emacs-lisp nil)
 (defvar-local findgrep-include-java nil)
 (defvar-local findgrep-include-python nil)
 
@@ -64,12 +66,18 @@
    ("g" "Search *.go files only" "*.go"
     :class findgrep--switch-include-name
     :value-var findgrep-include-go)
+   ("q" "Search *.graphql files only" "*.graphql"
+    :class findgrep--switch-include-name
+    :value-var findgrep-include-graphql)
    ("t" "Search *.ts files only" "*.ts"
     :class findgrep--switch-include-name
     :value-var findgrep-include-typescript)
    ("R" "Search *.js files only" "*.js"
     :class findgrep--switch-include-name
     :value-var findgrep-include-javascript)
+   ("E" "Search *.el files only" "*.el"
+    :class findgrep--switch-include-name
+    :value-var findgrep-include-emacs-lisp)
    ("J" "Search *.java files only" "*.java"
     :class findgrep--switch-include-name
     :value-var findgrep-include-java)
