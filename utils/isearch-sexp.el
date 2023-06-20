@@ -3,7 +3,7 @@
   (let ((symbol (substring-no-properties (thing-at-point 'symbol))))
     (if (not symbol)
         (message "No symbol at point")
-      (let ((search-string (concat "\\_<" symbol "\\_>")))
+      (let ((search-string (concat "\\_<" (regexp-quote symbol) "\\_>")))
         (setq isearch-regexp t
               isearch-word nil
               isearch-success t
