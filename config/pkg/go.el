@@ -1,3 +1,4 @@
+(require 'cl-seq)
 (require 'go-tag)
 
 (defvar-local go-test-verbose nil)
@@ -6,7 +7,7 @@
   (interactive)
   (let ((keys (this-command-keys-vector))
         (process-environment (append
-                              (remove-if
+                              (cl-remove-if
                                (lambda (e)
                                  (or (string= e "GOPATH")
                                      (and (> (length e) 7)

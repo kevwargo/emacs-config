@@ -1,24 +1,5 @@
 (require 'cl-macs)
 
-(defun enclosure-list (list &optional tail)
-  (or (and (numberp tail) (>= tail 1))
-      (setq tail 1))
-  (if (<= (length list) tail)
-      list
-    `(,(car list) ,(enclosure-list (cdr list) tail))))
-
-(defmacro c*r (what lst)
-  (when (or (stringp what)
-            (and (symbolp what)
-                 (setq what (symbol-name what))))
-    (enclosure-list (append (remove-if 'null
-                                       (mapcar (lambda (c)
-                                                 (cond ((= c ?a) 'car)
-                                                       ((= c ?d) 'cdr)))
-                                               what))
-                            (list lst))
-                    2)))
-
 (defun list-startswith-p (sublist list)
   "Return t if first (length `sublist') elements in `list' are equal to sublist
 or if `sublist' is nil, nil otherwise."
