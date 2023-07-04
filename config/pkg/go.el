@@ -1,5 +1,6 @@
 (require 'cl-seq)
 (require 'go-tag)
+(require 'lsp)
 
 (defvar-local go-test-verbose nil)
 
@@ -77,7 +78,9 @@
   (local-set-key (kbd "C-x h") 'godoc-at-point)
   (local-set-key (kbd "C-{") 'embrace-selected-lines)
   (local-set-key (kbd "C-x t") 'go-tag-refresh-json)
-  (local-set-key (kbd "C-x T") 'go-tag-add-json))
+  (local-set-key (kbd "C-x T") 'go-tag-add-json)
+
+  (lsp))
 
 (add-hook 'go-mode-hook 'go-hook)
 (add-hook 'before-save-hook 'gofmt-before-save)
