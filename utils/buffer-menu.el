@@ -28,7 +28,7 @@
                          mode-names
                        (list mode-names)))
          (buffers (cl-remove-if-not (lambda (b)
-                                  (find (with-current-buffer b
+                                  (cl-find (with-current-buffer b
                                           (symbol-name major-mode))
                                         mode-names
                                         :test 'string=))
