@@ -5,7 +5,6 @@
         connection
         default-text-scale
         dockerfile-mode
-        elpy
         f
         go-mode
         go-tag

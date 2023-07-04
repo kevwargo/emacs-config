@@ -1,5 +1,5 @@
 (require 's)
-(require 'elpy)
+(require 'lsp)
 (require 'pylint)
 (require 'python-black)
 (require 'python-isort)
@@ -41,9 +41,18 @@
                         "--disable=invalid-name"
                         "--disable=bare-except"
                         "--disable=too-many-ancestors")))
-  ; black should run after isort
+                                        ; black should run after isort
   (add-hook 'before-save-hook 'python-isort-buffer -1 t)
-  (add-hook 'before-save-hook 'python-black-buffer 0 t))
+  (add-hook 'before-save-hook 'python-black-buffer 0 t)
+  (local-set-key (kbd "C-c v")
+                 (let ((m (make-sparse-keymap)))
+                   (define-key m (kbd "RET") 'py-find-in-venv)
+                   (define-key m (kbd "<left>") 'py-find-in-venv-left)
+                   (define-key m (kbd "<right>") 'py-find-in-venv-right)
+                   (define-key m (kbd "<up>") 'py-find-in-venv-up)
+                   (define-key m (kbd "<down>") 'py-find-in-venv-down)
+                   m))
+  (lsp))
 
 (defun pylint-dir (dir)
   (interactive (list (ido-read-directory-name "Pylint whole dir: ")))
@@ -166,29 +175,3 @@
               (error "Directory %s does not belong to a pip project" default-directory)))))))
 
 (add-hook 'python-mode-hook 'setup-py-mode)
-
-(defun elpy-customize-keymap ()
-  (define-key elpy-mode-map (kbd "<M-up>") nil)
-  (define-key elpy-mode-map (kbd "<M-down>") nil)
-  (define-key elpy-mode-map (kbd "<M-left>") nil)
-  (define-key elpy-mode-map (kbd "<M-right>") nil)
-  (define-key elpy-mode-map (kbd "<C-up>") nil)
-  (define-key elpy-mode-map (kbd "<C-down>") nil)
-  (define-key elpy-mode-map (kbd "C-<") 'elpy-nav-indent-shift-left)
-  (define-key elpy-mode-map (kbd "C->") 'elpy-nav-indent-shift-right)
-  (define-key elpy-mode-map (kbd "<C-return>") 'elpy-open-and-indent-line-below)
-  (define-key elpy-mode-map (kbd "<S-return>") nil)
-  (define-key elpy-mode-map (kbd "<C-S-return>") nil)
-  (define-key elpy-mode-map
-    (kbd "C-c v")
-    (let ((m (make-sparse-keymap)))
-      (define-key m (kbd "RET") 'py-find-in-venv)
-      (define-key m (kbd "<left>") 'py-find-in-venv-left)
-      (define-key m (kbd "<right>") 'py-find-in-venv-right)
-      (define-key m (kbd "<up>") 'py-find-in-venv-up)
-      (define-key m (kbd "<down>") 'py-find-in-venv-down)
-      m)))
-
-(add-hook 'elpy-mode-hook 'elpy-customize-keymap)
-
-(elpy-enable)
