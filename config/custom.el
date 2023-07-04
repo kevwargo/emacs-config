@@ -64,6 +64,7 @@
  '(go-test--ok-face ((t (:foreground "forest green"))))
  '(go-test--warning-face ((t (:foreground "goldenrod"))))
  '(magit-section-highlight ((t (:background "ghost white"))))
+ '(markdown-code-face ((t (:inherit fixed-pitch :height 110))))
  '(py-builtins-face ((t :foreground "#0057ae")))
  '(py-class-name-face ((t :foreground "DarkOliveGreen")))
  '(py-decorators-face ((t :foreground "SaddleBrown")))
