@@ -12,6 +12,7 @@
         goto-last-change
         graphql-mode
         indent-tools
+        json-mode
         lsp-java
         lsp-mode
         magit
