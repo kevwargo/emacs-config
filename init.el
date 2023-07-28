@@ -37,6 +37,7 @@
 (load "config/c")
 (load "config/comint")
 (load "config/ielm")
+(load "config/ido")
 (load "config/js")
 (load "config/makefile")
 (load "config/sh")

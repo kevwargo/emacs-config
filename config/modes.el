@@ -1,6 +1,4 @@
 (require 'show-point-mode)
-(require 'ido)
-
 
 (add-to-list 'load-path (concat kec:config-dir "rules-editing-mode"))
 
@@ -17,7 +15,6 @@
 
 (global-subword-mode)
 
-(ido-mode 1)
 (column-number-mode t)
 (show-point-mode t)
 (delete-selection-mode t)
