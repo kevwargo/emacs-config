@@ -15,10 +15,10 @@
                         prev-key)
                    (seq-do-indexed (lambda (key idx)
                                      (cond ((= idx (1- keys-len))
-                                            (if (equalp key prev-key)
+                                            (if (equal key prev-key)
                                                 (insert-key-description key (1+ prev-counter))
                                               (insert-key-description key 1)))
-                                           ((equalp key prev-key)
+                                           ((equal key prev-key)
                                             (setq prev-counter (1+ prev-counter)))
                                            (prev-key
                                             (insert-key-description prev-key prev-counter)
