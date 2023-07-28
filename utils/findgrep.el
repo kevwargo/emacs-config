@@ -13,6 +13,7 @@
 (defvar-local findgrep-exclude-temp t)
 (defvar-local findgrep-exclude-temp-sockets t)
 (defvar-local findgrep-exclude-js nil)
+(defvar-local findgrep-exclude-d-ts nil)
 (defvar-local findgrep-exclude-lock-files t)
 (defvar-local findgrep-exclude-go-test-files nil)
 (defvar-local findgrep-include-go nil)
@@ -61,6 +62,9 @@
    ("j" "Exclude *.js files" "*.js"
     :class findgrep--switch-exclude-name
     :value-var findgrep-exclude-js)
+   ("D" "Exclude *.d.ts files" "*.d.ts"
+    :class findgrep--switch-exclude-name
+    :value-var findgrep-exclude-d-ts)
    ("l" "Exclude package-lock.json files" "package-lock.json"
     :class findgrep--switch-exclude-name
     :value-var findgrep-exclude-lock-files)
