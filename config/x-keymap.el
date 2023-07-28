@@ -34,6 +34,7 @@
             (define-key m (kbd "M-<right>") 'windmove-right)
             (define-key m (kbd "M-<up>") 'windmove-up)
             (define-key m (kbd "M-<down>") 'windmove-down)
+            (define-key m (kbd "C-c C-u") 'browse-url-at-point)
             m)
   :global t)
 
