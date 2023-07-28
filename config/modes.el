@@ -2,9 +2,6 @@
 
 (add-to-list 'load-path (concat kec:config-dir "rules-editing-mode"))
 
-;(load "pddl-mode")
-;(load "my-drools")
-
 (defun enable-linum-in-some-buffers ()
   (or (minibufferp)
       (derived-mode-p
