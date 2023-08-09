@@ -1,5 +1,4 @@
 (require 's)
-(require 'lsp)
 (require 'pylint)
 (require 'python-black)
 (require 'python-isort)
@@ -8,7 +7,7 @@
 
 (defun pipfile-dir ()
   (and (buffer-file-name)
-       (locate-dominating-file buffer-file-name "Pipfile")))
+       (locate-dominating-file (buffer-file-name) "Pipfile")))
 
 (defun py-get-venv ()
   (or py-venv-path
@@ -51,8 +50,7 @@
                    (define-key m (kbd "<right>") 'py-find-in-venv-right)
                    (define-key m (kbd "<up>") 'py-find-in-venv-up)
                    (define-key m (kbd "<down>") 'py-find-in-venv-down)
-                   m))
-  (lsp))
+                   m)))
 
 (defun pylint-dir (dir)
   (interactive (list (ido-read-directory-name "Pylint whole dir: ")))

@@ -22,6 +22,7 @@
         paredit
         powershell
         prettier
+        project
         pylint
         python-black
         python-isort

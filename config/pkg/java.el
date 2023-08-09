@@ -1,4 +1,5 @@
 (require 'f)
+(require 'project)
 (require 'lsp-java)
 
 (defconst lsp-java-custom-project-file ".lsp-java-project.el")
@@ -14,7 +15,7 @@
         (if (f-dir? prj-dir)
             (progn
               (message "Using %s as a custom lsp-java project" prj-dir)
-              (cons 'vc prj-dir))
+              prj-dir)
           (message "Cannot use %s: not a directory" prj-dir)
           nil))
       (progn
@@ -28,9 +29,4 @@
           (error "`google-java-format-jar' is not defined"))
   :lighter " GJF")
 
-(add-hook 'java-mode-hook 'lsp)
 (add-hook 'java-mode-hook 'google-java-format-on-save-mode)
-(add-to-list 'project-find-functions 'find-custom-lsp-java-project)
-
-(define-key lsp-mode-map (kbd "M-e") #'lsp-execute-code-action)
-(define-key lsp-mode-map (kbd "C-c C-z") #'lsp-organize-imports)

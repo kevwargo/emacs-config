@@ -1,5 +1,4 @@
 (require 'go-tag)
-(require 'lsp)
 
 (defvar-local go-test-verbose nil)
 
@@ -32,13 +31,12 @@
                            "pascalcase"
                            "keep"))))))
 
-
 (defun go-setup-keys ()
   (local-set-key (kbd "C-{") 'embrace-selected-lines)
   (local-set-key (kbd "C-x V") 'go-toggle-test-verbose)
   (local-set-key (kbd "C-x t") 'go-tag-refresh-json)
   (local-set-key (kbd "C-x T") 'go-tag-add-json))
 
+
 (add-hook 'go-mode-hook 'go-setup-keys)
-(add-hook 'go-mode-hook 'lsp)
 (add-hook 'before-save-hook 'gofmt-before-save)
