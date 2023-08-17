@@ -2,15 +2,8 @@
 
 (add-to-list 'load-path (concat kec:config-dir "rules-editing-mode"))
 
-(defun enable-linum-in-some-buffers ()
-  (or (minibufferp)
-      (derived-mode-p
-       'comint-mode
-       'help-mode
-       'term-mode)
-      (linum-mode 1)))
-
 (global-subword-mode)
+(global-display-line-numbers-mode)
 
 (column-number-mode t)
 (show-point-mode t)
@@ -36,6 +29,3 @@
 (add-to-list 'auto-mode-alist '("\\.gitignore$" . conf-mode))
 (add-to-list 'auto-mode-alist '("crontab\\.[a-zA-Z0-9]+\\'" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.mdx$" . markdown-mode))
-
-(add-hook 'after-change-major-mode-hook 'enable-linum-in-some-buffers)
-
