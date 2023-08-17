@@ -1,5 +1,6 @@
 ;;; -*- lexical-binding: t -*-
 
+(require 'cl-generic)
 (require 'transient)
 
 (defvar-local findgrep-directory nil)
@@ -143,7 +144,7 @@
   ()
   :abstract t)
 
-(defgeneric findgrep--list-value ())
+(cl-defgeneric findgrep--list-value ())
 
 (cl-defmethod transient-infix-value ((obj findgrep--switch-find))
   (when (oref obj value)
