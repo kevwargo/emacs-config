@@ -201,10 +201,6 @@ If point was already at that position, move point to beginning of line."
    (list (ido-read-file-name "imv-open: ")))
   (start-process "imv" nil "imv" filename))
 
-(defun open-stumpwmrc ()
-  (interactive)
-  (find-file (file-truename "~/.stumpwmrc")))
-
 (defun md5-line-or-region ()
   (interactive)
   (message
@@ -230,7 +226,7 @@ If point was already at that position, move point to beginning of line."
     (when file
       (if (not (= (call-process "sudo" nil nil nil "chmod" "a+rw" file) 0))
           (message "Cannot chmod file %S" file)))))
-      
+
 (defun find-file-from-buffer ()
   (interactive)
   (let* ((buf (ido-read-buffer "Buffer: " nil t))
@@ -287,7 +283,7 @@ mark from the beginning of line instead of from the first non-whitespace charact
 (defun sudo-save-buffer ()
   (interactive)
   (when-let* ((filename (shell-quote-argument (buffer-file-name)))
-              (tmpfile (make-temp-file "emacs-sudofile"))) 
+              (tmpfile (make-temp-file "emacs-sudofile")))
     (unwind-protect
         (progn
           (write-region (point-min) (point-max) tmpfile)

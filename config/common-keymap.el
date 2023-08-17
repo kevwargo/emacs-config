@@ -91,8 +91,6 @@
 
 (global-set-key (kbd "C-x F") 'findgrep)
 
-(global-set-key (kbd "C-c C-s") 'open-stumpwmrc)
-
 (global-set-key (kbd "C-c C") 'to-camel-case-at-point)
 
 (global-set-key (kbd "C-c C-v")
