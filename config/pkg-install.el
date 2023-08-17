@@ -27,6 +27,7 @@
         python-black
         python-isort
         restclient
+        restclient-jq
         s
         string-inflection
         typescript-mode
