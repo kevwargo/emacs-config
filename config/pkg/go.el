@@ -31,12 +31,11 @@
                            "pascalcase"
                            "keep"))))))
 
-(defun go-setup-keys ()
+(defun setup-go-mode ()
+  (add-hook 'before-save-hook 'gofmt-before-save 0 t)
   (local-set-key (kbd "C-{") 'embrace-selected-lines)
   (local-set-key (kbd "C-x V") 'go-toggle-test-verbose)
   (local-set-key (kbd "C-x t") 'go-tag-refresh-json)
   (local-set-key (kbd "C-x T") 'go-tag-add-json))
 
-
-(add-hook 'go-mode-hook 'go-setup-keys)
-(add-hook 'before-save-hook 'gofmt-before-save)
+(add-hook 'go-mode-hook 'setup-go-mode)
