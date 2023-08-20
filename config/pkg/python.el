@@ -1,7 +1,7 @@
 (require 's)
-(require 'pylint)
 (require 'python-black)
 (require 'python-isort)
+(require 'lsp-pylsp)
 
 (defvar-local py-venv-path nil)
 
@@ -26,23 +26,10 @@
                       (s-trim output))))))))
 
 (defun setup-py-mode ()
-  (message "setup-py-mode called")
-  (if (py-get-venv)
-      (setq-local pylint-command "pipenv run pylint"))
-  (setq-local auto-fill-function nil)
-  (setq-local forward-sexp-function nil)
-  (setq-local pylint-options
-              (append pylint-options
-                      '("--disable=missing-docstring"
-                        "--disable=wrong-import-order"
-                        "--disable=too-many-arguments"
-                        "--disable=line-too-long"
-                        "--disable=invalid-name"
-                        "--disable=bare-except"
-                        "--disable=too-many-ancestors")))
-                                        ; black should run after isort
   (add-hook 'before-save-hook 'python-isort-buffer -1 t)
-  (add-hook 'before-save-hook 'python-black-buffer 0 t)
+  (add-hook 'before-save-hook 'python-black-buffer 0 t) ;; black should run after isort
+  (setq-local forward-sexp-function nil)
+  (setq-local lsp-pylsp-plugins-jedi-environment (py-get-venv))
   (local-set-key (kbd "C-c v")
                  (let ((m (make-sparse-keymap)))
                    (define-key m (kbd "RET") 'py-find-in-venv)
@@ -51,20 +38,6 @@
                    (define-key m (kbd "<up>") 'py-find-in-venv-up)
                    (define-key m (kbd "<down>") 'py-find-in-venv-down)
                    m)))
-
-(defun pylint-dir (dir)
-  (interactive (list (ido-read-directory-name "Pylint whole dir: ")))
-  (let ((command (mapconcat
-                  'identity
-                  (append `(,pylint-command) pylint-options `(,dir))
-                  " ")))
-    (compilation-start command 'pylint-mode)))
-
-(defun pylint-pipenv ()
-  (interactive)
-  (let ((pylint-command "pipenv")
-        (pylint-options (append '("run" "pylint") pylint-options)))
-    (pylint)))
 
 (defun py-get-venv-path ()
   (let* ((py-venv-path (py-get-venv))
