@@ -16,7 +16,6 @@
 (defun go-tag-refresh-json (&optional transform)
   (interactive (list (-go-tag-read-transform current-prefix-arg)))
   (let ((go-tag-args (append go-tag-args transform)))
-    (scratch-log-expr go-tag-args)
     (go-tag-refresh "json")))
 
 (defun -go-tag-read-transform (raw)
@@ -24,12 +23,12 @@
     (list "-transform"
           (if (stringp raw)
               raw
-            (read-string "Transform (letter case): " nil nil
-                         '("snakecase"
-                           "camelcase"
-                           "lispcase"
-                           "pascalcase"
-                           "keep"))))))
+            (completing-read "Transform (letter case): "
+                             '("snakecase"
+                               "camelcase"
+                               "lispcase"
+                               "pascalcase"
+                               "keep"))))))
 
 (defun setup-go-mode ()
   (add-hook 'before-save-hook 'gofmt-before-save 0 t)
