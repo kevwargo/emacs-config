@@ -31,3 +31,4 @@
 (add-hook 'after-change-major-mode-hook 'setup-lsp-mode)
 (define-key lsp-mode-map (kbd "M-e") #'lsp-execute-code-action)
 (define-key lsp-mode-map (kbd "C-c C-z") #'lsp-organize-imports)
+(define-key lsp-mode-map (kbd "C-x w") #'lsp-rename)
