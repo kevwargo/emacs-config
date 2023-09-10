@@ -44,4 +44,5 @@
 (load "config/debug")
 (load "config/temp-files")
 (load "config/smerge")
+(load "config/flymake")
 (load "config/after-init")
