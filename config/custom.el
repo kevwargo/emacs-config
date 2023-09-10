@@ -38,7 +38,7 @@
    '(("gnu" . "https://elpa.gnu.org/packages/")
      ("melpa" . "https://melpa.org/packages/")))
  '(package-selected-packages
-   '(yasnippet json-mode csv-mode restclient-jq f company yaml-mode uuidgen undo-tree typescript-mode string-inflection restclient python-isort python-black pylint prettier powershell paredit neotree multi-term nil magit lsp-java lsp-mode indent-tools graphql-mode goto-last-change gotest go-tag go-mode elpy dockerfile-mode default-text-scale connection))
+   '(editorconfig yasnippet json-mode csv-mode restclient-jq f company yaml-mode uuidgen undo-tree typescript-mode string-inflection restclient python-isort python-black pylint prettier powershell paredit neotree multi-term nil magit lsp-java lsp-mode indent-tools graphql-mode goto-last-change gotest go-tag go-mode elpy dockerfile-mode default-text-scale connection))
  '(py-split-window-on-execute t)
  '(py-split-windows-on-execute-function 'split-window-horizontally)
  '(py-underscore-word-syntax-p nil)
