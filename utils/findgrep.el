@@ -2,6 +2,7 @@
 
 (require 'cl-generic)
 (require 'transient)
+(require 'dash)
 
 (defvar-local findgrep-directory nil)
 (defvar-local findgrep-regexp nil)
@@ -124,6 +125,7 @@
   ["Actions"
    ([RET] "Run" findgrep--run)
    ("e" "Edit & Run" findgrep--edit-run)
+   ("X" "Replace" findgrep--replace)
    ("/" "Show cmdline" findgrep--show-cmdline)])
 
 (defclass findgrep--switch (transient-switch)
@@ -216,6 +218,12 @@
       arg
     (format "'%s'" (string-replace "'" "'\\''" arg))))
 
+(defun findgrep-regexp ()
+  (let ((regexp (findgrep--extract-arg-values 'findgrep--infix-regexp)))
+    (if (consp regexp)
+        (car regexp)
+      (user-error "No regexp provided"))))
+
 (defun findgrep--build-cmdline ()
   (let ((find-path-opts (mapconcat (lambda (arg)
                                      (mapconcat 'findgrep--smart-quote arg " "))
@@ -228,16 +236,13 @@
         (grep-opts (apply 'string ?- (mapcar (lambda (arg)
                                                (aref arg 1))
                                              (findgrep--extract-arg-values 'findgrep--switch-grep))))
-        (regexp (car-safe (findgrep--extract-arg-values 'findgrep--infix-regexp)))
         (dir (car-safe (findgrep--extract-arg-values 'findgrep--infix-dir))))
-    (unless regexp
-      (user-error "No regexp provided"))
     (format "cd %s && find . %s -type f %s -exec grep --color=always %s %s {} +"
             (findgrep--smart-quote dir)
             find-path-opts
             find-name-opts
             grep-opts
-            (findgrep--smart-quote regexp))))
+            (findgrep--smart-quote (findgrep-regexp)))))
 
 (defun findgrep--show-cmdline ()
   (interactive)
@@ -260,3 +265,33 @@
 (defun findgrep--edit-run ()
   (interactive)
   (findgrep--run-command t))
+
+(defun findgrep--replace (replacement)
+  (interactive (list (read-string "Replace with: ")))
+  (cl-flet* ((find-files ()
+                         (with-temp-buffer
+                           (let* ((args (-flatten (list
+                                                   (findgrep--extract-arg-values 'findgrep--infix-dir)
+                                                   (findgrep--extract-arg-values 'findgrep--switch-exclude-path)
+                                                   "-type" "f"
+                                                   (findgrep--extract-arg-values 'findgrep--switch-name)
+                                                   "-printf" "\"%p\"")))
+                                  (code (apply 'call-process
+                                               "find" nil t nil
+                                               args)))
+                             (unless (equal code 0)
+                               (user-error "find finished with %s: %s"
+                                           code (buffer-substring-no-properties (point-min) (point-max)))))
+                           (goto-char (point-min))
+                           (insert "(")
+                           (goto-char (point-max))
+                           (insert ")")
+                           (goto-char (point-min))
+                           (read (current-buffer))))
+             (fetcher ()
+                      (let ((files (find-files)))
+                        (if files
+                            (xref-matches-in-files (findgrep-regexp) files)
+                          (user-error "No files found")))))
+    (with-current-buffer (xref--show-xrefs #'fetcher nil)
+      (xref-query-replace-in-results (findgrep-regexp) replacement))))
