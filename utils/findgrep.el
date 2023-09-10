@@ -148,8 +148,7 @@
 
 (cl-defmethod transient-infix-value ((obj findgrep--switch-find))
   (when (oref obj value)
-    (mapcar 'findgrep--smart-quote
-            (findgrep--list-value obj))))
+    (findgrep--list-value obj)))
 
 (defclass findgrep--switch-exclude-path (findgrep--switch-find) ())
 (cl-defmethod findgrep--list-value ((obj findgrep--switch-exclude-path))
@@ -169,7 +168,11 @@
 
 (defclass findgrep--switch-grep (findgrep--switch) ())
 
-(defclass findgrep--infix-regexp (transient-option)
+(defclass findgrep--infix-option (transient-option) ())
+(cl-defmethod transient-infix-value ((obj findgrep--infix-option))
+  (oref obj value))
+
+(defclass findgrep--infix-regexp (findgrep--infix-option)
   ((always-read :initform t)
    (allow-empty :initform nil)))
 
@@ -180,26 +183,18 @@
                                      (region-end)))
                     findgrep-regexp)))
 
-(cl-defmethod transient-infix-value ((obj findgrep--infix-regexp))
-  (when-let ((value (oref obj value)))
-    (findgrep--smart-quote value)))
-
 (cl-defmethod transient-format-value ((obj findgrep--infix-regexp))
   (or (oref obj value) ""))
 
 (cl-defmethod transient-infix-set :after ((obj findgrep--infix-regexp) value)
   (setq findgrep-regexp value))
 
-(defclass findgrep--infix-dir (transient-option) ())
+(defclass findgrep--infix-dir (findgrep--infix-option) ())
 
 (cl-defmethod transient-init-value ((obj findgrep--infix-dir))
   (oset obj value
         (or findgrep-directory
             default-directory)))
-
-(cl-defmethod transient-infix-value ((obj findgrep--infix-dir))
-  (when-let ((value (oref obj value)))
-    (findgrep--smart-quote value)))
 
 (cl-defmethod transient-format-value ((obj findgrep--infix-dir))
   (or (oref obj value) ""))
@@ -217,15 +212,17 @@
                     transient-current-suffixes)))
 
 (defun findgrep--smart-quote (arg)
-  (format "'%s'" (string-replace "'" "'\"'\"'" arg)))
+  (if (string-match-p "^\\([[:alnum:]_.,:+=^%@-]+\\|!\\)$" arg)
+      arg
+    (format "'%s'" (string-replace "'" "'\\''" arg))))
 
 (defun findgrep--build-cmdline ()
   (let ((find-path-opts (mapconcat (lambda (arg)
-                                     (mapconcat 'identity arg " "))
+                                     (mapconcat 'findgrep--smart-quote arg " "))
                                    (findgrep--extract-arg-values 'findgrep--switch-exclude-path)
                                    " "))
         (find-name-opts (mapconcat (lambda (arg)
-                                     (mapconcat 'identity arg " "))
+                                     (mapconcat 'findgrep--smart-quote arg " "))
                                    (findgrep--extract-arg-values 'findgrep--switch-name)
                                    " "))
         (grep-opts (apply 'string ?- (mapcar (lambda (arg)
@@ -236,11 +233,11 @@
     (unless regexp
       (user-error "No regexp provided"))
     (format "cd %s && find . %s -type f %s -exec grep --color=always %s %s {} +"
-            dir
+            (findgrep--smart-quote dir)
             find-path-opts
             find-name-opts
             grep-opts
-            regexp)))
+            (findgrep--smart-quote regexp))))
 
 (defun findgrep--show-cmdline ()
   (interactive)
