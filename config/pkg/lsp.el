@@ -22,7 +22,7 @@
                                         (if-let ((prj-dir (find-prj-dir dir project-descriptor)))
                                             (progn
                                               (message "Found LSP project dir for %s (%s)" file-name major-mode)
-                                              (cons 'vc prj-dir))
+                                              `(transient . ,prj-dir))
                                           (message "LSP project dir for %s (%s) not found" file-name major-mode)
                                           nil)))
                                      project-find-functions)))
