@@ -34,9 +34,6 @@
  '(magit-refresh-verbose nil)
  '(markdown-command-needs-filename t)
  '(org-support-shift-select t)
- '(package-archives
-   '(("gnu" . "https://elpa.gnu.org/packages/")
-     ("melpa" . "https://melpa.org/packages/")))
  '(package-selected-packages
    '(editorconfig yasnippet json-mode csv-mode restclient-jq f company yaml-mode uuidgen undo-tree typescript-mode string-inflection restclient python-isort python-black pylint prettier powershell paredit neotree multi-term nil magit lsp-java lsp-mode indent-tools graphql-mode goto-last-change gotest go-tag go-mode elpy dockerfile-mode default-text-scale connection))
  '(py-split-window-on-execute t)
@@ -44,7 +41,8 @@
  '(py-underscore-word-syntax-p nil)
  '(require-final-newline t)
  '(tab-always-indent t)
- '(tool-bar-mode nil))
+ '(tool-bar-mode nil)
+ '(warning-suppress-log-types '((comp))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

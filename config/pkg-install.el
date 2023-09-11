@@ -5,6 +5,7 @@
         connection
         default-text-scale
         dockerfile-mode
+        editorconfig
         f
         go-mode
         go-tag
