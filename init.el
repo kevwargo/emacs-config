@@ -16,7 +16,6 @@
 (load "utils/convert")
 (load "utils/windmove-extra")
 (load "utils/term")
-(load "utils/isearch-sexp")
 (load "utils/konsole")
 (load "utils/easy-window-split")
 (load "utils/key-overrides")
@@ -29,6 +28,7 @@
 (load "utils/recent-keys")
 
 (load "config/modes")
+(load "config/isearch")
 (load "config/lisp-modes")
 (load "config/vars")
 (load "config/faces")

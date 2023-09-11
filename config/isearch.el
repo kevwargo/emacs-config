@@ -10,4 +10,11 @@
               isearch-adjusted t)
         (isearch-process-search-string search-string search-string)))))
 
+(defun isearch-findgrep ()
+  (interactive)
+  (let ((findgrep-regexp isearch-string))
+    (isearch-exit)
+    (call-interactively 'findgrep)))
+
 (define-key isearch-mode-map (kbd "C-x") 'insert-current-symbol)
+(define-key isearch-mode-map (kbd "C-S-f") 'isearch-findgrep)
