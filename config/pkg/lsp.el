@@ -1,5 +1,5 @@
-(require 'project)
 (require 'lsp-mode)
+(require 'project)
 
 (defvar lsp-modes
   '((go-mode . "go.mod")
@@ -7,15 +7,39 @@
     (typescript-mode . "package.json")
     (java-mode . find-custom-lsp-java-project)))
 
+(defvar-local lsp--current-highlights nil)
+
+(defun lsp--update-highlights (highlights)
+  (setq lsp--current-highlights
+        (sort (-map (-lambda ((&DocumentHighlight :range (&Range :start (start &as &Position)
+                                                                 :end (end &as &Position))))
+                      (mapcar 'lsp--position-to-point (list start end)))
+                    highlights)
+              (lambda (h1 h2) (< (car h1) (car h2))))))
+
+(advice-add 'lsp--document-highlight-callback :before 'lsp--update-highlights)
+
+(defun lsp-next-highlight ()
+  (interactive)
+  (when-let ((highlight (or (--find (> (car it) (point)) lsp--current-highlights)
+                            (car lsp--current-highlights))))
+    (goto-char (car highlight))))
+
+(defun lsp-previous-highlight ()
+  (interactive)
+  (when-let ((highlight (or (--last (< (cadr it) (point)) lsp--current-highlights)
+                            (car (last lsp--current-highlights)))))
+    (goto-char (car highlight))))
+
 (defun setup-lsp-mode ()
   (when-let ((file-name (buffer-file-name))
              (project-descriptor (cdr-safe (assoc major-mode lsp-modes))))
     (cl-labels ((find-prj-dir (dir desc)
-                              (cond ((consp desc)
-                                     (or (locate-dominating-file dir (car desc))
-                                         (find-prj-dir dir (cdr desc))))
-                                    ((stringp desc)
-                                     (find-prj-dir dir (list desc))))))
+                  (cond ((consp desc)
+                         (or (locate-dominating-file dir (car desc))
+                             (find-prj-dir dir (cdr desc))))
+                        ((stringp desc)
+                         (find-prj-dir dir (list desc))))))
       (let ((project-find-functions (append
                                      (list
                                       (lambda (dir)
@@ -29,6 +53,10 @@
         (lsp)))))
 
 (add-hook 'after-change-major-mode-hook 'setup-lsp-mode)
-(define-key lsp-mode-map (kbd "M-e") #'lsp-execute-code-action)
-(define-key lsp-mode-map (kbd "C-c C-z") #'lsp-organize-imports)
-(define-key lsp-mode-map (kbd "C-x w") #'lsp-rename)
+
+(let ((m lsp-mode-map))
+  (define-key m (kbd "M-e") #'lsp-execute-code-action)
+  (define-key m (kbd "C-c C-z") #'lsp-organize-imports)
+  (define-key m (kbd "C-<prior>") #'lsp-previous-highlight)
+  (define-key m (kbd "C-<next>") #'lsp-next-highlight)
+  (define-key m (kbd "C-x w") #'lsp-rename))
