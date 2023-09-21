@@ -5,12 +5,14 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector
    ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
+ '(auto-save-default nil)
  '(c-report-syntactic-errors t)
  '(case-fold-search t)
  '(case-replace t)
  '(comint-input-ignoredups t)
  '(company-minimum-prefix-length 1)
  '(company-selection-wrap-around t)
+ '(create-lockfiles nil)
  '(custom-enabled-themes '(adwaita))
  '(custom-file (concat kec:config-dir "config/custom.el"))
  '(custom-safe-themes
@@ -35,7 +37,7 @@
  '(markdown-command-needs-filename t)
  '(org-support-shift-select t)
  '(package-selected-packages
-   '(editorconfig yasnippet json-mode csv-mode restclient-jq f company yaml-mode uuidgen undo-tree typescript-mode string-inflection restclient python-isort python-black pylint prettier powershell paredit neotree multi-term nil magit lsp-java lsp-mode indent-tools graphql-mode goto-last-change gotest go-tag go-mode elpy dockerfile-mode default-text-scale connection))
+   '(rjsx-mode editorconfig yasnippet json-mode csv-mode restclient-jq f company yaml-mode uuidgen undo-tree typescript-mode string-inflection restclient python-isort python-black pylint prettier powershell paredit neotree multi-term nil magit lsp-java lsp-mode indent-tools graphql-mode goto-last-change gotest go-tag go-mode elpy dockerfile-mode default-text-scale connection))
  '(py-split-window-on-execute t)
  '(py-split-windows-on-execute-function 'split-window-horizontally)
  '(py-underscore-word-syntax-p nil)
@@ -62,6 +64,8 @@
  '(go-test--ok-face ((t (:foreground "forest green"))))
  '(go-test--warning-face ((t (:foreground "goldenrod"))))
  '(lsp-face-highlight-read ((t (:inherit highlight :background "olive drab" :underline t))))
+ '(lsp-face-highlight-textual ((t (:inherit highlight :background "olive drab" :underline t))))
+ '(lsp-face-highlight-write ((t (:inherit highlight :background "olive drab" :underline t))))
  '(magit-section-highlight ((t (:background "ghost white"))))
  '(markdown-code-face ((t (:inherit fixed-pitch :height 110))))
  '(py-builtins-face ((t :foreground "#0057ae")))
