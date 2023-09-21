@@ -39,86 +39,88 @@
 
 (transient-define-prefix findgrep ()
   "Run a complex find-grep command in a directory."
-  ["Find args"
-   ("c" "Exclude cdk.out directories" "cdk.out"
-    :class findgrep--switch-exclude-path
-    :value-var findgrep-exclude-cdk-out)
-   ("v" "Exclude cover directories" "cover"
-    :class findgrep--switch-exclude-path
-    :value-var findgrep-exclude-cover)
-   ("n" "Exclude node_modules directories" "node_modules"
-    :class findgrep--switch-exclude-path
-    :value-var findgrep-exclude-node-modules)
-   ("s" "Exclude .serverless directories" ".serverless"
-    :class findgrep--switch-exclude-path
-    :value-var findgrep-exclude-serverless)
-   ("~" "Exclude autosave files" "*~"
-    :class findgrep--switch-exclude-name
-    :value-var findgrep-exclude-autosave)
-   ("#" "Exclude Emacs temp files" "#*#"
-    :class findgrep--switch-exclude-name
-    :value-var findgrep-exclude-temp)
-   (".#" "Exclude Emacs temp sockets" ".#*#"
-    :class findgrep--switch-exclude-name
-    :value-var findgrep-exclude-temp-sockets)
-   ("j" "Exclude *.js files" "*.js"
-    :class findgrep--switch-exclude-name
-    :value-var findgrep-exclude-js)
-   ("D" "Exclude *.d.ts files" "*.d.ts"
-    :class findgrep--switch-exclude-name
-    :value-var findgrep-exclude-d-ts)
-   ("l" "Exclude package-lock.json files" "package-lock.json"
-    :class findgrep--switch-exclude-name
-    :value-var findgrep-exclude-lock-files)
-   ("T" "Exclude *_test.go files" "*_test.go"
-    :class findgrep--switch-exclude-name
-    :value-var findgrep-exclude-go-test-files)
-   ("g" "Search *.go files only" "*.go"
-    :class findgrep--switch-include-name
-    :value-var findgrep-include-go)
-   ("q" "Search *.graphql files only" "*.graphql"
-    :class findgrep--switch-include-name
-    :value-var findgrep-include-graphql)
-   ("t" "Search *.ts files only" "*.ts"
-    :class findgrep--switch-include-name
-    :value-var findgrep-include-typescript)
-   ("R" "Search *.js files only" "*.js"
-    :class findgrep--switch-include-name
-    :value-var findgrep-include-javascript)
-   ("E" "Search *.el files only" "*.el"
-    :class findgrep--switch-include-name
-    :value-var findgrep-include-emacs-lisp)
-   ("J" "Search *.java files only" "*.java"
-    :class findgrep--switch-include-name
-    :value-var findgrep-include-java)
-   ("p" "Search *.py files only" "*.py"
-    :class findgrep--switch-include-name
-    :value-var findgrep-include-python)]
-  ["Grep args"
-   ("-i" "Ignore case" "-i"
-    :class findgrep--switch-grep
-    :value-var findgrep-ignore-case)
-   ("-l" "Filenames only" "-l"
-    :class findgrep--switch-grep
-    :value-var findgrep-filenames-only)
-   ("-E" "Extended regexp" "-E"
-    :class findgrep--switch-grep
-    :value-var findgrep-extended-regexp)
-   ("-P" "Perl regexp" "-P"
-    :class findgrep--switch-grep
-    :value-var findgrep-perl-regexp)
-   ("-w" "Match whole word" "-w"
-    :class findgrep--switch-grep
-    :value-var findgrep-whole-word)
-   ("-H" "Show filename" "-H"
-    :class findgrep--switch-grep
-    :value-var findgrep-show-filenames)
-   ("-n" "Show line numbers" "-n"
-    :class findgrep--switch-grep
-    :value-var findgrep-show-line-numbers)
-   ("-I" "Ignore binary files" "-I"
-    :class findgrep--switch-grep
-    :value-var findgrep-ignore-binary-files)]
+  [["Exclude paths"
+    ("c" "Exclude cdk.out directories" "cdk.out"
+     :class findgrep--switch-exclude-path
+     :value-var findgrep-exclude-cdk-out)
+    ("v" "Exclude cover directories" "cover"
+     :class findgrep--switch-exclude-path
+     :value-var findgrep-exclude-cover)
+    ("n" "Exclude node_modules directories" "node_modules"
+     :class findgrep--switch-exclude-path
+     :value-var findgrep-exclude-node-modules)
+    ("s" "Exclude .serverless directories" ".serverless"
+     :class findgrep--switch-exclude-path
+     :value-var findgrep-exclude-serverless)]
+   ["Exclude files"
+    ("~" "Exclude autosave files" "*~"
+     :class findgrep--switch-exclude-name
+     :value-var findgrep-exclude-autosave)
+    ("#" "Exclude Emacs temp files" "#*#"
+     :class findgrep--switch-exclude-name
+     :value-var findgrep-exclude-temp)
+    (".#" "Exclude Emacs temp sockets" ".#*#"
+     :class findgrep--switch-exclude-name
+     :value-var findgrep-exclude-temp-sockets)
+    ("j" "Exclude *.js files" "*.js"
+     :class findgrep--switch-exclude-name
+     :value-var findgrep-exclude-js)
+    ("D" "Exclude *.d.ts files" "*.d.ts"
+     :class findgrep--switch-exclude-name
+     :value-var findgrep-exclude-d-ts)
+    ("l" "Exclude package-lock.json files" "package-lock.json"
+     :class findgrep--switch-exclude-name
+     :value-var findgrep-exclude-lock-files)
+    ("T" "Exclude *_test.go files" "*_test.go"
+     :class findgrep--switch-exclude-name
+     :value-var findgrep-exclude-go-test-files)]
+   ["Select files"
+    ("g" "Search *.go files only" "*.go"
+     :class findgrep--switch-include-name
+     :value-var findgrep-include-go)
+    ("q" "Search *.graphql files only" "*.graphql"
+     :class findgrep--switch-include-name
+     :value-var findgrep-include-graphql)
+    ("t" "Search *.ts files only" "*.ts"
+     :class findgrep--switch-include-name
+     :value-var findgrep-include-typescript)
+    ("R" "Search *.js files only" "*.js"
+     :class findgrep--switch-include-name
+     :value-var findgrep-include-javascript)
+    ("E" "Search *.el files only" "*.el"
+     :class findgrep--switch-include-name
+     :value-var findgrep-include-emacs-lisp)
+    ("J" "Search *.java files only" "*.java"
+     :class findgrep--switch-include-name
+     :value-var findgrep-include-java)
+    ("p" "Search *.py files only" "*.py"
+     :class findgrep--switch-include-name
+     :value-var findgrep-include-python)]
+   ["Grep args"
+    ("-i" "Ignore case" "-i"
+     :class findgrep--switch-grep
+     :value-var findgrep-ignore-case)
+    ("-l" "Filenames only" "-l"
+     :class findgrep--switch-grep
+     :value-var findgrep-filenames-only)
+    ("-E" "Extended regexp" "-E"
+     :class findgrep--switch-grep
+     :value-var findgrep-extended-regexp)
+    ("-P" "Perl regexp" "-P"
+     :class findgrep--switch-grep
+     :value-var findgrep-perl-regexp)
+    ("-w" "Match whole word" "-w"
+     :class findgrep--switch-grep
+     :value-var findgrep-whole-word)
+    ("-H" "Show filename" "-H"
+     :class findgrep--switch-grep
+     :value-var findgrep-show-filenames)
+    ("-n" "Show line numbers" "-n"
+     :class findgrep--switch-grep
+     :value-var findgrep-show-line-numbers)
+    ("-I" "Ignore binary files" "-I"
+     :class findgrep--switch-grep
+     :value-var findgrep-ignore-binary-files)]]
   ["Main"
    ("d" "Directory" "dir" :class findgrep--infix-dir)
    ("r" "Regexp" "regexp" :class findgrep--infix-regexp)]
