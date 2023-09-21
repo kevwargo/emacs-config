@@ -5,6 +5,8 @@
   '((go-mode . "go.mod")
     (python-mode . ("Pipfile" "setup.py"))
     (typescript-mode . "package.json")
+    (js-mode . "package.json")
+    (rjsx-mode . "package.json")
     (java-mode . find-custom-lsp-java-project)))
 
 (defvar-local lsp--current-highlights nil)
