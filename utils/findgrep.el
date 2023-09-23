@@ -35,10 +35,20 @@
 
 ;;; Arguments
 
-(defclass findgrep--argument ()
+(defclass findgrep--argument (transient-argument)
   ((mutex-group :initarg :mutex-group)))
 
+(cl-defmethod findgrep--argument-variable ((arg findgrep--argument))
+  (intern (format "findgrep--:%s" (oref arg argument))))
+
+(cl-defmethod transient-init-value :after ((arg findgrep--argument))
+  (let ((var (findgrep--argument-variable arg)))
+    (when (local-variable-p var)
+      (oset arg value (eval var)))))
+
 (cl-defmethod transient-infix-set :after ((arg findgrep--argument) value)
+  (let ((var (findgrep--argument-variable arg)))
+    (set (make-local-variable var) value))
   (when-let ((value value)
              (mutex-group (oref arg mutex-group)))
     (--each transient--suffixes
