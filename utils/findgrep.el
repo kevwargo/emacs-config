@@ -19,7 +19,9 @@
     :always-read t
     :allow-empty nil)
    ("/" "Directory" "Directory" :class findgrep--parameter-directory)]
-  ["Execute" ([RET] "Run" findgrep--run)])
+  ["Actions"
+   ([RET] "Run" findgrep--run)
+   ("q" "Quit findgrep" transient-quit-all)])
 
 (defun findgrep--setup-children (children)
   (transient-parse-suffixes 'findgrep
