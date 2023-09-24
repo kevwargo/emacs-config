@@ -7,6 +7,8 @@
 
 (defvar findgrep--command "findgrep")
 
+(setq transient-read-with-initial-input t)
+
 ;; Main entry and layout
 
 (transient-define-prefix findgrep ()
