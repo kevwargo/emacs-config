@@ -37,7 +37,21 @@
                    (define-key m (kbd "<right>") 'py-find-in-venv-right)
                    (define-key m (kbd "<up>") 'py-find-in-venv-up)
                    (define-key m (kbd "<down>") 'py-find-in-venv-down)
-                   m)))
+                   m))
+  (local-set-key (kbd "C-<") 'py-shift-lines-left)
+  (local-set-key (kbd "C->") 'py-shift-lines-right))
+
+(defun py-shift-lines-left ()
+  (interactive)
+  (cl-destructuring-bind (start end)
+      (selected-lines)
+    (python-indent-shift-left start end)))
+
+(defun py-shift-lines-right ()
+  (interactive)
+  (cl-destructuring-bind (start end)
+      (selected-lines)
+    (python-indent-shift-right start end)))
 
 (defun py-get-venv-path ()
   (let* ((py-venv-path (py-get-venv))

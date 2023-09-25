@@ -64,7 +64,7 @@ If point was already at that position, move point to beginning of line."
 
 (defun selected-lines (&optional as-cons)
   (let ((collect-fn (if as-cons 'cons 'list)))
-    (if (region-active-p)
+    (if (use-region-p)
         (save-excursion
           (let ((start (region-beginning))
                 (end (region-end)))
