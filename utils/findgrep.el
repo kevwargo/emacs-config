@@ -28,10 +28,12 @@
 (defun findgrep--setup-children (children)
   (transient-parse-suffixes 'findgrep
                             (with-temp-buffer
-                              (call-process findgrep--command nil t nil
-                                            "--print-elisp-transient")
-                              (goto-char (point-min))
-                              (read (current-buffer)))))
+                              (if (null (zerop (call-process findgrep--command nil t nil
+                                                             "--print-elisp-transient")))
+                                  (error "Findgrep arguments generation failed: %s"
+                                         (buffer-string))
+                                (goto-char (point-min))
+                                (read (current-buffer))))))
 
 ;; Suffix classes
 
