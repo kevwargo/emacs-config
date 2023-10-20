@@ -7,14 +7,21 @@
         (setq isearch-regexp t
               isearch-word nil
               isearch-success t
-              isearch-adjusted t)
-        (isearch-process-search-string search-string search-string)))))
+              isearch-adjusted t
+              isearch-string search-string
+	      isearch-message search-string)
+        (isearch-search-and-update)))))
 
-(defun isearch-findgrep ()
+(defun isearch-search-for-uuid ()
   (interactive)
-  (let ((findgrep-regexp isearch-string))
-    (isearch-exit)
-    (call-interactively 'findgrep)))
+  (let ((regexp "[a-fA-F0-9]\\{8\\}-\\([a-fA-F0-9]\\{4\\}-\\)\\{3\\}[a-fA-F0-9]\\{12\\}"))
+    (setq isearch-regexp t
+          isearch-word nil
+          isearch-success t
+          isearch-adjusted t
+          isearch-string regexp
+	  isearch-message regexp)
+    (isearch-search-and-update)))
 
 (define-key isearch-mode-map (kbd "C-x") 'insert-current-symbol)
-(define-key isearch-mode-map (kbd "C-S-f") 'isearch-findgrep)
+(define-key isearch-mode-map (kbd "C-u") 'isearch-search-for-uuid)
