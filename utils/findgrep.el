@@ -16,10 +16,7 @@
    :class transient-columns
    :setup-children findgrep--setup-children]
   ["Main"
-   (":" "Regexp" "Regexp"
-    :class findgrep--parameter-regexp
-    :always-read t
-    :allow-empty nil)
+   (":" "Regexp" "Regexp" :class findgrep--parameter-regexp)
    ("/" "Directory" "Directory" :class findgrep--parameter-directory)]
   ["Actions"
    ([RET] "Run" findgrep--run)
@@ -80,6 +77,7 @@
 ;;;; Regexp
 
 (defvar-local findgrep--regexp nil)
+(defvar-local findgrep--regexp-history nil)
 
 (defclass findgrep--parameter-regexp (findgrep--parameter)
   ())
@@ -95,6 +93,9 @@
 
 (cl-defmethod transient-infix-set :after ((param findgrep--parameter-regexp) value)
   (setq findgrep--regexp value))
+
+(cl-defmethod transient-infix-read ((param findgrep--parameter-regexp))
+  (read-string "Regexp: " findgrep--regexp findgrep--regexp-history))
 
 ;;;; Directory
 
