@@ -134,5 +134,6 @@
                       transient-current-suffixes)))
     (compilation-start (s-join " " `(,findgrep--command ,@args ,(findgrep--quote regexp)))
                        'grep-mode
-                       (lambda (mode-name)
-                         (format "*%s-<%s>*" mode-name (buffer-name (current-buffer)))))))
+                       (let ((orig (buffer-name)))
+                         (lambda (mode-name)
+                           (format "*%s-<%s>*" mode-name orig))))))
