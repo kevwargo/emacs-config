@@ -4,8 +4,6 @@
 
 (defconst lsp-java-custom-project-file ".lsp-java-project.el")
 
-(defvar-local google-java-format-jar nil)
-
 (defun find-custom-lsp-java-project (dir)
   (or (when-let* ((prj-desc-dir (locate-dominating-file dir lsp-java-custom-project-file))
                   (prj-desc-file (f-join prj-desc-dir lsp-java-custom-project-file))
@@ -22,11 +20,11 @@
         (message "Custom lsp-java project configuration not found")
         nil)))
 
-(reformatter-define google-java-format
-  :program "java"
-  :args (if google-java-format-jar
-            (list "-jar" google-java-format-jar "--aosp" "-")
-          (error "`google-java-format-jar' is not defined"))
-  :lighter " GJF")
+(defun lsp-java-enable-auto-format ()
+  (setq-local lsp-java-format-enabled t)
+  (setq-local lsp-java-format-settings-url
+              "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml")
+  (add-hook 'before-save-hook 'lsp-format-buffer nil t)
+  (add-hook 'before-save-hook 'lsp-organize-imports nil t))
 
-(add-hook 'java-mode-hook 'google-java-format-on-save-mode)
+(add-hook 'java-mode-hook 'lsp-java-enable-auto-format)
