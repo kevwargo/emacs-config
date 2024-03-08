@@ -11,13 +11,13 @@
   (let* ((predicate (lambda (opt)
                       (or (string= opt "-w")
                           (string= opt "--ignore-all-space"))))
-         (found (cl-find-if predicate magit-buffer-diff-args)))
-    (if found
+         (previously-enabled (cl-find-if predicate magit-buffer-diff-args)))
+    (if previously-enabled
         (setq-local magit-buffer-diff-args
                     (cl-remove-if predicate magit-buffer-diff-args))
       (setq-local magit-buffer-diff-args
                   (append magit-buffer-diff-args '("--ignore-all-space"))))
-    (message "Magit-Diff --ignore-all-space %sabled" (if found "dis" "en")))
+    (message "Magit-Diff --ignore-all-space %sabled" (if previously-enabled "dis" "en")))
   (magit-refresh))
 
 (defun magit-custom-keys-hook ()
