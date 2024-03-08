@@ -28,6 +28,7 @@
 (load "utils/recent-keys")
 
 (load "config/modes")
+(load "config/minor-modes")
 (load "config/isearch")
 (load "config/lisp-modes")
 (load "config/vars")
