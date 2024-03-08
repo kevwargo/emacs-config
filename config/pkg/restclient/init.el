@@ -66,12 +66,12 @@
                                 (if (string= (car h) "-default-service")
                                     (message "Warning: used the default %s AWS service. Server may throw 403" (cdr h))))
                               headers))
-  (restclient-http-do method url headers entity nil nil))
+  (restclient-http-do method url headers entity nil nil nil))
 
 (defun restclient-aws-send-current ()
   (interactive)
   (let ((restclient-log-request nil))
-   (restclient-http-parse-current-and-do 'restclient--aws-send-request)))
+    (restclient-http-parse-current-and-do 'restclient--aws-send-request)))
 
 (defun restclient-aws-kill-process ()
   (interactive)

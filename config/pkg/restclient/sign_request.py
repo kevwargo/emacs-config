@@ -15,37 +15,33 @@ AWS_URL_REGEX = re.compile(r".+\.([^.]+)\.([^.]+)\.amazonaws\..+")
 
 
 class Request:
-
-    profile: str
-    region: str
-    service: str
-
-    method: str
     url: str
+    method: str
     headers: dict
     body: bytes
+
+    profile: str
+    region: str | None
+    service: str | None
 
     @classmethod
     def read(cls):
         return cls(input())
 
     def __init__(self, data):
-        self._fields = json.loads(data)
+        fields = json.loads(data)
 
-        self.profile = self._fields["profile"]
+        self.url = fields["url"]
+        self.method = fields["method"]
+        self.headers = fields.get("headers") or {}
+        self.body = (fields.get("body") or "").encode()
+
+        self.profile = fields.get("profile")
         if not self.profile:
             raise ValueError("No profile provided")
 
-        self.region = self._fields.get("region")
-        self.service = self._fields.get("service")
-
-        self.method = self._fields["method"]
-        self.url = self._fields["url"]
-        self.headers = self._fields.get("headers") or {}
-
-        self.body = self._fields.get("body") or b""
-        if isinstance(self.body, str):
-            self.body = self.body.encode()
+        self.region = fields.get("region")
+        self.service = fields.get("service")
 
         if m := AWS_URL_REGEX.match(self.url):
             if not self.service:
