@@ -19,6 +19,13 @@
      (scratch-log "%s%s: %S" prefix ',expr val)
      val))
 
+(defmacro scratch-log-args (&rest args)
+  `(scratch-log
+    (format ,(mapconcat (lambda (_) "%s: %S") args "\n")
+            ,@(cl-loop for expr in args
+                       collect `',expr
+                       collect expr))))
+
 (defmacro message-expr (expr &optional prefix-fmt &rest prefix-args)
   `(let ((val ,expr)
          (prefix (if ,prefix-fmt
