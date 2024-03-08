@@ -37,7 +37,7 @@
  '(markdown-command-needs-filename t)
  '(org-support-shift-select t)
  '(package-selected-packages
-   '(rjsx-mode editorconfig yasnippet json-mode csv-mode restclient-jq f company yaml-mode uuidgen undo-tree typescript-mode string-inflection restclient python-isort python-black pylint prettier powershell paredit neotree multi-term nil magit lsp-java lsp-mode indent-tools graphql-mode goto-last-change gotest go-tag go-mode elpy dockerfile-mode default-text-scale connection))
+   '(grip-mode rjsx-mode editorconfig yasnippet json-mode csv-mode restclient-jq f company yaml-mode uuidgen undo-tree typescript-mode string-inflection python-isort python-black pylint prettier powershell paredit neotree multi-term nil magit lsp-java lsp-mode indent-tools graphql-mode goto-last-change gotest go-tag go-mode elpy dockerfile-mode default-text-scale connection))
  '(py-split-window-on-execute t)
  '(py-split-windows-on-execute-function 'split-window-horizontally)
  '(py-underscore-word-syntax-p nil)
@@ -66,6 +66,8 @@
  '(lsp-face-highlight-read ((t (:inherit highlight :background "olive drab" :underline t))))
  '(lsp-face-highlight-textual ((t (:inherit highlight :background "olive drab" :underline t))))
  '(lsp-face-highlight-write ((t (:inherit highlight :background "olive drab" :underline t))))
+ '(lsp-headerline-breadcrumb-path-face ((t (:inherit font-lock-string-face :foreground "navajo white"))))
+ '(lsp-headerline-breadcrumb-symbols-face ((t (:inherit font-lock-doc-face :foreground "navajo white" :weight bold))))
  '(magit-section-highlight ((t (:background "ghost white"))))
  '(markdown-code-face ((t (:inherit fixed-pitch :height 110))))
  '(py-builtins-face ((t :foreground "#0057ae")))
