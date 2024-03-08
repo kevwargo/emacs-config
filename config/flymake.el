@@ -1,4 +1,4 @@
 (require 'flymake)
 
-(define-key flymake-mode-map (kbd "C-c .") 'flymake-goto-next-error)
-(define-key flymake-mode-map (kbd "C-c ,") 'flymake-goto-prev-error)
+(define-key flymake-mode-map (kbd "C-x .") 'flymake-goto-next-error)
+(define-key flymake-mode-map (kbd "C-x ,") 'flymake-goto-prev-error)
