@@ -23,6 +23,7 @@
    ("q" "Quit findgrep" transient-quit-all)])
 
 (defun findgrep--setup-children (children)
+  (ignore children)
   (transient-parse-suffixes 'findgrep
                             (with-temp-buffer
                               (if (null (zerop (call-process findgrep--command nil t nil
@@ -92,9 +93,11 @@
                 findgrep--regexp))))
 
 (cl-defmethod transient-infix-set :after ((param findgrep--parameter-regexp) value)
+  (ignore param)
   (setq findgrep--regexp value))
 
 (cl-defmethod transient-infix-read ((param findgrep--parameter-regexp))
+  (ignore param)
   (read-string "Regexp: " findgrep--regexp findgrep--regexp-history))
 
 ;;;; Directory
@@ -110,6 +113,7 @@
               (or findgrep--directory default-directory))))
 
 (cl-defmethod transient-infix-set :after ((param findgrep--parameter-directory) value)
+  (ignore param)
   (setq findgrep--directory value))
 
 (cl-defmethod transient-infix-read ((param findgrep--parameter-directory))
@@ -135,5 +139,5 @@
     (compilation-start (s-join " " `(,findgrep--command ,@args ,(findgrep--quote regexp)))
                        'grep-mode
                        (let ((orig (buffer-name)))
-                         (lambda (mode-name)
-                           (format "*%s-<%s>*" mode-name orig))))))
+                         (lambda (compilation-mode-name)
+                           (format "*%s-<%s>*" compilation-mode-name orig))))))

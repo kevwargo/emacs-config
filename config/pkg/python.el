@@ -118,8 +118,6 @@
                   (selected-lines t))
                  ((eq form 'buffer)
                   (cons (point-min) (point-max)))
-                 ((stringp form)
-                  (py--mark-base form))
                  ((region-active-p)
                   (cons (region-beginning) (region-end))))))
     (if (consp region)

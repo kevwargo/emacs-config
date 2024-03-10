@@ -36,6 +36,7 @@
             (define-key m (kbd "M-<down>") 'windmove-down)
             (define-key m (kbd "C-c C-u") 'browse-url-at-point)
             m)
+  :group 'keybinding-x
   :global t)
 
 (x-keys 1)

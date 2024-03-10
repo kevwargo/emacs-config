@@ -9,16 +9,16 @@
     (message "go-test-verbose set to %S" new-val)))
 
 (defun go-tag-add-json (&optional transform)
-  (interactive (list (-go-tag-read-transform current-prefix-arg)))
+  (interactive (list (go-tag--read-transform current-prefix-arg)))
   (let ((go-tag-args (append go-tag-args transform)))
     (go-tag-add "json")))
 
 (defun go-tag-refresh-json (&optional transform)
-  (interactive (list (-go-tag-read-transform current-prefix-arg)))
+  (interactive (list (go-tag--read-transform current-prefix-arg)))
   (let ((go-tag-args (append go-tag-args transform)))
     (go-tag-refresh "json")))
 
-(defun -go-tag-read-transform (raw)
+(defun go-tag--read-transform (raw)
   (when raw
     (list "-transform"
           (if (stringp raw)
@@ -33,7 +33,8 @@
 (defun go-lsp-find-implementation ()
   "Find the non-mock implementations of the method at point.
 
-If there is exactly one such implementation, jump to it immediately without showing the xref buffer."
+If there is exactly one such implementation,
+jump to it immediately without showing the xref buffer."
   (interactive)
   (let* ((lsp-xref-force-references t)
          (xref-callback xref-show-definitions-function)

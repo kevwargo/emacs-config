@@ -1,3 +1,5 @@
+(require 'term)
+
 (defun bash-cd (dir)
   (term-send-string (get-buffer-process (current-buffer))
                     (concat [3 10] "cd " dir [10])))

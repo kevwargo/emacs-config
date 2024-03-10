@@ -5,7 +5,7 @@
         (message "No symbol at point")
       (let ((search-string (concat "\\_<" (regexp-quote symbol) "\\_>")))
         (setq isearch-regexp t
-              isearch-word nil
+              isearch-regexp-function nil
               isearch-success t
               isearch-adjusted t
               isearch-string search-string
@@ -16,7 +16,7 @@
   (interactive)
   (let ((regexp "[a-fA-F0-9]\\{8\\}-\\([a-fA-F0-9]\\{4\\}-\\)\\{3\\}[a-fA-F0-9]\\{12\\}"))
     (setq isearch-regexp t
-          isearch-word nil
+          isearch-regexp-function nil
           isearch-success t
           isearch-adjusted t
           isearch-string regexp

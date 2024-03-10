@@ -23,7 +23,6 @@
 
 (add-to-list 'auto-mode-alist '("\\.less$" . css-mode))
 (add-to-list 'auto-mode-alist '("\\.scss$" . css-mode))
-(add-to-list 'auto-mode-alist '(".*stumpwmrc$" . lisp-mode))
 (add-to-list 'auto-mode-alist '("\\.gitignore$" . conf-mode))
 (add-to-list 'auto-mode-alist '("crontab\\.[a-zA-Z0-9]+\\'" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.mdx$" . markdown-mode))

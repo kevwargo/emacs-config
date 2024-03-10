@@ -1,3 +1,5 @@
+(require 'neotree)
+
 (defun neotree-show-cwd ()
   (interactive)
   (neo-global--open-dir (buffer-working-directory)))
@@ -29,7 +31,7 @@
   (local-set-key (kbd "u") 'neotree-select-up-node)
   (local-set-key (kbd "f") 'neotree-fold-all))
 
-(defcustom neotree-custom-map
+(defvar neotree-custom-map
   (let ((m (make-sparse-keymap)))
     (define-key m (kbd "RET") 'neotree-show-cwd)
     m)

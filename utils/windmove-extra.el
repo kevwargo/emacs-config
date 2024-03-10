@@ -1,3 +1,5 @@
+(require 'ielm)
+(require 'term)
 (require 'windmove)
 
 (defun find-other-window-dir (dir)
@@ -14,7 +16,9 @@ can't be selected, it yields an error instead of returning nil."
 
 (defun insert-to-buffer-dir (dir beg end &optional cut)
   "Inserts selected text to the buffer in the window in direction DIR
-and selects that window. If CUT is non-nil, deletes selected text in current buffer."
+and selects that window.
+
+If CUT is non-nil, deletes selected text in current buffer."
   (let ((text (if (not (region-active-p))
                   (error "No active region")
                 (buffer-substring-no-properties beg end)))

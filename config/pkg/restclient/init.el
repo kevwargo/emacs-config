@@ -15,7 +15,8 @@
                   (mapcar (lambda (item) (cons (symbol-name (car item)) (cdr item)))
                           (json-parse-string string :object-type 'alist)))
           (error (setq raw-resp
-                       (if (find (car err) '(json-end-of-file json-parse-error json-trailing-content))
+                       (if (member (car err)
+                                   '(json-end-of-file json-parse-error json-trailing-content))
                            (format "JSON(%s): '%s'" (car err) string)
                          (format "err %s: '%s'" err string)))))
         (if resp

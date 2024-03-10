@@ -145,7 +145,7 @@ If point was already at that position, move point to beginning of line."
       (deactivate-mark)
       (goto-char open)
       (newline-and-indent)
-      (previous-line)
+      (forward-line -1)
       (insert "{")
       (funcall indent-function)
       (setq increment (- (buffer-size) oldsize))
@@ -161,13 +161,13 @@ If point was already at that position, move point to beginning of line."
     (when mark-was-set-p
       (set-mark (+ oldmark increment)))))
 
-(defun command-all-buffers-same-major-mode (prefixarg &optional command-name)
-  (interactive (list current-prefix-arg (read-extended-command)))
+(defun command-all-buffers-same-major-mode (command-name)
+  (interactive (list (read-extended-command)))
   (let ((original-major-mode major-mode))
     (dolist (buf (buffer-list))
       (with-current-buffer buf
         (when (eq major-mode original-major-mode)
-          (execute-extended-command prefixarg command-name))))))
+          (command-execute command-name))))))
 
 (defun buffer-working-directory (&optional buffer)
   (with-current-buffer (or buffer (current-buffer))
@@ -249,8 +249,10 @@ If point was already at that position, move point to beginning of line."
     (goto-char end)))
 
 (defun mark-current-line (arg)
-  "Mark current line. If prefix argument ARG is not nil,
-mark from the beginning of line instead of from the first non-whitespace character"
+  "Mark current line.
+
+If prefix argument ARG is not nil, mark from the beginning of line
+instead of from the first non-whitespace character"
   (interactive "P")
   (beginning-of-line)
   (unless arg
@@ -259,16 +261,6 @@ mark from the beginning of line instead of from the first non-whitespace charact
   (goto-char (line-end-position)))
 
 (defun find-file-in-kec ()
-  (interactive)
-  (let ((default-directory kec:config-dir))
-    (ido-find-file)))
-
-(defun find-file-in-stumpwmrc ()
-  (interactive)
-  (let ((default-directory (file-name-directory (file-truename "~/.stumpwmrc"))))
-    (ido-find-file)))
-
-(defun find-file-in-stumpwm ()
   (interactive)
   (let ((default-directory kec:config-dir))
     (ido-find-file)))

@@ -81,6 +81,7 @@ mode.
 When enabled, the value of `point' is displayed in the
 mode-line (after the line and column numbers, if those are being
 displayed too)."
-  :global t)
+  :global t
+  :group 'show-point-mode)
 
 ;;; show-point-mode.el ends here

@@ -57,8 +57,6 @@
 (global-set-key (kbd "C-x f <down>") 'find-file-other-window-down)
 (global-set-key (kbd "C-x f b") 'find-file-from-buffer)
 (global-set-key (kbd "C-x f c") 'find-file-in-kec)
-(global-set-key (kbd "C-x f s") 'find-file-in-stumpwm)
-(global-set-key (kbd "C-x f r") 'find-file-in-stumpwmrc)
 
 (global-set-key (kbd "C-c t") (make-sparse-keymap))
 (global-set-key (kbd "C-c t <up>") 'multi-term-up)

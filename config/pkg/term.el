@@ -38,7 +38,7 @@
 (defun term-mode-customize ()
   (setq-local scroll-margin 0)
   (dolist (key '("<M-left>" "<M-right>"))
-    (eval `(define-key term-raw-map (kbd ,key) nil)))
+    (define-key term-raw-map (kbd key) nil))
   (define-key term-raw-map (kbd "C-r") 'term-send-raw)
   (define-key term-raw-map (kbd "C-s") 'term-send-raw)
   (define-key term-raw-map (kbd "C-c SPC") 'term-line-mode)

@@ -56,7 +56,7 @@
 
 (defun buffer-menu-sort-by-filename ()
   (interactive)
-  (Buffer-menu-sort 6))
+  (tabulated-list-sort 6))
 
 (defun buffer-menu-keys ()
   (local-set-key (kbd "X") 'buffer-menu-execute-kill)

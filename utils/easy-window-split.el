@@ -4,6 +4,7 @@
             (define-key m (kbd "C-=") 'split-window-vertically)
             (define-key m (kbd "C-|") 'split-window-horizontally)
             m)
+  :group 'easy-window-split
   :global t)
 
 (easy-window-split 1)

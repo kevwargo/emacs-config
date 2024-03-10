@@ -1,4 +1,5 @@
-(setq x-select-enable-clipboard t)
+(setq select-enable-clipboard t)
+
 (unless window-system
   (defun xsel-cut-function (text &optional push)
     (with-temp-buffer

@@ -11,20 +11,12 @@ or if `sublist' is nil, nil otherwise."
                   (car sublist))
            (list-startswith-p (cdr sublist) (cdr list))))))
 
-(defun find-head (list llist)
-  "Find and return the first such element in `llist' `llist' starts with,
-nil otherwise."
-  (find list llist :test 'list-startswith-p))
-
 ;; thanks to “Pascal J Bourguignon” and “TheFlyingDutchman <zzbba...@aol.com>”. 2010-09-02
 (defun read-file (file-path)
   "Return FILEPATH's file content."
   (with-temp-buffer
     (insert-file-contents-literally file-path)
     (buffer-substring-no-properties (point-min) (point-max))))
-
-(defun find-head-in-file (list file-path)
-  (find-head list (read (concat "(" (read-file file-path) ")"))))
 
 (defun insert-to-list (list elt index)
   "Destructively inserts element `elt' to the list

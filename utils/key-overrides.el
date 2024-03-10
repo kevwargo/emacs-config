@@ -7,6 +7,7 @@
             (define-key m (kbd "C-x C-n") 'neotree-toggle)
             (define-key m (kbd "C-c .") 'find-function)
             m)
+  :group 'key-overrides
   :global t)
 
 (key-overrides-mode 1)

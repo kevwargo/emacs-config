@@ -1,4 +1,5 @@
 (require 'indent-tools)
+(require 'yaml-mode)
 
 (defun yaml-mode-customize ()
   (indent-tools-minor-mode 1)
