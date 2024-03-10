@@ -8,13 +8,12 @@
 
 (defun magit-diff-toggle-whitespace ()
   (interactive)
-  (let* ((predicate (lambda (opt)
-                      (or (string= opt "-w")
-                          (string= opt "--ignore-all-space"))))
-         (previously-enabled (cl-find-if predicate magit-buffer-diff-args)))
+  (let* ((ignore-all-space? (lambda (opt)
+                              (member opt '("-w" "--ignore-all-space"))))
+         (previously-enabled (cl-find-if ignore-all-space? magit-buffer-diff-args)))
     (if previously-enabled
         (setq-local magit-buffer-diff-args
-                    (cl-remove-if predicate magit-buffer-diff-args))
+                    (cl-remove-if ignore-all-space? magit-buffer-diff-args))
       (setq-local magit-buffer-diff-args
                   (append magit-buffer-diff-args '("--ignore-all-space"))))
     (message "Magit-Diff --ignore-all-space %sabled" (if previously-enabled "dis" "en")))
