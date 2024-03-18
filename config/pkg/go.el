@@ -1,4 +1,7 @@
+(require 'dash)
 (require 'go-tag)
+(require 'lsp-mode)
+(require 's)
 
 (defvar-local go-test-verbose nil)
 
@@ -53,13 +56,33 @@ jump to it immediately without showing the xref buffer."
                                options))))))
     (lsp-find-implementation)))
 
-(defun setup-go-mode ()
-  (add-hook 'before-save-hook 'gofmt-before-save 0 t))
+(defcustom gofumpt-cmd "gofumpt" "" :group 'gofumpt+gci)
+(defcustom gofumpt-args nil "" :group 'gofumpt+gci)
 
-(add-hook 'go-mode-hook 'setup-go-mode)
+(defcustom gci-goimports-cmd "goimports" "" :group 'gofumpt+gci)
+(defcustom gci-cmd "gci" "" :group 'gofumpt+gci)
+(defcustom gci-subcommand "print" "" :group 'gofumpt+gci)
+(defcustom gci-sections '("Standard" "Default") "" :group 'gofumpt+gci)
+(defcustom gci-args nil "" :group 'gofumpt+gci)
 
-(define-key go-mode-map (kbd "C-{") 'embrace-selected-lines)
-(define-key go-mode-map (kbd "C-x V") 'go-toggle-test-verbose)
-(define-key go-mode-map (kbd "C-x t") 'go-tag-refresh-json)
-(define-key go-mode-map (kbd "C-x T") 'go-tag-add-json)
-(define-key go-mode-map (kbd "M-/") 'go-lsp-find-implementation)
+(reformatter-define gofumpt+gci
+  :program "bash"
+  :args (list "-c" (format "%s %s | %s | %s %s %s %s"
+                           gofumpt-cmd
+                           (mapconcat #'shell-quote-argument gofumpt-args " ")
+                           gci-goimports-cmd
+                           gci-cmd
+                           gci-subcommand
+                           (mapconcat (lambda (s)
+                                        (format "--section %s" (shell-quote-argument s)))
+                                      gci-sections " ")
+                           (mapconcat #'shell-quote-argument gci-args " ")))
+  :lighter " gofumpt+gci")
+
+(keymap-set go-mode-map "C-{" 'embrace-selected-lines)
+(keymap-set go-mode-map "C-x V" 'go-toggle-test-verbose)
+(keymap-set go-mode-map "C-x t" 'go-tag-refresh-json)
+(keymap-set go-mode-map "C-x T" 'go-tag-add-json)
+(keymap-set go-mode-map "M-/" 'go-lsp-find-implementation)
+
+(add-hook 'go-mode-hook 'gofumpt+gci-on-save-mode)
