@@ -193,6 +193,7 @@ If point was already at that position, move point to beginning of line."
   (let ((oldname (buffer-file-name (current-buffer))))
     (if (and oldname newname)
         (let ((default-directory (file-name-directory oldname)))
+          (make-directory (file-name-directory newname) t)
           (rename-file oldname newname)
           (find-alternate-file newname)))))
 
