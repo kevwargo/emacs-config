@@ -24,21 +24,22 @@
 
 (defun findgrep--setup-children (children)
   (ignore children)
-  (transient-parse-suffixes 'findgrep
-                            (with-temp-buffer
-                              (if (null (zerop (call-process findgrep--command nil t nil
-                                                             "--print-elisp-transient")))
-                                  (error "Findgrep arguments generation failed: %s"
-                                         (buffer-string))
-                                (goto-char (point-min))
-                                (read (current-buffer))))))
+  (transient-parse-suffixes 'findgrep (read--command-output findgrep--command "--print-elisp-transient")))
+
+(defun read--command-output (cmd &rest args)
+  (with-temp-buffer
+    (let ((exit-code (apply 'call-process cmd nil t nil args)))
+      (if (zerop exit-code)
+          (read (buffer-string))
+        (error "%S %S exited with code %d: %s"
+               cmd args exit-code (buffer-string))))))
 
 ;; Suffix classes
 
 ;;; Arguments
 
 (defclass findgrep--argument (transient-argument)
-  ((mutex-group :initarg :mutex-group)))
+  ((mutex-group :initarg :mutex-group :initform nil)))
 
 (cl-defmethod findgrep--argument-variable ((arg findgrep--argument))
   (intern (format "findgrep--:%s" (oref arg argument))))
