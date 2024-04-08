@@ -63,6 +63,13 @@
 (defclass findgrep-switch (transient-switch findgrep--argument)
   ())
 
+(cl-defmethod transient-format-value :around ((obj findgrep-switch))
+  (let ((str (cl-call-next-method obj))
+        (arg (oref obj argument)))
+    (when (s-prefix? "--no-" arg)
+      (add-face-text-property 0 (length str) '(:background "white") nil str))
+    str))
+
 (defclass findgrep-option (transient-option findgrep--argument)
   ())
 
