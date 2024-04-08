@@ -26,6 +26,7 @@
 (load "utils/keymaps")
 (load "utils/go-mod")
 (load "utils/recent-keys")
+(load "utils/sexp-traverse")
 
 (load "config/modes")
 (load "config/minor-modes")
