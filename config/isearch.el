@@ -1,6 +1,6 @@
 (defun insert-current-symbol ()
   (interactive)
-  (let ((symbol (substring-no-properties (thing-at-point 'symbol))))
+  (let ((symbol (thing-at-point 'symbol t)))
     (if (not symbol)
         (message "No symbol at point")
       (let ((search-string (concat "\\_<" (regexp-quote symbol) "\\_>")))
