@@ -8,6 +8,7 @@
             (keymap-set m "C-c ." 'find-function)
             (keymap-set m "M-[" 'sexp-traverse-goto-start)
             (keymap-set m "M-]" 'sexp-traverse-goto-end)
+            (keymap-set m "C-c q" 'requote)
             m)
   :group 'key-overrides
   :global t)

@@ -27,6 +27,7 @@
 (load "utils/go-mod")
 (load "utils/recent-keys")
 (load "utils/sexp-traverse")
+(load "utils/requote")
 
 (load "config/modes")
 (load "config/minor-modes")
