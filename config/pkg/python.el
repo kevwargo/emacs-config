@@ -149,12 +149,22 @@
 
 (defun pip-install-user-current ()
   (interactive)
-  (async-shell-command
-   (format "pip install --user %s"
-           (shell-quote-argument
-            (file-truename
-             (or
-              (locate-dominating-file default-directory "setup.py")
-              (error "Directory %s does not belong to a pip project" default-directory)))))))
+  (let* ((setup-py-dir (file-truename
+                        (or
+                         (locate-dominating-file (or (buffer-file-name) default-directory)
+                                                 "setup.py")
+                         (user-error "File %s does not belong to a pip project" (buffer-file-name)))))
+         (proc-buf (get-buffer-create (format "*pip-install* %s" setup-py-dir)))
+         (async-shell-command-display-buffer nil)
+         proc)
+    (async-shell-command (format "pip install --user %s"
+                                 (shell-quote-argument setup-py-dir))
+                         proc-buf)
+    (when (process-live-p (setq proc (get-buffer-process proc-buf)))
+      (set-process-sentinel proc
+                            (lambda (proc _)
+                              (unless (process-live-p proc)
+                                (if (zerop (process-exit-status proc))
+                                    (quit-windows-on (process-buffer proc)))))))))
 
 (add-hook 'python-mode-hook 'setup-py-mode)

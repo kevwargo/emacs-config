@@ -11,8 +11,6 @@
 
 (setq split-width-threshold 150)
 
-(setq async-shell-command-display-buffer nil)
-
 (set-language-environment "utf-8")
 
 (put 'narrow-to-region 'disabled nil)
