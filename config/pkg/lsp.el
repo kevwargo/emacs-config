@@ -10,13 +10,15 @@
     (java-mode . find-custom-lsp-java-project)))
 
 (defvar-local lsp--current-highlights nil)
+(defvar-local lsp--current-highlights-raw nil)
 
 (defun lsp--update-highlights (highlights)
-  (setq lsp--current-highlights
+  (setq lsp--current-highlights-raw highlights
+        lsp--current-highlights
         (sort (-map (-lambda ((&DocumentHighlight :range (&Range :start (start &as &Position)
                                                                  :end (end &as &Position))))
                       (mapcar 'lsp--position-to-point (list start end)))
-                    highlights)
+                    lsp--current-highlights-raw)
               (lambda (h1 h2) (< (car h1) (car h2))))))
 
 (advice-add 'lsp--document-highlight-callback :before 'lsp--update-highlights)
