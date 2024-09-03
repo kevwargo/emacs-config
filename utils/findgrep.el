@@ -5,11 +5,9 @@
 (require 's)
 (require 'transient)
 
-(defvar findgrep--command "findgrep")
-
 (setq transient-read-with-initial-input t)
 
-;; Main entry and layout
+;; Main entry and user settings
 
 (transient-define-prefix findgrep ()
   ["Options"
@@ -21,6 +19,14 @@
   ["Actions"
    ([RET] "Run" findgrep--run)
    ("q" "Quit findgrep" transient-quit-all)])
+
+(defun findgrep-reset-directory ()
+  (interactive)
+  (setq findgrep--directory nil))
+
+;; Layout
+
+(defvar findgrep--command "findgrep")
 
 (defun findgrep--setup-children (children)
   (ignore children)
