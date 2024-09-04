@@ -26,10 +26,6 @@
        (pop-to-buffer findgrep--origin-buffer))
   (transient-setup 'findgrep))
 
-(defun findgrep-reset-directory ()
-  (interactive)
-  (setq findgrep--directory nil))
-
 ;; Layout
 
 (defvar findgrep--command "findgrep")
@@ -137,7 +133,22 @@
   (setq findgrep--directory value))
 
 (cl-defmethod transient-infix-read ((param findgrep--parameter-directory))
-  (ido-read-directory-name "Directory: " (oref param value)))
+  (let* ((reset-key "C-.")
+         (start-dir default-directory)
+         (ido-setup-hook (cons (lambda ()
+                                 (keymap-set ido-completion-map
+                                             reset-key
+                                             (lambda ()
+                                               (interactive)
+                                               (setq ido-current-directory ""
+                                                     ido-exit 'done
+                                                     ido-text start-dir)
+                                               (exit-minibuffer))))
+                               ido-setup-hook)))
+    (ido-read-directory-name (format "Directory (%s to reset to %s): "
+                                     reset-key
+                                     start-dir)
+                             (oref param value))))
 
 ;; Helper functions
 
