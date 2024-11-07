@@ -63,4 +63,5 @@
   (define-key m (kbd "C-c C-z") #'lsp-organize-imports)
   (define-key m (kbd "C-<prior>") #'lsp-previous-highlight)
   (define-key m (kbd "C-<next>") #'lsp-next-highlight)
-  (define-key m (kbd "C-x w") #'lsp-rename))
+  (define-key m (kbd "C-x w") #'lsp-rename)
+  (define-key m (kbd "C-x R") #'lsp-find-references))
