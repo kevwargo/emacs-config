@@ -9,6 +9,7 @@
             (keymap-set m "M-[" 'sexp-traverse-goto-start)
             (keymap-set m "M-]" 'sexp-traverse-goto-end)
             (keymap-set m "C-c q" 'requote)
+            (keymap-set m "C-x L" 'nest-context-show)
             m)
   :group 'key-overrides
   :global t)
