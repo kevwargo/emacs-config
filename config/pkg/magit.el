@@ -36,7 +36,7 @@
 
 (defun magit-handle-pull-request-create (proc string)
   (when (cl-find-if (lambda (re) (string-match re string))
-                 magit-pull-request-regex-list)
+                    magit-pull-request-regex-list)
     (let* ((url (match-string-no-properties 1 string))
            (gitdir (magit-gitdir))
            (entry (assoc gitdir magit-pull-request-last-url-alist))
@@ -131,6 +131,36 @@
   (magit-branch-reset branch (magit-commit-at-point)))
 
 (transient-append-suffix 'magit-branch '(2 4 0) '("X" magit-reset-branch-to-current-commit))
+
+(defun magit-github-open ()
+  (interactive)
+  (browse-url (magit--github-build-url)))
+
+(defun magit-github-copy ()
+  (interactive)
+  (kill-new (magit--github-build-url)))
+
+(defun magit--github-build-url ()
+  (when-let* ((remote (magit-get-remote))
+              (remote-url (magit-git-string "remote" "get-url" remote))
+              (base-url (and (string-match (rx "github.com" (any ":/")
+                                               (group (+ (not (any ":/")))) ; repo owner
+                                               "/"
+                                               (group (+ (not (any ":/")))) ; repo name
+                                               )
+                                           remote-url)
+                             (format "https://github.com/%s/%s"
+                                     (match-string 1 remote-url)
+                                     (s-chop-suffix ".git" (match-string 2 remote-url)))))
+              (rev (magit-git-string "rev-parse" (or magit-buffer-revision "HEAD")))
+              (file-name (s-chop-prefix (magit-toplevel)
+                                        (or magit-buffer-file-name (buffer-file-name))))
+              (line-range (if (region-active-p)
+                              (format "L%d-L%d"
+                                      (line-number-at-pos (region-beginning) t)
+                                      (line-number-at-pos (region-end) t))
+                            (format "L%d" (line-number-at-pos nil t)))))
+    (format "%s/blob/%s/%s#%s" base-url rev file-name line-range)))
 
 (add-hook 'magit-process-prompt-functions 'magit-handle-pull-request-create)
 (add-hook 'magit-post-refresh-hook 'magit-pull-request-create-post-refresh)
