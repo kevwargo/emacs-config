@@ -134,14 +134,16 @@
 
 (defun magit-github-open ()
   (interactive)
-  (browse-url (magit--github-build-url)))
+  (when-let ((url (magit--github-build-url)))
+    (browse-url url)))
 
 (defun magit-github-copy ()
   (interactive)
-  (kill-new (magit--github-build-url)))
+  (when-let ((url (magit--github-build-url)))
+    (kill-new url)))
 
 (defun magit--github-build-url ()
-  (when-let* ((remote (magit-get-remote))
+  (when-let* ((remote (magit-get-some-remote))
               (remote-url (magit-git-string "remote" "get-url" remote))
               (base-url (and (string-match (rx "github.com" (any ":/")
                                                (group (+ (not (any ":/")))) ; repo owner
@@ -152,10 +154,12 @@
                              (format "https://github.com/%s/%s"
                                      (match-string 1 remote-url)
                                      (s-chop-suffix ".git" (match-string 2 remote-url)))))
-              (rev (magit-git-string "rev-parse" (or magit-buffer-revision "HEAD")))
               (file-name (s-chop-prefix (magit-toplevel)
                                         (or magit-buffer-file-name (buffer-file-name))))
-              (line-range (if (region-active-p)
+              (rev (if magit-blame-mode
+                       (magit-branch-or-commit-at-point)
+                     (magit-git-string "rev-parse" (or magit-buffer-revision "HEAD"))))
+              (line-range (if (and (region-active-p) (null magit-blame-mode))
                               (format "L%d-L%d"
                                       (line-number-at-pos (region-beginning) t)
                                       (line-number-at-pos (region-end) t))
