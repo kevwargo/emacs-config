@@ -3,36 +3,6 @@
 (require 'lsp-mode)
 (require 's)
 
-(defvar-local go-test-verbose nil)
-
-(defun go-toggle-test-verbose ()
-  (interactive)
-  (let ((new-val (null go-test-verbose)))
-    (setq go-test-verbose new-val)
-    (message "go-test-verbose set to %S" new-val)))
-
-(defmacro go-test--toggle-arg (arg &optional matcher)
-  `(let* ((all (and go-test-args (s-split " " go-test-args)))
-          (others (--remove ,(or matcher `(equal it ,arg)) all)))
-     (setq all
-           (if (equal others all)
-               (cons ,arg all)
-             others))
-     (message "go-test-args set locally to %S"
-              (setq-local go-test-args
-                          (and all (s-join " " all))))))
-
-(defun go-toggle-test-race ()
-  (interactive)
-  (go-test--toggle-arg "-race" (member it '("-race" "--race"))))
-
-(defun go-toggle-test-cache ()
-  (interactive)
-  (go-test--toggle-arg "-count=1" (s-starts-with? "-count" it)))
-
-(defun go-test-enable-line-wrapping ()
-  (setq-local truncate-lines nil))
-
 (defun go-tag-add-json (&optional transform)
   (interactive (list (go-tag--read-transform current-prefix-arg)))
   (let ((go-tag-args (append go-tag-args transform)))
@@ -102,12 +72,9 @@ jump to it immediately without showing the xref buffer."
   :lighter " gofumpt+gci")
 
 (keymap-set go-mode-map "C-{" 'embrace-selected-lines)
-(keymap-set go-mode-map "C-x V" 'go-toggle-test-verbose)
-(keymap-set go-mode-map "C-x R" 'go-toggle-test-race)
-(keymap-set go-mode-map "C-x C" 'go-toggle-test-cache)
+
 (keymap-set go-mode-map "C-x t" 'go-tag-refresh-json)
 (keymap-set go-mode-map "C-x T" 'go-tag-add-json)
 (keymap-set go-mode-map "M-/" 'go-lsp-find-implementation)
 
 (add-hook 'go-mode-hook 'gofumpt+gci-on-save-mode)
-(add-hook 'go-test-mode-hook 'go-test-enable-line-wrapping)
