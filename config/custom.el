@@ -37,7 +37,7 @@
  '(markdown-command-needs-filename t)
  '(org-support-shift-select t)
  '(package-selected-packages
-   '(cmake-mode qml-mode markdown-mode project restclient s flymake-markdownlint grip-mode rjsx-mode editorconfig yasnippet json-mode csv-mode restclient-jq f company yaml-mode uuidgen undo-tree typescript-mode string-inflection python-isort python-black pylint prettier powershell paredit neotree multi-term magit lsp-java lsp-mode indent-tools graphql-mode goto-last-change gotest go-tag go-mode elpy dockerfile-mode default-text-scale connection))
+   '(kwin kotlin-mode groovy-mode cmake-mode qml-mode markdown-mode project restclient s flymake-markdownlint grip-mode rjsx-mode editorconfig yasnippet json-mode csv-mode restclient-jq f company yaml-mode uuidgen undo-tree typescript-mode string-inflection python-isort python-black pylint prettier powershell paredit neotree multi-term magit lsp-java lsp-mode indent-tools graphql-mode goto-last-change gotest go-tag go-mode elpy dockerfile-mode default-text-scale connection))
  '(py-split-window-on-execute t)
  '(py-split-windows-on-execute-function 'split-window-horizontally)
  '(py-underscore-word-syntax-p nil)
