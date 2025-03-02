@@ -14,7 +14,7 @@
 (global-set-key (kbd "C-d") 'comment-lines)
 (global-set-key (kbd "C-a") 'mark-whole-buffer)
 (global-set-key (kbd "<home>") 'smart-beginning-of-line)
-(global-set-key (kbd "C-x k") 'kill-this-buffer)
+(global-set-key (kbd "C-x k") 'kill-current-buffer)
 (global-set-key (kbd "C-x x") 'kmacro-call-macro)
 (global-set-key (kbd "C-c r") 'replace-string)
 (global-set-key (kbd "C-c C-r") 'replace-regexp)

@@ -25,5 +25,5 @@
                                             (setq prev-counter 1)))
                                      (setq prev-key key))
                                    keys))
-                 (local-set-key (kbd "q") 'kill-this-buffer)))))
+                 (local-set-key (kbd "q") 'kill-current-buffer)))))
     (with-temp-buffer-window "*Recent Keys*" nil nil)))
