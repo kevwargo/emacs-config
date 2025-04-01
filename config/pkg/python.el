@@ -182,4 +182,15 @@
       (write-region "[flake8]\nmax-line-length=120\n" nil flake8-file)
       (message "Initialized %s" flake8-file))))
 
+(defun py-swap-quotes (beg end)
+  (interactive "r")
+  (save-excursion
+    (goto-char beg)
+    (while (< (point) end)
+      (let ((c (char-after)))
+        (cond
+         ((eq c ?') (delete-char 1) (insert-char ?\"))
+         ((eq c ?\") (delete-char 1) (insert-char ?'))))
+      (unless (eobp) (forward-char)))))
+
 (add-hook 'python-mode-hook 'setup-py-mode)
