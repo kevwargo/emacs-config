@@ -22,9 +22,7 @@
 (global-set-key (kbd "C-c C-\\") 'goto-last-change)
 (global-set-key (kbd "C-c C-f") 'find-function)
 (global-set-key (kbd "C-x DEL") 'join-line)
-(global-set-key (kbd "C-x C-b") 'list-buffers-dwim)
 (global-set-key (kbd "M-X") 'command-all-buffers-same-major-mode)
-
 
 (global-set-key (kbd "C-c 1") (make-sparse-keymap))
 (global-set-key (kbd "C-c 1 <left>") 'copy-to-buffer-left)
@@ -97,3 +95,4 @@
                   m))
 
 (global-set-key (kbd "C-x B") 'decode-base64)
+(keymap-global-set "C-x C-b" 'ibuffer)
