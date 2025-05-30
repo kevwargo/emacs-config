@@ -56,12 +56,13 @@
                                      project-find-functions)))
         (lsp)))))
 
-(add-hook 'after-change-major-mode-hook 'setup-lsp-mode)
-
 (let ((m lsp-mode-map))
-  (define-key m (kbd "M-e") #'lsp-execute-code-action)
   (define-key m (kbd "C-c C-z") #'lsp-organize-imports)
   (define-key m (kbd "C-<prior>") #'lsp-previous-highlight)
   (define-key m (kbd "C-<next>") #'lsp-next-highlight)
   (define-key m (kbd "C-x w") #'lsp-rename)
   (define-key m (kbd "C-x R") #'lsp-find-references))
+
+(add-hook 'after-change-major-mode-hook 'setup-lsp-mode)
+
+(setq lsp-disabled-clients '((typescript-mode . graphql-lsp)))
