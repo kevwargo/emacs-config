@@ -71,7 +71,7 @@
     (run-hooks 'magit-credential-hook)
     (magit-run-git-async "push" remote tag)))
 
-(transient-append-suffix 'magit-push '(2 1 0) '("t" magit-push-current-tag))
+(transient-replace-suffix 'magit-push "t" '("t" magit-push-current-tag))
 
 (defun magit-get-default-remote ()
   (let ((remotes (magit-list-remotes)))
@@ -96,7 +96,7 @@
       (magit-get-current-branch-remote)
     (magit-run-git-async "push" "-v" "--set-upstream" remote (format "%s:refs/heads/%s" branch branch))))
 
-(transient-append-suffix 'magit-push '(1 0) '("U" magit-push-current-branch-to-upstream))
+(transient-replace-suffix 'magit-push "u" '("u" magit-push-current-branch-to-upstream))
 
 (defun magit-get-default-branch-remote ()
   (when-let ((branch (magit-main-branch))
@@ -121,7 +121,7 @@
     (magit-run-git "fetch" remote args)
     (magit-branch-reset branch (format "%s/%s" remote branch))))
 
-(transient-append-suffix 'magit-fetch '(1 0) '("M" magit-pull-main-branch))
+(transient-append-suffix 'magit-fetch 'magit-fetch-from-upstream '("M" magit-pull-main-branch))
 
 (transient-define-suffix magit-reset-branch-to-current-commit (branch)
   :if #'magit-commit-at-point
@@ -130,7 +130,7 @@
                                               (magit-get-current-branch))))
   (magit-branch-reset branch (magit-commit-at-point)))
 
-(transient-append-suffix 'magit-branch '(2 4 0) '("X" magit-reset-branch-to-current-commit))
+(transient-append-suffix 'magit-branch "x" '("X" magit-reset-branch-to-current-commit))
 
 (defun magit-github-open ()
   (interactive)
