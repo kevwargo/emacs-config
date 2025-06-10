@@ -61,7 +61,6 @@ Otherwise print the text using `message'."
   (let ((text (base64-decode-string
                (buffer-substring-no-properties beg end)
                t)))
-    (scratch-log-expr replace)
     (if replace (progn
                   (delete-region beg end)
                   (goto-char beg)

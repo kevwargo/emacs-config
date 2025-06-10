@@ -80,9 +80,7 @@
 
 (global-set-key (kbd "C-x M-l") 'insert-line-number)
 
-(global-set-key (kbd "C-x t") 'konsole-tailf)
 (global-set-key (kbd "C-x c") 'konsole-cd)
-(global-set-key (kbd "C-x G") 'konsole-tig-file)
 (global-set-key (kbd "C-x I") 'imv-open)
 
 (global-set-key (kbd "C-x F") 'findgrep)
