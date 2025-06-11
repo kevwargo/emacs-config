@@ -161,18 +161,18 @@
 
 (defun findgrep--run ()
   (interactive)
-  (let ((default-directory findgrep--directory)
-        (regexp (or findgrep--regexp
-                    (user-error "No regexp")))
-        (args (--keep (and (object-of-class-p it 'findgrep--argument)
-                           (transient-infix-value it))
-                      transient-current-suffixes)))
-    (let* ((origin-buffer (current-buffer))
-           (grep-mode-hook (cons (lambda ()
-                                   (setq-local findgrep--origin-buffer origin-buffer))
-                                 grep-mode-hook)))
-      (compilation-start (s-join " " `(,findgrep--command ,@args ,(findgrep--quote regexp)))
-                         'grep-mode
-                         (let ((orig (buffer-name)))
-                           (lambda (compilation-mode-name)
-                             (format "*%s-<%s>*" compilation-mode-name orig)))))))
+  (let* ((default-directory findgrep--directory)
+         (regexp (or findgrep--regexp
+                     (user-error "No regexp")))
+         (args (--keep (and (object-of-class-p it 'findgrep--argument)
+                            (transient-infix-value it))
+                       transient-current-suffixes))
+         (origin-buffer (current-buffer))
+         (grep-mode-hook (cons (lambda ()
+                                 (setq-local findgrep--origin-buffer origin-buffer))
+                               grep-mode-hook)))
+    (compilation-start (s-join " " `(,findgrep--command ,@args ,(findgrep--quote regexp)))
+                       'grep-mode
+                       (let ((orig (buffer-name)))
+                         (lambda (compilation-mode-name)
+                           (format "*%s-<%s>*" compilation-mode-name orig))))))
