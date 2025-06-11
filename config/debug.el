@@ -11,4 +11,4 @@
     (add-hook 'post-command-hook 'log-command-keys)
     (message "Command keys logging enabled"))))
 
-(global-set-key (kbd "C-x H-o") 'toggle-log-command-keys)
+(keymap-global-set "C-x G" 'toggle-log-command-keys)

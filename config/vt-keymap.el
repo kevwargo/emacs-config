@@ -28,15 +28,14 @@
 
 
 ;; Keybindings for terminal
-(global-set-key (kbd "M-;") 'vt-ctrl-pressed-mode)
-(global-set-key (kbd "M-'") 'vt-quick-move-lines-mode)
-(global-set-key (kbd "C-@") 'smart-set-mark-command)
-(global-set-key (kbd "C-c C-z") 'undo-tree-redo)
-(global-set-key (kbd "C-c C-d") 'uncomment-lines)
-(global-set-key (kbd "C-x <up>") 'copy-lines-up)
-(global-set-key (kbd "C-x <down>") 'copy-lines-down)
-(global-set-key (kbd "C-c <left>") 'windmove-left)
-(global-set-key (kbd "C-c <right>") 'windmove-right)
-(global-set-key (kbd "C-c <up>") 'windmove-up)
-(global-set-key (kbd "C-c <down>") 'windmove-down)
-
+(keymap-global-set "M-;" 'vt-ctrl-pressed-mode)
+(keymap-global-set "M-'" 'vt-quick-move-lines-mode)
+(keymap-global-set "C-@" 'smart-set-mark-command)
+(keymap-global-set "C-c C-z" 'undo-tree-redo)
+(keymap-global-set "C-c C-d" 'uncomment-lines)
+(keymap-global-set "C-x <up>" 'copy-lines-up)
+(keymap-global-set "C-x <down>" 'copy-lines-down)
+(keymap-global-set "C-c <left>" 'windmove-left)
+(keymap-global-set "C-c <right>" 'windmove-right)
+(keymap-global-set "C-c <up>" 'windmove-up)
+(keymap-global-set "C-c <down>" 'windmove-down)
