@@ -1,9 +1,9 @@
 ;; Keybindings for window system
 
-(keymap-global-set "<C-backspace>" 'backward-delete-word)
-(keymap-global-set "<C-return>" 'newline-from-middle-of-line)
+(keymap-global-set "C-<backspace>" 'backward-delete-word)
+(keymap-global-set "C-<return>" 'newline-from-middle-of-line)
 (keymap-global-set "M-DEL" 'backward-delete-word)
-(keymap-global-set "<C-delete>" 'delete-word)
+(keymap-global-set "C-<delete>" 'delete-word)
 (keymap-global-set "C-SPC" 'smart-set-mark-command)
 (keymap-global-set "C-<down>" 'scroll-up-line)
 (keymap-global-set "C-<up>" 'scroll-down-line)
