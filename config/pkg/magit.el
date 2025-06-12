@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'cl-seq)
 (require 'magit)
 
@@ -112,14 +114,19 @@
             (magit--propertize-face (format "%s/%s" remote branch) 'magit-branch-remote-head))))
 
 (transient-define-suffix magit-pull-main-branch (args)
-  :if #'magit-get-default-remote
+  :if #'magit-get-default-branch-remote
   :description #'magit-pull-main-branch-description
   (interactive (list (magit-fetch-arguments)))
   (cl-destructuring-bind (branch . remote)
       (magit-get-default-branch-remote)
-    (run-hooks 'magit-credential-hook)
-    (magit-run-git "fetch" remote args)
-    (magit-branch-reset branch (format "%s/%s" remote branch))))
+    (let* ((fetch-process (magit-git-fetch remote args))
+           (fetch-sentinel (process-sentinel fetch-process)))
+      (set-process-sentinel fetch-process
+                            (lambda (p event)
+                              (prog1
+                                  (funcall fetch-sentinel p event)
+                                (when (string-match-p "^finished" event)
+                                  (magit-branch-reset branch (format "%s/%s" remote branch)))))))))
 
 (transient-append-suffix 'magit-fetch 'magit-fetch-from-upstream '("M" magit-pull-main-branch))
 
