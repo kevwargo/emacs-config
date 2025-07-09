@@ -125,7 +125,8 @@
                             (lambda (p event)
                               (prog1
                                   (funcall fetch-sentinel p event)
-                                (when (string-match-p "^finished" event)
+                                (when (and (eq (process-status p) 'exit)
+                                           (= (process-exit-status p) 0))
                                   (magit-branch-reset branch (format "%s/%s" remote branch)))))))))
 
 (transient-append-suffix 'magit-fetch 'magit-fetch-from-upstream '("M" magit-pull-main-branch))
