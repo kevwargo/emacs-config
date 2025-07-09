@@ -20,7 +20,6 @@
 (load "utils/easy-window-split")
 (load "utils/key-overrides")
 (load "utils/ido")
-(load "utils/buffer-menu")
 (load "utils/diff")
 (load "utils/record-keys")
 (load "utils/keymaps")
@@ -48,4 +47,5 @@
 (load "config/temp-files")
 (load "config/smerge")
 (load "config/flymake")
+(load "config/ibuffer")
 (load "config/after-init")

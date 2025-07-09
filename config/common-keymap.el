@@ -24,7 +24,6 @@
 (keymap-global-set "C-x F" 'findgrep)
 (keymap-global-set "C-c C" 'to-camel-case-at-point)
 (keymap-global-set "C-x B" 'decode-base64)
-(keymap-global-set "C-x C-b" 'ibuffer)
 
 (let ((m (make-sparse-keymap)))
   (keymap-set m "<left>" 'copy-to-buffer-left)
@@ -88,4 +87,3 @@
 (let ((m (make-sparse-keymap)))
   (keymap-set m "d" 'insert-current-date)
   (keymap-global-set "C-c C-v" m))
-
