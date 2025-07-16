@@ -33,7 +33,16 @@
  '(markdown-command-needs-filename t)
  '(org-support-shift-select t)
  '(package-selected-packages
-   '(kwin kotlin-mode groovy-mode cmake-mode qml-mode markdown-mode project restclient s flymake-markdownlint grip-mode rjsx-mode editorconfig yasnippet json-mode csv-mode restclient-jq f company yaml-mode uuidgen undo-tree typescript-mode string-inflection python-isort python-black pylint prettier powershell paredit neotree multi-term magit lsp-java lsp-mode indent-tools graphql-mode goto-last-change gotest go-tag go-mode elpy dockerfile-mode default-text-scale connection))
+   '(cmake-mode company connection csv-mode default-text-scale
+                dockerfile-mode editorconfig elpy f
+                flymake-markdownlint go-mode go-tag gotest
+                goto-last-change graphql-mode grip-mode groovy-mode
+                indent-tools ivy-xref json-mode kotlin-mode kwin
+                lsp-java lsp-mode magit markdown-mode multi-term
+                neotree paredit powershell prettier project pylint
+                python-black python-isort qml-mode restclient
+                restclient-jq rjsx-mode s string-inflection
+                typescript-mode undo-tree uuidgen yaml-mode yasnippet))
  '(py-split-window-on-execute t)
  '(py-split-windows-on-execute-function 'split-window-horizontally)
  '(py-underscore-word-syntax-p nil)
@@ -57,5 +66,4 @@
  '(go-test--ok-face ((t (:foreground "forest green"))))
  '(go-test--warning-face ((t (:foreground "goldenrod"))))
  '(sh-escaped-newline ((t :foreground "Magenta")))
- '(sh-heredoc ((t (:foreground "chocolate"))))
- )
+ '(sh-heredoc ((t (:foreground "chocolate")))))
