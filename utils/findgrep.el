@@ -17,7 +17,7 @@
    (":" "Regexp" "Regexp" :class findgrep--parameter-regexp)
    ("/" "Directory" "Directory" :class findgrep--parameter-directory)]
   ["Actions"
-   ([RET] "Run" findgrep--run)
+   ("RET" "Run" findgrep--run)
    ("q" "Quit findgrep" transient-quit-all)]
   (interactive)
   (and (eq major-mode 'grep-mode)
