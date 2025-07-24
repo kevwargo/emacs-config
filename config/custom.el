@@ -1,3 +1,5 @@
+(setq custom-file load-file-name)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -12,8 +14,8 @@
  '(company-selection-wrap-around t)
  '(create-lockfiles nil)
  '(custom-enabled-themes '(whiteboard deeper-blue))
- '(custom-file (concat kec:config-dir "config/custom.el"))
  '(ediff-split-window-function 'split-window-horizontally)
+ '(ediff-window-setup-function 'ediff-setup-windows-plain)
  '(enable-local-variables :all)
  '(font-use-system-font t)
  '(go-gen-test-enable-subtests nil)
