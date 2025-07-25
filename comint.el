@@ -21,7 +21,6 @@
   (interactive "*p")
   (comint-previous-input-straight (- arg)))
 
-
 (defun comint-up-or-prev-input (&optional arg)
   (interactive "*^p")
   (if (and (eobp)

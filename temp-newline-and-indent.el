@@ -10,6 +10,6 @@ With ARG, perform this action that many times."
   (delete-horizontal-space t)
   (unless arg
     (setq arg 1))
-    (dotimes (_ arg)
-      (newline nil t)
-      (indent-according-to-mode)))
+  (dotimes (_ arg)
+    (newline nil t)
+    (indent-according-to-mode)))
