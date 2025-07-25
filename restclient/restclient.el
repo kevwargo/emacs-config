@@ -1,7 +1,8 @@
 (require 'restclient)
-(require 'restclient-jq)
 
-(defvar restclient--aws-request-signer-executable (concat (file-name-directory load-file-name) "sign_request.py"))
+(defvar restclient--aws-request-signer-executable
+  (expand-file-name "sign_request.py"
+                    (file-name-directory load-file-name)))
 
 (defvar-local restclient--aws-request-signer-process nil)
 (defvar-local restclient--aws-request-signer-resp nil)

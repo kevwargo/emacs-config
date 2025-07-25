@@ -1,7 +1,5 @@
 (require 'show-point-mode)
 
-(add-to-list 'load-path (concat kec:config-dir "rules-editing-mode"))
-
 (global-subword-mode)
 (global-display-line-numbers-mode)
 

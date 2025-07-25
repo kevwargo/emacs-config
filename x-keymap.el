@@ -30,11 +30,11 @@
 (define-minor-mode x-keys
   "Some custom keybindings working only from X"
   :keymap (let ((m (make-sparse-keymap)))
-            (define-key m (kbd "M-<left>") 'windmove-left)
-            (define-key m (kbd "M-<right>") 'windmove-right)
-            (define-key m (kbd "M-<up>") 'windmove-up)
-            (define-key m (kbd "M-<down>") 'windmove-down)
-            (define-key m (kbd "C-c C-u") 'browse-url-at-point)
+            (keymap-set m "M-<left>" 'windmove-left)
+            (keymap-set m "M-<right>" 'windmove-right)
+            (keymap-set m "M-<up>" 'windmove-up)
+            (keymap-set m "M-<down>" 'windmove-down)
+            (keymap-set m "C-c C-u" 'browse-url-at-point)
             m)
   :group 'keybinding-x
   :global t)

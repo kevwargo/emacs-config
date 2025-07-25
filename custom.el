@@ -34,17 +34,6 @@
  '(magit-refresh-verbose nil)
  '(markdown-command-needs-filename t)
  '(org-support-shift-select t)
- '(package-selected-packages
-   '(cmake-mode company connection csv-mode default-text-scale
-                dockerfile-mode editorconfig elpy f
-                flymake-markdownlint go-mode go-tag gotest
-                goto-last-change graphql-mode grip-mode groovy-mode
-                indent-tools ivy-xref json-mode kotlin-mode kwin
-                lsp-java lsp-mode magit markdown-mode multi-term
-                neotree paredit powershell prettier project pylint
-                python-black python-isort qml-mode restclient
-                restclient-jq rjsx-mode s string-inflection
-                typescript-mode undo-tree uuidgen yaml-mode yasnippet))
  '(py-split-window-on-execute t)
  '(py-split-windows-on-execute-function 'split-window-horizontally)
  '(py-underscore-word-syntax-p nil)
