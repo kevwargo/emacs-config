@@ -40,6 +40,7 @@
  '(require-final-newline t)
  '(tab-always-indent t)
  '(tool-bar-mode nil)
+ '(vc-follow-symlinks t)
  '(warning-suppress-log-types '((comp))))
 
 (custom-set-faces
