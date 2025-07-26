@@ -10,6 +10,6 @@
           (load (expand-file-name (file-name-base item) item) t)
         (load item)))))
 
-(load-kec-directory "00")
-(load-kec-directory "01")
-(load-kec-directory "02")
+(load-kec-directory "00-basic")
+(load-kec-directory "01-straight-init")
+(load-kec-directory "02-pkg-dependent")
