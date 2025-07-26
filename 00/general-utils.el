@@ -256,7 +256,7 @@ instead of from the first non-whitespace character"
 
 (defun find-file-in-kec ()
   (interactive)
-  (let ((default-directory kec:config-dir))
+  (let ((default-directory kec-config-dir))
     (ido-find-file)))
 
 (defun file-name-to-clipboard ()

@@ -1,4 +1,15 @@
-(defvar kec:config-dir (file-name-directory (file-truename load-file-name))
+(defvar kec-config-dir (file-name-directory (file-truename load-file-name))
   "Directory containing the main config files.")
 
-; TODO: load everything in correct order
+(defun load-kec-directory (dir)
+  (setq dir (expand-file-name dir kec-config-dir))
+  (dolist (item (directory-files dir))
+    (unless (member item '("." ".."))
+      (setq item (expand-file-name item dir))
+      (if (file-directory-p item)
+          (load (expand-file-name (file-name-base item) item) t)
+        (load item)))))
+
+(load-kec-directory "00")
+(load-kec-directory "01")
+(load-kec-directory "02")
