@@ -25,12 +25,16 @@
                                "pascalcase"
                                "keep"))))))
 
+(defvar go-lsp--impl-key "M-/")
+(defvar go-lsp--impl-key-other-win "M-?")
+
 (defun go-lsp-find-implementation (&optional other-window)
   "Find the non-mock implementations of the method at point.
 
 If there is exactly one such implementation,
 jump to it immediately without showing the xref buffer."
-  (interactive (list (equal (this-command-keys-vector) (kbd "M-?"))))
+  (interactive (list (equal (this-command-keys-vector)
+                            (key-parse go-lsp--impl-key-other-win))))
   (let* ((lsp-xref-force-references t)
          (xref-callback xref-show-definitions-function)
          (xref-show-definitions-function
@@ -49,6 +53,9 @@ jump to it immediately without showing the xref buffer."
     (if other-window
         (lsp-find-implementation :display-action 'window)
       (lsp-find-implementation))))
+
+(keymap-set go-mode-map go-lsp--impl-key 'go-lsp-find-implementation)
+(keymap-set go-mode-map go-lsp--impl-key-other-win 'go-lsp-find-implementation)
 
 (defcustom gofumpt-cmd "gofumpt" "" :group 'gofumpt+gci)
 (defcustom gofumpt-args nil "" :group 'gofumpt+gci)
@@ -77,7 +84,5 @@ jump to it immediately without showing the xref buffer."
 
 (keymap-set go-mode-map "C-x t" 'go-tag-refresh-json)
 (keymap-set go-mode-map "C-x T" 'go-tag-add-json)
-(keymap-set go-mode-map "M-/" 'go-lsp-find-implementation)
-(keymap-set go-mode-map "M-?" 'go-lsp-find-implementation)
 
 (add-hook 'go-mode-hook 'gofumpt+gci-on-save-mode)

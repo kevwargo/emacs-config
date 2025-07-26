@@ -91,8 +91,8 @@
         (json-pretty-print (save-excursion (backward-sexp) (point))
                            (point)))))
 
-(define-key restclient-mode-map (kbd "C-c RET") 'restclient-aws-send-current)
-(define-key restclient-mode-map (kbd "C-c C-k") 'restclient-aws-kill-process)
-(define-key restclient-mode-map (kbd "C-c f") 'restclient-json-format-body)
+(keymap-set restclient-mode-map "C-c RET" 'restclient-aws-send-current)
+(keymap-set restclient-mode-map "C-c C-k" 'restclient-aws-kill-process)
+(keymap-set restclient-mode-map "C-c f" 'restclient-json-format-body)
 
 (add-to-list 'auto-mode-alist '("\\.rest$" . restclient-mode))

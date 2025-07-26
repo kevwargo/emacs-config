@@ -9,7 +9,7 @@
   (interactive)
   (end-of-line)
   (insert ";")
-  (funcall (key-binding (kbd "RET"))))
+  (funcall (key-binding (key-parse "RET"))))
 
 (defun c-define-style ()
   (add-to-list 'c-style-alist

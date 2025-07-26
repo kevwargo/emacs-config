@@ -24,19 +24,19 @@
   (neotree-change-root))
 
 (defun setup-neotree ()
-  (local-set-key (kbd "<backspace>") 'neotree-go-up)
-  (local-set-key (kbd "RET") (neotree-make-executor
+  (keymap-local-set "<backspace>" 'neotree-go-up)
+  (keymap-local-set "RET" (neotree-make-executor
                               :file-fn 'neo-open-file
                               :dir-fn  'neotree-change-root-dir))
-  (local-set-key (kbd "u") 'neotree-select-up-node)
-  (local-set-key (kbd "f") 'neotree-fold-all))
+  (keymap-local-set "u" 'neotree-select-up-node)
+  (keymap-local-set "f" 'neotree-fold-all))
 
 (defvar neotree-custom-map
   (let ((m (make-sparse-keymap)))
-    (define-key m (kbd "RET") 'neotree-show-cwd)
+    (keymap-set m "RET" 'neotree-show-cwd)
     m)
   "Custom map enabled in minor mode for neotree bindings")
 
-(define-key key-overrides-mode-map (kbd "C-c n") neotree-custom-map)
+(keymap-set key-overrides-mode-map "C-c n" neotree-custom-map)
 
 (add-hook 'neotree-mode-hook 'setup-neotree)

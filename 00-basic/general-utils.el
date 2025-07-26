@@ -12,7 +12,7 @@
 (defun newline-from-middle-of-line ()
   (interactive)
   (end-of-line)
-  (funcall (key-binding (kbd "RET"))))
+  (funcall (key-binding (key-parse "RET"))))
 
 (defun delete-line (arg)
   (interactive "p")

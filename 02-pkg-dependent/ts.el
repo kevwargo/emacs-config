@@ -4,7 +4,7 @@
 
 (defun k-color-chooser (&optional save)
   (interactive (list (equal (this-command-keys)
-                            (kbd k-color-chooser-key))))
+                            (key-parse k-color-chooser-key))))
   (when-let* ((s (syntax-ppss))
               (str-start (if (nth 3 s) (nth 8 s)))
               (str-val (thing-at-point 'string t))

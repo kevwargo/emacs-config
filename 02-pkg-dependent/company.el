@@ -2,4 +2,4 @@
 
 (setq company-show-quick-access 'left)
 
-(define-key company-mode-map (kbd "C-x TAB") 'company-complete)
+(keymap-set company-mode-map "C-x TAB" 'company-complete)
