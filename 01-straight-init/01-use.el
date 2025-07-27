@@ -1,5 +1,6 @@
 (straight-use-package 'company)
 (straight-use-package 'connection)
+(straight-use-package 'copilot)
 (straight-use-package 'csv-mode)
 (straight-use-package 'default-text-scale)
 (straight-use-package 'dockerfile-mode)
