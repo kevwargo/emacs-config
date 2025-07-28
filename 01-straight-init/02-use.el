@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (straight-use-package 'company)
 (straight-use-package 'connection)
 (straight-use-package 'copilot)
