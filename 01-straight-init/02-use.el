@@ -13,6 +13,7 @@
 (straight-use-package 'goto-last-change)
 (straight-use-package 'graphql-mode)
 (straight-use-package 'groovy-mode)
+(straight-use-package '(findgrep :host github :repo "kevwargo/findgrep.el"))
 (straight-use-package 'indent-tools)
 (straight-use-package 'ivy-xref)
 (straight-use-package 'json-mode)
