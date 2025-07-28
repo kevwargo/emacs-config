@@ -1,1 +1,0 @@
-(default-text-scale-mode)

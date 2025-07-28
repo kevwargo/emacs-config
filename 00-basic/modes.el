@@ -1,10 +1,7 @@
-(require 'show-point-mode)
-
 (global-subword-mode)
 (global-display-line-numbers-mode)
 
 (column-number-mode t)
-(show-point-mode t)
 (delete-selection-mode t)
 (and (boundp 'scroll-bar-mode)
      (scroll-bar-mode 0))

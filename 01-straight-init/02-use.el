@@ -1,5 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
+(straight-use-package '(advanced-pos-mode :host github :repo "kevwargo/advanced-pos-mode.el"))
 (straight-use-package 'company)
 (straight-use-package 'connection)
 (straight-use-package 'copilot)
