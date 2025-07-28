@@ -1,4 +1,5 @@
 (("ace-window" . "77115afc1b0b9f633084cf7479c767988106c196")
+ ("advanced-pos-mode.el" . "65845ce1d080a5e2893b5083372f1796589f12e3")
  ("avy" . "933d1f36cca0f71e4acb5fac707e9ae26c536264")
  ("bui.el" . "f3a137628e112a91910fd33c0cff0948fa58d470")
  ("cfrs" . "f3a21f237b2a54e6b9f8a420a9da42b4f0a63121")
@@ -22,6 +23,7 @@
  ("emacs-request" . "c22e3c23a6dd90f64be536e176ea0ed6113a5ba6")
  ("emacsmirror-mirror" . "8a2e27278fae15fe6dc8eaf6dfb44ac4b9f1b96b")
  ("f.el" . "931b6d0667fe03e7bf1c6c282d6d8d7006143c52")
+ ("findgrep.el" . "bbc4a642b0f29916da7581a9eb06dea498de3bb8")
  ("gnu-elpa-mirror" . "141f44c4867eb56e3f8b5aa36bdde9ee78575b06")
  ("go-mode.el" . "0ed3c5227e7f622589f1411b4939c3ee34711ebd")
  ("gotest.el" . "490189e68d743a851bfb42d0017428a7550e8615")
