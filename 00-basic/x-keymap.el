@@ -5,8 +5,6 @@
 (keymap-global-set "M-DEL" 'backward-delete-word)
 (keymap-global-set "C-<delete>" 'delete-word)
 (keymap-global-set "C-SPC" 'smart-set-mark-command)
-(keymap-global-set "C-<down>" 'scroll-up-line)
-(keymap-global-set "C-<up>" 'scroll-down-line)
 (keymap-global-set "C-S-z" 'undo-tree-redo)
 (keymap-global-set "C-S-d" 'uncomment-lines)
 (keymap-global-set "C-S-<up>" 'move-lines-up)
@@ -32,6 +30,8 @@
             (keymap-set m "M-<up>" 'windmove-up)
             (keymap-set m "M-<down>" 'windmove-down)
             (keymap-set m "C-c C-u" 'browse-url-at-point)
+            (keymap-set m "C-<down>" 'scroll-up-line)
+            (keymap-set m "C-<up>" 'scroll-down-line)
             m)
   :group 'keybinding-x
   :global t)
