@@ -54,9 +54,9 @@
 
   (let ((vars (restclient-find-vars-before-point)))
     (setq headers
-          (restclient--aws-request-signer-send `((profile . ,(cdr (assoc ":aws-profile" vars)))
-                                                 (region . ,(cdr (assoc ":aws-region" vars)))
-                                                 (service . ,(cdr (assoc ":aws-service" vars)))
+          (restclient--aws-request-signer-send `((profile . ,(cdr (assoc "aws-profile" vars)))
+                                                 (region . ,(cdr (assoc "aws-region" vars)))
+                                                 (service . ,(cdr (assoc "aws-service" vars)))
                                                  (method . ,method)
                                                  (url . ,url)
                                                  (headers . ,headers)
