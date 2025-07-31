@@ -186,16 +186,22 @@ If point was already at that position, move point to beginning of line."
     (message "Setting working directory to %S" cwd)
     (cd cwd)))
 
-(defun rename-current-file (newname)
-  "Rename the file associated with the current buffer to NEWNAME"
-  (interactive (list (read-from-minibuffer "Rename current file to: "
-                                           (buffer-file-name (current-buffer)))))
-  (let ((oldname (buffer-file-name (current-buffer))))
-    (if (and oldname newname)
-        (let ((default-directory (file-name-directory oldname)))
-          (make-directory (file-name-directory newname) t)
-          (rename-file oldname newname)
-          (find-alternate-file newname)))))
+(defun mv (old-name new-name)
+  (interactive (let ((old-name (or (buffer-file-name)
+                                   (user-error "Buffer %S is not visiting a file" (current-buffer))))
+                     (ido-file-completion-map (let ((m (make-sparse-keymap)))
+                                                (set-keymap-parent m ido-file-completion-map)
+                                                (keymap-set m "C-c C-c" 'ido-select-text)
+                                                m)))
+                 (list old-name (ido-read-file-name "Move/rename to: "))))
+  (if (file-directory-p new-name)
+      (setq new-name (expand-file-name (file-name-nondirectory old-name)
+                                       new-name)))
+  (rename-file old-name new-name
+               1 ;; from doc-string: An integer third arg means request confirmation if NEWNAME already exists.
+               )
+  (message "Moved/renamed %S -> %S" old-name new-name)
+  (find-alternate-file new-name))
 
 (defun imv-open (filename)
   (interactive
