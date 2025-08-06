@@ -33,6 +33,7 @@
 (straight-use-package 'qml-mode)
 (straight-use-package '(restclient :fork "kevwargo/restclient"))
 (straight-use-package 'restclient-jq)
+(straight-use-package '(restclient-aws :host github :repo "kevwargo/restclient-aws"))
 (straight-use-package 'rjsx-mode)
 (straight-use-package 's)
 (straight-use-package 'string-inflection)
