@@ -60,7 +60,7 @@
  ("qml-mode" . "6c5f33ba88ae010bf201a80ee8095e20a724558c")
  ("queue" . "8df1334d54d4735d2f821790422a850dfaaa08ef")
  ("restclient" . "ce834513b40631bf34b1725c66f3243754a73d5f")
- ("restclient-aws" . "4d3d8e7fc19173813b54e9ff90bf7d4ba4514d13")
+ ("restclient-aws" . "1c0eb3a4c929d6d238a8d8494be5c82ec628667c")
  ("rjsx-mode" . "b697fe4d92cc84fa99a7bcb476f815935ea0d919")
  ("s.el" . "dda84d38fffdaf0c9b12837b504b402af910d01d")
  ("seq" . "da86da9bf111f68fb81efd466d76d53af5aebc00")
