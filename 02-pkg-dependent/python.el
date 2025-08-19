@@ -1,6 +1,4 @@
 (require 's)
-(require 'python-black)
-(require 'python-isort)
 (require 'lsp-pylsp)
 
 (defvar-local py-venv-path nil)
@@ -26,10 +24,9 @@
                       (s-trim output))))))))
 
 (defun setup-py-mode ()
-  (add-hook 'before-save-hook 'python-isort-buffer -1 t)
-  (add-hook 'before-save-hook 'python-black-buffer 0 t) ;; black should run after isort
   (setq-local forward-sexp-function nil)
   (setq-local lsp-pylsp-plugins-jedi-environment (py-get-venv))
+  (setq-local lsp-format-buffer-on-save t)
   (keymap-local-set "C-c v"
                     (let ((m (make-sparse-keymap)))
                       (keymap-set m "RET" 'py-find-in-venv)

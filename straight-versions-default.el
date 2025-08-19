@@ -17,8 +17,6 @@
  ("eldoc" . "5cba6bcbd3b3d3f1ae9668cf6a1f9e2d3ebb10df")
  ("emacs-go-tag" . "33f2059551d5298ca228d90f525b99d1a8d70364")
  ("emacs-neotree" . "3178805a0942696d1e5162575d9cab43d14b7970")
- ("emacs-python-black" . "4da1519345b3d5c513d82ef0d39536dd9c626d42")
- ("emacs-python-isort" . "8b4948b7fcad90fc9b72f69f4653260bd21f62c3")
  ("emacs-reformatter" . "6ac08cebafb9e04b825ed22d82269ff69cc5f87f")
  ("emacs-request" . "c22e3c23a6dd90f64be536e176ea0ed6113a5ba6")
  ("emacsmirror-mirror" . "8a2e27278fae15fe6dc8eaf6dfb44ac4b9f1b96b")
