@@ -24,6 +24,8 @@
  '(graphql-indent-level 2)
  '(grep-save-buffers nil)
  '(ido-auto-merge-delay-time 2)
+ '(ivy-wrap t)
+ '(ivy-xref-use-file-path t)
  '(jedi:environment-root "python3")
  '(jedi:environment-virtualenv '("virtualenv" "--system-site-packages" "--python=python3"))
  '(jedi:tooltip-method nil)
@@ -41,7 +43,9 @@
  '(tab-always-indent t)
  '(tool-bar-mode nil)
  '(vc-follow-symlinks t)
- '(warning-suppress-log-types '((comp))))
+ '(warning-suppress-log-types '((comp)))
+ '(xref-show-xrefs-function 'ivy-xref-show-xrefs)
+ '(xref-show-definitions-function 'ivy-xref-show-defs))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
