@@ -33,6 +33,11 @@
  '(jit-lock-stealth-verbose t)
  '(js2-strict-missing-semi-warning nil)
  '(lsp-enable-file-watchers nil)
+ '(lsp-pylsp-plugins-black-enabled t)
+ '(lsp-pylsp-plugins-isort-enabled t)
+ '(lsp-pylsp-plugins-mccabe-enabled nil)
+ '(lsp-pylsp-plugins-pydocstyle-enabled nil)
+ '(lsp-pylsp-plugins-pyflakes-enabled nil)
  '(magit-refresh-verbose nil)
  '(markdown-command-needs-filename t)
  '(org-support-shift-select t)
@@ -44,8 +49,8 @@
  '(tool-bar-mode nil)
  '(vc-follow-symlinks t)
  '(warning-suppress-log-types '((comp)))
- '(xref-show-xrefs-function 'ivy-xref-show-xrefs)
- '(xref-show-definitions-function 'ivy-xref-show-defs))
+ '(xref-show-definitions-function 'ivy-xref-show-defs)
+ '(xref-show-xrefs-function 'ivy-xref-show-xrefs))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

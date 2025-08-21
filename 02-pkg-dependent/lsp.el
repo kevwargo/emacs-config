@@ -68,4 +68,4 @@
 (setq lsp-disabled-clients '((typescript-mode . graphql-lsp)))
 
 (setq lsp-log-io t
-      lsp-log-io-allowlist-methods '("textDocument/definition" "textDocument/implementation" "textDocument/references"))
+      lsp-log-io-allowlist-methods nil)
