@@ -29,11 +29,8 @@
   (setq-local lsp-format-buffer-on-save t)
   (keymap-local-set "C-c v"
                     (let ((m (make-sparse-keymap)))
-                      (keymap-set m "RET" 'py-find-in-venv)
-                      (keymap-set m "<left>" 'py-find-in-venv-left)
-                      (keymap-set m "<right>" 'py-find-in-venv-right)
-                      (keymap-set m "<up>" 'py-find-in-venv-up)
-                      (keymap-set m "<down>" 'py-find-in-venv-down)
+                      (dolist (k '("RET" "<left>" "<right>" "<up>" "<down>"))
+                        (keymap-set m k 'py-find-in-venv))
                       m))
   (keymap-local-set "C-<" 'py-shift-lines-left)
   (keymap-local-set "C->" 'py-shift-lines-right))
@@ -59,34 +56,15 @@
     (or site-packages
         py-venv-path)))
 
-(defun py-find-in-venv ()
-  (interactive)
-  (let ((default-directory (or (py-get-venv-path)
-                               (buffer-working-directory))))
-    (ido-find-file)))
-
-(defun py-find-in-venv-dir (dir)
+(defun py-find-in-venv (&optional dir)
+  (interactive (let* ((keys (this-command-keys-vector)))
+                 (list (aref keys (1- (length keys))))))
   (let ((cwd (or (py-get-venv-path)
                  (buffer-working-directory))))
-    (windmove-do-window-select dir)
+    (if (memq dir '(up down left right))
+        (windmove-do-window-select dir))
     (let ((default-directory cwd))
       (ido-find-file))))
-
-(defun py-find-in-venv-left ()
-  (interactive)
-  (py-find-in-venv-dir 'left))
-
-(defun py-find-in-venv-right ()
-  (interactive)
-  (py-find-in-venv-dir 'right))
-
-(defun py-find-in-venv-up ()
-  (interactive)
-  (py-find-in-venv-dir 'up))
-
-(defun py-find-in-venv-down ()
-  (interactive)
-  (py-find-in-venv-dir 'down))
 
 (defvar-local pyexecserver-port 35000)
 
