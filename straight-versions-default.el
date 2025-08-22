@@ -43,7 +43,7 @@
  ("llama" . "0cc2daffded18eea7f00a318cfa3e216977ffe50")
  ("lsp-docker" . "ff41f4a76b640d39dc238bacba7f654c297827fa")
  ("lsp-java" . "9230a0007c79a661028c142f35c7b8d1f9f55453")
- ("lsp-mode" . "147233313576c844e2bf56640827b0d0e5c2ee6c")
+ ("lsp-mode" . "c0cafd07ea7e0a2d82fcd0680eb36da10356d700")
  ("lsp-treemacs" . "3e5550f278db74f15ebe34add0138b138207ec08")
  ("magit" . "9e13473f28bcad07cb21229c62d887304e0d547b")
  ("markdown-mode" . "fc4fff89bae976ff4a594a538e6ef11820440c1f")
