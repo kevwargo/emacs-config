@@ -1,5 +1,4 @@
 (require 's)
-(require 'lsp-pylsp)
 
 (defvar-local py-venv-path nil)
 
@@ -38,6 +37,13 @@
                       m))
   (keymap-local-set "C-<" 'py-shift-lines-left)
   (keymap-local-set "C->" 'py-shift-lines-right))
+
+(defun pylsp-verify-environment ()
+  (interactive)
+  (let ((venv lsp-pylsp-plugins-jedi-environment))
+    (lsp-workspace-show-log (car (lsp-workspaces)))
+    (goto-char (point-min))
+    (re-search-forward (regexp-quote venv))))
 
 (defun py-shift-lines-left ()
   (interactive)
