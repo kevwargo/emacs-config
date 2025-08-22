@@ -1,4 +1,8 @@
+(require 'dash)
 (require 's)
+
+(with-eval-after-load 'lsp-pylsp
+  (lsp-register-custom-settings '(("pylsp.plugins.jedi.environment" py-detect-pylsp-jedi-env))))
 
 (defvar-local py-venv-path nil)
 
@@ -37,6 +41,22 @@
                       m))
   (keymap-local-set "C-<" 'py-shift-lines-left)
   (keymap-local-set "C->" 'py-shift-lines-right))
+
+(defun py-detect-pylsp-jedi-env ()
+  (let ((ws-buffers (-flatten (mapcar 'lsp--workspace-buffers (lsp-workspaces)))))
+    (cond
+     ((member (current-buffer) ws-buffers)
+      (py-get-venv))
+     ((null ws-buffers)
+      (message "Unable to detect correct pylsp-jedi-environment, current buffer %S seems to be wrong"
+               (current-buffer))
+      nil)
+     (t
+      (message "Using %S for detecting pylsp-jedi-environment instead of current %S"
+               (car ws-buffers)
+               (current-buffer))
+      (with-current-buffer (car ws-buffers)
+        (py-get-venv))))))
 
 (defun pylsp-verify-environment ()
   (interactive)
