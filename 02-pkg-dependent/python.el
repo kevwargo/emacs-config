@@ -10,18 +10,22 @@
 (defun py-get-venv ()
   (or py-venv-path
       (setq py-venv-path
-            (let ((default-directory (or (pipfile-dir)
-                                         default-directory)))
-              (with-temp-buffer
-                (let ((code (call-process shell-file-name
-                                          nil
-                                          '(t nil)
-                                          nil
-                                          "-c" "pipenv --venv"))
-                      (output (buffer-substring-no-properties (point-min)
-                                                              (point-max))))
-                  (if (zerop code)
-                      (s-trim output))))))))
+            (if-let* ((venv-root (locate-dominating-file (buffer-file-name) ".venv"))
+                      (venv-dir (expand-file-name ".venv" venv-root))
+                      ((file-directory-p venv-dir)))
+                venv-dir
+              (let ((default-directory (or (pipfile-dir)
+                                           default-directory)))
+                (with-temp-buffer
+                  (let ((code (call-process shell-file-name
+                                            nil
+                                            '(t nil)
+                                            nil
+                                            "-c" "pipenv --venv"))
+                        (output (buffer-substring-no-properties (point-min)
+                                                                (point-max))))
+                    (if (zerop code)
+                        (s-trim output)))))))))
 
 (defun setup-py-mode ()
   (setq-local forward-sexp-function nil)
@@ -47,20 +51,17 @@
       (selected-lines)
     (python-indent-shift-right start end)))
 
-(defun py-get-venv-path ()
-  (let* ((py-venv-path (py-get-venv))
-         (site-packages-template (and py-venv-path
-                                      (concat py-venv-path "/lib/python*/site-packages")))
-         (site-packages (and site-packages-template
-                             (car-safe (file-expand-wildcards site-packages-template)))))
-    (or site-packages
-        py-venv-path)))
-
 (defun py-find-in-venv (&optional dir)
   (interactive (let* ((keys (this-command-keys-vector)))
                  (list (aref keys (1- (length keys))))))
-  (let ((cwd (or (py-get-venv-path)
-                 (buffer-working-directory))))
+  (let ((cwd (let* ((py-venv-path (py-get-venv))
+                    (site-packages-template (and py-venv-path
+                                                 (concat py-venv-path "/lib/python*/site-packages")))
+                    (site-packages (and site-packages-template
+                                        (car-safe (file-expand-wildcards site-packages-template)))))
+               (or site-packages
+                   py-venv-path
+                   (buffer-working-directory)))))
     (if (memq dir '(up down left right))
         (windmove-do-window-select dir))
     (let ((default-directory cwd))
