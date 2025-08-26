@@ -31,9 +31,10 @@
                         (s-trim output)))))))))
 
 (defun setup-py-mode ()
-  (setq-local forward-sexp-function nil)
-  (setq-local lsp-pylsp-plugins-jedi-environment (py-get-venv))
-  (setq-local lsp-format-buffer-on-save t)
+  (setq-local forward-sexp-function nil
+              lsp-pylsp-plugins-jedi-environment (py-get-venv)
+              lsp-use-workspace-root-for-server-default-directory t
+              lsp-format-buffer-on-save t)
   (keymap-local-set "C-c v"
                     (let ((m (make-sparse-keymap)))
                       (dolist (k '("RET" "<left>" "<right>" "<up>" "<down>"))
@@ -80,13 +81,9 @@
 (defun py-find-in-venv (&optional dir)
   (interactive (let* ((keys (this-command-keys-vector)))
                  (list (aref keys (1- (length keys))))))
-  (let ((cwd (let* ((py-venv-path (py-get-venv))
-                    (site-packages-template (and py-venv-path
-                                                 (concat py-venv-path "/lib/python*/site-packages")))
-                    (site-packages (and site-packages-template
-                                        (car-safe (file-expand-wildcards site-packages-template)))))
-               (or site-packages
-                   py-venv-path
+  (let ((cwd (let ((venv (py-get-venv)))
+               (or (-some->> venv (expand-file-name "lib/python*/site-packages") file-expand-wildcards car)
+                   venv
                    (buffer-working-directory)))))
     (if (memq dir '(up down left right))
         (windmove-do-window-select dir))

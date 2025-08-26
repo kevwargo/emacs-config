@@ -35,6 +35,11 @@
                             (car (last lsp--current-highlights)))))
     (goto-char (car highlight))))
 
+(defun lsp-toggle-format-on-save ()
+  (interactive)
+  (setq-local lsp-format-buffer-on-save (not lsp-format-buffer-on-save))
+  (message "LSP auto-formatting set to %S in %S" lsp-format-buffer-on-save (current-buffer)))
+
 (defun setup-lsp-mode ()
   (when-let ((file-name (buffer-file-name))
              (project-descriptor (cdr-safe (assoc major-mode lsp-modes))))
