@@ -59,6 +59,7 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Ubuntu Mono" :height 135))))
  '(Info-quoted ((t (:inherit fixed-pitch-serif :family "Ubuntu Mono"))))
+ '(elisp-shorthand-font-lock-face ((t (:inherit font-lock-keyword-face :foreground "dark violet"))))
  '(font-lock-comment-face ((t (:foreground "gray50" :slant italic))))
  '(font-lock-function-name-fac ((t :foreground "DarkBlue")) t)
  '(font-lock-keyword-face ((t :bold t)))
