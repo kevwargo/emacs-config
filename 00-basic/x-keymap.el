@@ -7,6 +7,7 @@
 (keymap-global-set "C-SPC" 'smart-set-mark-command)
 (keymap-global-set "C-S-z" 'undo-tree-redo)
 (keymap-global-set "C-S-d" 'uncomment-lines)
+(keymap-global-set "C-S-t" 'transpose-words)
 (keymap-global-set "C-S-<up>" 'move-lines-up)
 (keymap-global-set "C-S-<down>" 'move-lines-down)
 (keymap-global-set "C-M-<up>" 'copy-lines-up)
