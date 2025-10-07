@@ -16,7 +16,7 @@
 (defmacro scratch-log-expr (expr &optional prefix-fmt &rest prefix-args)
   `(let ((val ,expr)
          (prefix (format ,(or prefix-fmt "") ,@prefix-args)))
-     (scratch-log "%s%s: %S" prefix ',expr val)
+     (scratch-log "%s%S: %S" prefix ',expr val)
      val))
 
 (defmacro scratch-log-args (&rest args)
