@@ -32,7 +32,7 @@
  ("hydra" . "59a2a45a35027948476d1d7751b0f0215b1e61aa")
  ("indent-tools" . "c731f05fa3950e2e8580ec61b88abbc705639830")
  ("iter2" . "632232b5ee627bf5d299db0b7714b3b687a0124c")
- ("ivy-xref" . "a82e8e117d2dd62c28b6a3e3d6e4cfb11c0bda38")
+ ("ivy-xref.el" . "3cbe661443ba78d70dea6f5edfc42e5f5e52d0e0")
  ("jq-mode" . "3275c3f53fdc60c8065a8b05395b559ecb9edfaf")
  ("js2-mode" . "e0c302872de4d26a9c1614fac8d6b94112b96307")
  ("json-mode" . "466d5b563721bbeffac3f610aefaac15a39d90a9")

@@ -16,7 +16,7 @@
 (straight-use-package 'groovy-mode)
 (straight-use-package '(findgrep :host github :repo "kevwargo/findgrep.el"))
 (straight-use-package 'indent-tools)
-(straight-use-package 'ivy-xref)
+(straight-use-package '(ivy-xref :host github :repo "kevwargo/ivy-xref.el"))
 (straight-use-package 'json-mode)
 (straight-use-package 'json-navigator)
 (straight-use-package 'kotlin-mode)
