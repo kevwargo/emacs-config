@@ -3,11 +3,16 @@
 
 (defun ibuffer-dwim ()
   (interactive)
-  (ibuffer nil nil (if (cl-find-if (lambda (b)
-                                     (with-current-buffer b
-                                       (and (buffer-file-name) (buffer-modified-p))))
-                                   (buffer-list))
-                       '((visiting-file . nil) (modified . nil)))))
+  (let ((ibuffer-hook
+         `(,(lambda ()
+              (setq ibuffer-filtering-qualifiers
+                    (if (cl-find-if (lambda (b)
+                                      (with-current-buffer b
+                                        (and (buffer-file-name) (buffer-modified-p))))
+                                    (buffer-list))
+                        '((visiting-file . nil) (modified . nil))))
+              (ibuffer-update nil t)))))
+    (ibuffer)))
 
 (defun ibuffer-delete-marked-exit ()
   (interactive)
