@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t -*-
+
 (require 'uuidgen)
 
 (defun uuid ()
