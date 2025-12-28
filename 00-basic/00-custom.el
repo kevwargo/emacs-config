@@ -13,7 +13,7 @@
  '(company-minimum-prefix-length 1)
  '(company-selection-wrap-around t)
  '(create-lockfiles nil)
- '(custom-enabled-themes '(whiteboard deeper-blue))
+ '(custom-enabled-themes '(tsdh-light adwaita whiteboard deeper-blue))
  '(ediff-split-window-function 'split-window-horizontally)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
  '(enable-local-variables :all)
