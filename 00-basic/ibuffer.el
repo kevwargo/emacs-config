@@ -25,15 +25,14 @@
 
 (defun ibuffer-save-all-modified ()
   (interactive)
-  (let ((modified-bufs (cl-remove-if-not #'ibuffer--buf-modified (buffer-list))))
-    (if modified-bufs
-        (when (y-or-n-p (format "Save the following buffers: %S?"
-                                (mapcar #'buffer-name modified-bufs)))
-          (dolist (b modified-bufs)
-            (with-current-buffer b
-              (save-buffer)))
-          (kill-current-buffer))
-      (message "No modified buffers"))))
+  (if-let ((modified-bufs (cl-remove-if-not #'ibuffer--buf-modified (buffer-list))))
+      (when (y-or-n-p (format "Save the following buffers: %S?"
+                              (mapcar #'buffer-name modified-bufs)))
+        (dolist (b modified-bufs)
+          (with-current-buffer b
+            (save-buffer)))
+        (kill-current-buffer))
+    (message "No modified buffers")))
 
 (defun ibuffer--buf-modified (b)
   (and (buffer-file-name b) (buffer-modified-p b)))
