@@ -105,10 +105,12 @@ and selects that window."
 
 (defun move-buffer-dir (dir)
   (let ((buf (current-buffer))
+        (orig-pos (point))
         (window (find-other-window-dir dir)))
     (previous-buffer)
     (windmove-do-window-select dir)
-    (switch-to-buffer buf)))
+    (switch-to-buffer buf)
+    (goto-char orig-pos)))
 
 (defun move-buffer-left ()
   (interactive)
