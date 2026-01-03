@@ -21,7 +21,7 @@
  ("emacs-request" . "c22e3c23a6dd90f64be536e176ea0ed6113a5ba6")
  ("emacsmirror-mirror" . "8a2e27278fae15fe6dc8eaf6dfb44ac4b9f1b96b")
  ("f.el" . "931b6d0667fe03e7bf1c6c282d6d8d7006143c52")
- ("findgrep.el" . "bbc4a642b0f29916da7581a9eb06dea498de3bb8")
+ ("findgrep.el" . "78986d1a4a5a1b41a7a86a369d56b39ac7f6ed85")
  ("gnu-elpa-mirror" . "141f44c4867eb56e3f8b5aa36bdde9ee78575b06")
  ("go-mode.el" . "0ed3c5227e7f622589f1411b4939c3ee34711ebd")
  ("gotest.el" . "490189e68d743a851bfb42d0017428a7550e8615")
