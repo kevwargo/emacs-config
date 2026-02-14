@@ -28,8 +28,8 @@
 
 (defun nest-context-show ()
   (interactive)
-  (message "%s" (s-join "\n" (nest--context))))
+  (message "%s" (mapconcat 'identity (nest--context) "\n")))
 
 (defun nest-context-copy ()
   (interactive)
-  (kill-new (s-join " " (nest--context))))
+  (kill-new (mapconcat 'identity (nest--context) " ")))
