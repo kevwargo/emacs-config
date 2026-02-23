@@ -47,6 +47,7 @@
 (defun comint-mode-keymap-modify ()
   (keymap-local-set "<up>" 'comint-up-or-prev-input)
   (keymap-local-set "<down>" 'comint-down-or-next-input)
-  (keymap-local-unset "C-c C-x"))
+  (keymap-local-unset "C-c C-x")
+  (keymap-local-unset "C-c C-\\"))
 
 (add-hook 'comint-mode-hook 'comint-mode-keymap-modify)
