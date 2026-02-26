@@ -30,3 +30,6 @@ Otherwise print the text using `message'."
                   (goto-char beg)
                   (insert text))
       (message text))))
+
+(defun string-fontify (str face)
+  (propertize str 'face face 'font-lock-face face))
