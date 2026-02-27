@@ -42,8 +42,14 @@
   (message "LSP auto-formatting set to %S in %S" lsp-format-buffer-on-save (current-buffer)))
 
 (defun setup-lsp-mode ()
-  (when-let ((file-name (buffer-file-name))
-             (project-descriptor (cdr-safe (assoc major-mode lsp-modes))))
+  (when-let* ((file-name (buffer-file-name))
+              (project-descriptor (cdr-safe (assoc major-mode lsp-modes)))
+              (orig-fontify-fn font-lock-fontify-region-function)
+              (font-lock-fontify-region-function
+               (lambda (&rest args)
+                 (condition-case e
+                     (apply orig-fontify-fn args)
+                   (error (message "ignoring internal LSP fontify error: %S" e))))))
     (cl-labels ((find-prj-dir (dir desc)
                   (cond ((consp desc)
                          (or (locate-dominating-file dir (car desc))
