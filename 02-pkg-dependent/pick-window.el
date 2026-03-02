@@ -1,6 +1,5 @@
 ;; -*- lexical-binding: t -*-
 
-(require 'ielm)
 (require 'term)
 (require 'dash)
 
@@ -121,13 +120,6 @@ If CUT is non-nil, deletes selected text in current buffer."
     (let ((default-directory cwd))
       (ido-find-file))))
 
-(defun ielm-in-window (window)
-  (interactive (list (pick-window t)))
-  (let ((buf (current-buffer)))
-    (select-window window)
-    (ielm)
-    (ielm-change-working-buffer buf)))
-
 (defun insert-cwd-to-window (window)
   (interactive (list (pick-window t)))
   (let ((wd default-directory))
@@ -143,5 +135,4 @@ If CUT is non-nil, deletes selected text in current buffer."
 (keymap-global-set "C-c b" 'move-buffer-to-window)
 (keymap-global-set "C-c s" 'swap-buffers-window)
 (keymap-global-set "C-c f" 'find-file-in-window)
-(keymap-global-set "C-c z" 'ielm-in-window)
 (keymap-global-set "C-c D" 'insert-cwd-to-window)
