@@ -12,10 +12,21 @@
 
 (defvar pick-window-split-key "/")
 
+(defvar pick-window--disabled-modes
+  '(debugger-mode xref--xref-buffer-mode occur-mode))
+
+(defun pick-window--match (buf &rest args)
+  (with-current-buffer buf
+    (not (or
+          (string= (buffer-name) "*Completions*")
+          (derived-mode-p pick-window--disabled-modes)))))
+
 (defun display-buffer-pick-window (buf alist)
   (when-let* (((cdr (window-list)))
-              ((cdr (assq 'inhibit-same-window alist)))
               ((not (cdr (assq 'side alist))))
+              ((not (and
+                     (with-current-buffer buf (derived-mode-p 'help-mode))
+                     (memq buf (mapcar 'window-buffer (window-list))))))
               (w (pick-window t)))
     (window--display-buffer buf w 'window alist)))
 
@@ -65,7 +76,7 @@
         (progn
           (read-from-minibuffer "Pick window: " nil map nil t)
           (if pick-window--split-p
-              (if (scratch-log-expr (window-left-child (window-parent chosen-window)))
+              (if (window-left-child (window-parent chosen-window))
                   (split-window-below nil chosen-window)
                 (split-window-right nil chosen-window))
             chosen-window))
@@ -128,7 +139,7 @@ If CUT is non-nil, deletes selected text in current buffer."
         (term-send-raw-string wd)
       (insert wd))))
 
-(setq display-buffer-alist '((t . (display-buffer-pick-window))))
+(setq display-buffer-alist '((pick-window--match . (display-buffer-pick-window))))
 
 (keymap-global-set "C-c c" 'copy-to-window)
 (keymap-global-set "C-c x" 'cut-to-window)
