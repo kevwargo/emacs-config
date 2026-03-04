@@ -129,7 +129,7 @@ If CUT is non-nil, deletes selected text in current buffer."
     (goto-char orig-pos)))
 
 (defun swap-buffers-window (window)
-  (interactive (list (pick-window t)))
+  (interactive (list (pick-window)))
   (let ((this-buffer (current-buffer)))
     (switch-to-buffer (window-buffer window) nil t)
     (select-window window)
