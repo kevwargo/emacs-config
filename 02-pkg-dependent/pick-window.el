@@ -13,22 +13,33 @@
 (defvar pick-window-split-key "/")
 
 (defvar pick-window--disabled-modes
-  '(debugger-mode xref--xref-buffer-mode occur-mode))
+  '(debugger-mode xref--xref-buffer-mode))
 
 (defun pick-window--match (buf &rest args)
+  (setq buf (get-buffer buf))
   (with-current-buffer buf
     (not (or
           (string= (buffer-name) "*Completions*")
-          (derived-mode-p pick-window--disabled-modes)))))
+          (derived-mode-p pick-window--disabled-modes)
+          (and (derived-mode-p 'help-mode)
+               (memq buf (mapcar 'window-buffer (window-list))))))))
+
+(defun pick-window--disable-isearch ()
+  (mapc (lambda (b)
+          (with-current-buffer b
+            (when isearch-mode
+              (message "pick-window: disabling isearch-mode in %S" b)
+              (isearch-done)
+              (isearch-clean-overlays))))
+        (buffer-list)))
 
 (defun display-buffer-pick-window (buf alist)
-  (when-let* (((cdr (window-list)))
-              ((not (cdr (assq 'side alist))))
-              ((not (and
-                     (with-current-buffer buf (derived-mode-p 'help-mode))
-                     (memq buf (mapcar 'window-buffer (window-list))))))
-              (w (pick-window t)))
-    (window--display-buffer buf w 'window alist)))
+  (when (and (cdr (window-list))
+             (not (cdr (assq 'side alist))))
+    (when (eq this-command 'isearch-occur)
+      (pick-window--disable-isearch))
+    (when-let* ((w (pick-window t)))
+      (window--display-buffer buf w 'window alist))))
 
 (defvar pick-window--split-p nil)
 
