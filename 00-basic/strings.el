@@ -32,4 +32,18 @@ Otherwise print the text using `message'."
       (message text))))
 
 (defun string-fontify (str face)
-  (propertize str 'face face 'font-lock-face face))
+  (if face
+      (propertize str 'face face 'font-lock-face face)
+    str))
+
+(defmacro format-fontify (&rest args)
+  "Builds a string from multiple parts, each of which can be separately fontified."
+  (let (concat-args arg face)
+    (while args
+      (setq arg (pop args))
+      (if (and (listp arg) (stringp (car arg)))
+          (setq arg `(format ,@arg)))
+      (if args
+          (setq arg `(string-fontify ,arg ,(pop args))))
+      (push arg concat-args))
+    `(concat ,@(nreverse concat-args))))

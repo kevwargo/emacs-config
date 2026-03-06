@@ -16,8 +16,18 @@
 while the cdr is the key that splits it and chooses the created child window.")
 
 (defun display-buffer-pick-window (buf alist)
+  (pick-window--log "buf:" nil
+                    ("%S " buf) 'font-lock-keyword-face
+                    "mode:" nil
+                    ("%S " (buffer-local-value 'major-mode buf)) 'font-lock-string-face
+                    "alist:" nil
+                    ("%S " alist) 'font-lock-comment-face
+                    "visible-buffers:" nil
+                    ("%S" (window-list)) 'font-lock-doc-face)
   (when (and (cdr (window-list))
              (not (cdr (assq 'side alist))))
+    (pick-window--log "picking window for " nil
+                      ("%S" buf) 'font-lock-keyword-face)
     (when (eq this-command 'isearch-occur)
       (pick-window--disable-isearch))
     (when-let* ((w (pick-window t)))
@@ -125,19 +135,19 @@ If CUT is non-nil, deletes selected text in current buffer."
   '(debugger-mode xref--xref-buffer-mode))
 
 (defun pick-window--match (buf &rest args)
-  (setq buf (get-buffer buf))
   (with-current-buffer buf
     (not (or
           (string= (buffer-name) "*Completions*")
           (derived-mode-p pick-window--disabled-modes)
           (and (derived-mode-p 'help-mode)
-               (memq buf (mapcar 'window-buffer (window-list))))))))
+               (memq (get-buffer buf)
+                     (mapcar 'window-buffer (window-list))))))))
 
 (defun pick-window--disable-isearch ()
   (mapc (lambda (b)
           (with-current-buffer b
             (when isearch-mode
-              (message "pick-window: disabling isearch-mode in %S" b)
+              (pick-window--log "pick-window: disabling isearch-mode in %S" b)
               (isearch-done)
               (isearch-clean-overlays))))
         (buffer-list)))
@@ -159,6 +169,14 @@ If CUT is non-nil, deletes selected text in current buffer."
   (interactive)
   (user-error "no window under key %S"
               (key-description (this-single-command-keys))))
+
+(defmacro pick-window--log (&rest args)
+  `(with-current-buffer (get-buffer-create "*pick-window-log*")
+     (goto-char (point-max))
+     (insert (format-fontify
+              ("[%s] " (format-time-string "%Y-%m-%d %H:%M:%S")) 'font-lock-doc-face
+              ,@args
+              "\n"))))
 
 (setq display-buffer-alist '((pick-window--match . (display-buffer-pick-window))))
 
