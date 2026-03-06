@@ -31,7 +31,9 @@ while the cdr is the key that splits it and chooses the created child window.")
     (when (eq this-command 'isearch-occur)
       (pick-window--disable-isearch))
     (when-let* ((w (pick-window t)))
-      (window--display-buffer buf w 'window alist))))
+      (window--display-buffer buf w
+                              (if (window-parameter w 'pick-window-created-p) 'window 'reuse)
+                              alist))))
 
 (defun pick-window (&optional allow-split)
   (let* ((old-mode-line (default-value 'mode-line-format))
@@ -67,10 +69,12 @@ while the cdr is the key that splits it and chooses the created child window.")
         (progn
           (read-from-minibuffer "Pick window: " nil map nil t)
           (if split-p
-              (if (window-left-child (window-parent chosen-window))
-                  (split-window-below nil chosen-window)
-                (split-window-right nil chosen-window))
-            chosen-window))
+              (setq chosen-window
+                    (if (window-left-child (window-parent chosen-window))
+                        (split-window-below nil chosen-window)
+                      (split-window-right nil chosen-window))))
+          (set-window-parameter chosen-window 'pick-window-created-p split-p)
+          chosen-window)
       (set-default 'mode-line-format old-mode-line))))
 
 (defun insert-to-window (beg end window &optional cut)
