@@ -1,6 +1,7 @@
 (defun ielm-on-current-buffer ()
   (interactive)
-  (let ((buf (current-buffer)))
+  (let ((buf (current-buffer))
+        (display-buffer-overriding-action '(nil . ((inhibit-same-window . t)))))
     (ielm)
     (ielm-change-working-buffer buf)))
 

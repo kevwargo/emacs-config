@@ -137,9 +137,7 @@ If CUT is non-nil, deletes selected text in current buffer."
          (target-mode (buffer-local-value 'major-mode buf))
          (matches-p
           (and
-           ;; TODO: remove this hacky `or' and re-implement `ielm-on-current-buffer'
-           (or (cdr (window-list))
-               (provided-mode-derived-p target-mode 'inferior-emacs-lisp-mode))
+           (cdr (window-list))
            (not (or
                  (member (buffer-name buf) (list "*Completions*" "*Process List*"))
                  (--any? (cdr (assq it alist)) '(side dedicated))
