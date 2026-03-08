@@ -4,7 +4,6 @@
 (require 'dash)
 
 ;; TODO:
-;;   - show more meaningful info in minibuffer when picking a window (e.g. for which buffer)
 ;;   - in addition to splitting, allow to expand the picked window
 ;;   - implement as a minor mode
 
