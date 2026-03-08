@@ -37,13 +37,26 @@ Otherwise print the text using `message'."
     str))
 
 (defmacro format-fontify (&rest args)
-  "Builds a string from multiple parts, each of which can be separately fontified."
-  (let (concat-args arg face)
-    (while args
-      (setq arg (pop args))
-      (if (and (listp arg) (stringp (car arg)))
-          (setq arg `(format ,@arg)))
-      (if args
-          (setq arg `(string-fontify ,arg ,(pop args))))
-      (push arg concat-args))
-    `(concat ,@(nreverse concat-args))))
+  "Builds a string from multiple parts, each of which can be separately fontified.
+
+Each ARG is either:
+- a string, which is used verbatim,
+- a list of form (FACE FMT FMT-ARGS...) where FACE is a non-quoted symbol,
+- a list of form (FMT FMT-ARGS...) where FMT is a literal string,
+- any other expression will be eval'ed and its value concatenated with the rest."
+  `(concat
+    ,@(mapcar
+       (lambda (arg)
+         (if (listp arg)
+             (cond ((and (symbolp (car arg))
+                         (get (car arg) 'face-defface-spec)
+                         (cdr arg))
+                    `(string-fontify ,(if (cddr arg)
+                                          `(format ,@(cdr arg))
+                                        (cadr arg))
+                                     ',(car arg)))
+                   ((stringp (car arg))
+                    `(format ,@arg))
+                   (t arg))
+           arg))
+       args)))
