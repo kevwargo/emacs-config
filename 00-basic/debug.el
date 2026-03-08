@@ -1,5 +1,5 @@
 (defun log-command-keys ()
-  (scratch-log "%S %S" this-command (key-description (this-command-keys))))
+  (logfmt "%S %S" this-command (key-description (this-command-keys))))
 
 (defun toggle-log-command-keys ()
   (interactive)
