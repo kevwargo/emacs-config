@@ -4,7 +4,6 @@
 (require 'dash)
 
 ;; TODO:
-;;   - extend help-mode behavior (i.e. reuse window) for other buffers (e.g. Occur)
 ;;   - show more meaningful info in minibuffer when picking a window (e.g. for which buffer)
 ;;   - in addition to splitting, allow to expand the picked window
 ;;   - implement as a minor mode
@@ -130,6 +129,9 @@ If CUT is non-nil, deletes selected text in current buffer."
 (defvar pick-window--disabled-modes
   '(debugger-mode xref--xref-buffer-mode))
 
+(defvar pick-window--reuse-window-modes
+  '(help-mode occur-mode inferior-emacs-lisp-mode magit-mode))
+
 (defun pick-window--match (buf &optional action &rest args)
   (let* ((buf (get-buffer buf))
          (alist (cdr-safe action))
@@ -141,12 +143,14 @@ If CUT is non-nil, deletes selected text in current buffer."
                                   (provided-mode-derived-p target-mode pick-window--disabled-modes)
                                   (and (provided-mode-derived-p target-mode 'magit-diff-mode)
                                        (buffer-file-name)
-                                       (string-match-p git-commit-filename-regexp (buffer-file-name))
+                                       (string-match-p git-commit-filename-regexp
+                                                       (buffer-file-name))
                                        (string= (magit-toplevel)
                                                 (with-current-buffer buf (magit-toplevel))))
                                   (and (provided-mode-derived-p target-mode 'process-menu-mode)
                                        (not (eq this-command 'list-processes)))
-                                  (and (provided-mode-derived-p target-mode 'help-mode)
+                                  (and (provided-mode-derived-p target-mode
+                                                                pick-window--reuse-window-modes)
                                        (memq buf (mapcar 'window-buffer (window-list)))))))))
     (pick-window--log "[%s] %s"
                       (if matches-p "MATCH" "NO MATCH")
