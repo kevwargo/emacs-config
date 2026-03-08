@@ -4,7 +4,6 @@
 (require 'dash)
 
 ;; TODO:
-;;   - disable for temporary magit-diff when commiting
 ;;   - extend help-mode behavior (i.e. reuse window) for other buffers (e.g. Occur)
 ;;   - show more meaningful info in minibuffer when picking a window (e.g. for which buffer)
 ;;   - in addition to splitting, allow to expand the picked window
@@ -53,7 +52,7 @@ while the cdr is the key that splits it and chooses the created child window.")
                            (keymap-set map split-key handler))
                        (set-window-parameter window 'pick-window-key-select select-key)
                        (set-window-parameter window 'pick-window-key-split (and allow-split split-key))))
-    (define-key map [remap self-insert-command] 'pick-window--unset-key-handler)
+    (define-key map [remap self-insert-command] 'pick-window--invalid-key)
     (set-default 'mode-line-format
                  `(,(car old-mode-line)
                    (:eval (pick-window--mode-line))
@@ -133,33 +132,41 @@ If CUT is non-nil, deletes selected text in current buffer."
 
 (defun pick-window--match (buf &optional action &rest args)
   (setq buf (get-buffer buf))
-  (let* ((mode (buffer-local-value 'major-mode buf))
-         (alist (cdr-safe action))
+  (let* ((alist (cdr-safe action))
          (action (car-safe action))
-         (log-message (format-fontify (font-lock-keyword-face "%S" buf)
-                                      (font-lock-variable-name-face "%S" mode)
+         (target-mode (buffer-local-value 'major-mode buf))
+         (matches-p
+          (and
+           ;; TODO: remove this hacky `or' and re-implement `ielm-on-current-buffer'
+           (or (cdr (window-list))
+               (provided-mode-derived-p target-mode 'inferior-emacs-lisp-mode))
+           (not (or
+                 (member (buffer-name buf) (list "*Completions*" "*Process List*"))
+                 (--any? (cdr (assq it alist)) '(side dedicated))
+                 (provided-mode-derived-p target-mode pick-window--disabled-modes)
+                 (and (provided-mode-derived-p target-mode 'magit-diff-mode)
+                      (buffer-file-name)
+                      (string-match-p git-commit-filename-regexp (buffer-file-name))
+                      (string= (magit-toplevel)
+                               (with-current-buffer buf (magit-toplevel))))
+                 (and (provided-mode-derived-p target-mode 'help-mode)
+                      (memq buf (mapcar 'window-buffer (window-list)))))))))
+    (pick-window--log "[%s] %s"
+                      (if matches-p "MATCH" "NO MATCH")
+                      (format-fontify (pick-window--format-buffer buf)
                                       " action:"
                                       (font-lock-comment-face "%S" action)
                                       " alist:"
                                       (font-lock-comment-face "%S" alist)
                                       (" visible-buffers: (%s)"
-                                       (mapconcat 'pick-window--winfmt (window-list) " "))))
-         (matched
-          (with-current-buffer buf
-            (and
-             ;; TODO: remove this hacky `or' and re-implement `ielm-on-current-buffer'
-             (or (cdr (window-list))
-                 (derived-mode-p 'inferior-emacs-lisp-mode))
-             (not (or
-                   (member (buffer-name) (list "*Completions*" "*Process List*"))
-                   (--any? (cdr (assq it alist)) '(side dedicated))
-                   (derived-mode-p pick-window--disabled-modes)
-                   (and (derived-mode-p 'help-mode)
-                        (memq buf (mapcar 'window-buffer (window-list))))))))))
-    (pick-window--log "[%s] %s" (if matched "MATCH" "NO MATCH") log-message)
-    matched))
+                                       (mapconcat 'pick-window--format-window (window-list) " "))
+                                      " this-command:"
+                                      (font-lock-string-face "%S" this-command)
+                                      " current-buffer:"
+                                      (pick-window--format-buffer)))
+    matches-p))
 
-(defun pick-window--winfmt (&optional window)
+(defun pick-window--format-window (&optional window)
   (setq window (window-normalize-window window))
   (let* ((win-name (prin1-to-string window))
          (buf (window-buffer window))
@@ -172,6 +179,12 @@ If CUT is non-nil, deletes selected text in current buffer."
             (font-lock-keyword-face "#%s" (match-string 1 win-name))
             ":"
             buf-name)))))
+
+(defun pick-window--format-buffer (&optional buffer)
+  (setq buffer (if buffer (get-buffer buffer) (current-buffer)))
+  (format-fontify (font-lock-keyword-face "%S" buffer)
+                  (font-lock-variable-name-face
+                   "%S" (buffer-local-value 'major-mode buffer))))
 
 (defun pick-window--disable-isearch ()
   (--each (buffer-list)
@@ -194,7 +207,7 @@ If CUT is non-nil, deletes selected text in current buffer."
               (string-fontify "split:" 'font-lock-comment-face)
               (string-fontify split-key 'help-key-binding)))))))
 
-(defun pick-window--unset-key-handler ()
+(defun pick-window--invalid-key ()
   (interactive)
   (user-error "no window under key %S"
               (key-description (this-single-command-keys))))
@@ -206,10 +219,7 @@ If CUT is non-nil, deletes selected text in current buffer."
            (string-fontify (format-time-string "%Y-%m-%d %H:%M:%S") 'font-lock-doc-face)
            args)))
 
-(setq display-buffer-alist '(
-                             ;; ((major-mode . inferior-emacs-lisp-mode) . (display-buffer-pick-window . ((inhibit-same-window . t))))
-                             (pick-window--match . (display-buffer-pick-window))
-                             ))
+(setq display-buffer-alist '((pick-window--match . (display-buffer-pick-window))))
 
 (keymap-global-set "C-c c" 'copy-to-window)
 (keymap-global-set "C-c x" 'cut-to-window)
