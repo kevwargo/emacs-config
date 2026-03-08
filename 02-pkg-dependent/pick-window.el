@@ -22,14 +22,14 @@ while the cdr is the key that splits it and chooses the created child window.")
 (defun display-buffer-pick-window (buf alist)
   (when (eq this-command 'isearch-occur)
     (pick-window--disable-isearch))
-  (when-let* ((w (pick-window t)))
+  (when-let* ((w (pick-window t (format "Pick window for %S: " buf))))
     (window--display-buffer buf w
                             (if (window-parameter w 'pick-window-created-p)
                                 'window
                               'reuse)
                             alist)))
 
-(defun pick-window (&optional allow-split)
+(defun pick-window (&optional allow-split prompt)
   (let ((old-mode-line (default-value 'mode-line-format))
         (map (make-sparse-keymap))
         (bindings (-zip-pair pick-window-keys (window-list)))
@@ -59,7 +59,7 @@ while the cdr is the key that splits it and chooses the created child window.")
                    ,@(cdr old-mode-line)))
     (unwind-protect
         (progn
-          (read-from-minibuffer "Pick window: " nil map nil t)
+          (read-from-minibuffer (or prompt "Pick window: ") nil map nil t)
           (if split-p
               (setq chosen-window
                     (if (window-left-child (window-parent chosen-window))
@@ -88,15 +88,15 @@ If CUT is non-nil, deletes selected text in current buffer."
       (error "Region is not active")))
 
 (defun copy-to-window (beg end window)
-  (interactive (append (force-use-region) (list (pick-window))))
+  (interactive (append (force-use-region) (list (pick-window nil "Copy to window: "))))
   (insert-to-window beg end window))
 
 (defun cut-to-window (beg end window)
-  (interactive (append (force-use-region) (list (pick-window))))
+  (interactive (append (force-use-region) (list (pick-window nil "Cut to window: "))))
   (insert-to-window beg end window t))
 
 (defun move-buffer-to-window (window)
-  (interactive (list (pick-window t)))
+  (interactive (list (pick-window t (format "Move %S to: " (current-buffer)))))
   (let ((buf (current-buffer))
         (orig-pos (point)))
     (previous-buffer)
@@ -105,21 +105,21 @@ If CUT is non-nil, deletes selected text in current buffer."
     (goto-char orig-pos)))
 
 (defun swap-buffers-window (window)
-  (interactive (list (pick-window)))
+  (interactive (list (pick-window nil (format "Swap %S with: " (current-buffer)))))
   (let ((this-buffer (current-buffer)))
     (switch-to-buffer (window-buffer window) nil t)
     (select-window window)
     (switch-to-buffer this-buffer nil t)))
 
 (defun find-file-in-window (window)
-  (interactive (list (pick-window t)))
+  (interactive (list (pick-window t "Find file in: ")))
   (let ((cwd (buffer-working-directory)))
     (select-window window)
     (let ((default-directory cwd))
       (ido-find-file))))
 
 (defun insert-cwd-to-window (window)
-  (interactive (list (pick-window t)))
+  (interactive (list (pick-window t "Insert cwd to: ")))
   (let ((wd default-directory))
     (select-window window)
     (if (derived-mode-p 'term-mode)
