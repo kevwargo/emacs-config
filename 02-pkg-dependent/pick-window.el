@@ -5,11 +5,33 @@
 
 ;; TODO:
 ;;   - in addition to splitting, allow to expand the picked window
-;;   - implement as a minor mode
 
+(define-minor-mode pick-window-mode
+  "A minor mode for enabling fast window selecting for pop-to-buffer"
+  :lighter nil
+  :global t
+  :keymap (let ((m (make-sparse-keymap)))
+            (keymap-set m "C-c c" 'copy-to-window)
+            (keymap-set m "C-c x" 'cut-to-window)
+            (keymap-set m "C-c b" 'move-buffer-to-window)
+            (keymap-set m "C-c s" 'swap-buffers-window)
+            (keymap-set m "C-c f" 'find-file-in-window)
+            (keymap-set m "C-c D" 'insert-cwd-to-window)
+            (keymap-set m "C-c #" 'pick-window-toggle-numbers)
+            m)
+  (let ((ml (default-value 'mode-line-format))
+        (ml-form '(:eval (pick-window--mode-line)))
+        (display-buffer-alist-form '(pick-window--match . (display-buffer-pick-window))))
+    (cond (pick-window-mode
+           (unless (member ml-form ml)
+             (set-default 'mode-line-format (append (list (car ml) ml-form) (cdr ml))))
+           (add-to-list 'display-buffer-alist display-buffer-alist-form))
+          (t
+           (set-default 'mode-line-format (remove ml-form ml))
+           (setq display-buffer-alist (remove display-buffer-alist-form display-buffer-alist))))))
 
 (defvar pick-window-keys
-  '(("q" . "Q") ("a" . "A") ("z" . "Z") ("x" . "X") ("s" . "S") ("w" . "W")
+  '(("q" . "Q") ("w" . "W") ("a" . "A") ("s" . "S") ("z" . "Z") ("x" . "X")
     ("e" . "E") ("d" . "D") ("c" . "C") ("v" . "V") ("f" . "F") ("r" . "R")
     ("t" . "T") ("g" . "G") ("b" . "B") ("n" . "N") ("h" . "H") ("y" . "Y")
     ("u" . "U") ("j" . "J") ("m" . "M") ("k" . "K") ("i" . "I") ("l" . "L")
@@ -28,44 +50,45 @@ while the cdr is the key that splits it and chooses the created child window.")
                             alist)))
 
 (defun pick-window (&optional allow-split prompt)
-  (let ((old-mode-line (default-value 'mode-line-format))
-        (map (make-sparse-keymap))
+  (let ((map (make-sparse-keymap))
         (bindings (-zip-pair pick-window-keys (window-list)))
-        chosen-window split-p handler)
-    (setq handler
-          (lambda ()
-            (interactive)
-            (let ((command-key (key-description (this-command-keys-vector))))
-              (--each bindings (-let [((select-key . split-key) . window) it]
-                                 (if (cond ((string= command-key select-key)
-                                            (setq chosen-window window))
-                                           ((and allow-split (string= command-key split-key))
-                                            (setq chosen-window window
-                                                  split-p t)))
-                                     (exit-minibuffer)))))))
+        (pick-window--active-p t)
+        chosen-window split-p)
     (set-keymap-parent map minibuffer-local-map)
     (--each bindings (-let [((select-key . split-key) . window) it]
-                       (keymap-set map select-key handler)
+                       (keymap-set map select-key
+                                   (lambda ()
+                                     (interactive)
+                                     (setq chosen-window window)
+                                     (exit-minibuffer)))
                        (if allow-split
-                           (keymap-set map split-key handler))
+                           (keymap-set map split-key
+                                       (lambda ()
+                                         (interactive)
+                                         (setq chosen-window window
+                                               split-p t)
+                                         (exit-minibuffer))))
                        (set-window-parameter window 'pick-window-key-select select-key)
-                       (set-window-parameter window 'pick-window-key-split (and allow-split split-key))))
-    (define-key map [remap self-insert-command] 'pick-window--invalid-key)
-    (set-default 'mode-line-format
-                 `(,(car old-mode-line)
-                   (:eval (pick-window--mode-line))
-                   ,@(cdr old-mode-line)))
-    (unwind-protect
-        (progn
-          (read-from-minibuffer (or prompt "Pick window: ") nil map nil t)
-          (if split-p
-              (setq chosen-window
-                    (if (window-left-child (window-parent chosen-window))
-                        (split-window-below nil chosen-window)
-                      (split-window-right nil chosen-window))))
-          (set-window-parameter chosen-window 'pick-window-created-p split-p)
-          chosen-window)
-      (set-default 'mode-line-format old-mode-line))))
+                       (set-window-parameter window 'pick-window-key-split
+                                             (if allow-split split-key))))
+    (define-key map [remap self-insert-command]
+                (lambda ()
+                  (interactive)
+                  (user-error "no window under key %S"
+                              (key-description (this-single-command-keys)))))
+    (read-from-minibuffer (or prompt "Pick window: ") nil map nil t)
+    (if split-p
+        (setq chosen-window
+              (if (window-left-child (window-parent chosen-window))
+                  (split-window-below nil chosen-window)
+                (split-window-right nil chosen-window))))
+    (set-window-parameter chosen-window 'pick-window-created-p split-p)
+    chosen-window))
+
+(defun pick-window-toggle-numbers ()
+  (interactive)
+  (setq pick-window--show-numbers (not pick-window--show-numbers))
+  (force-mode-line-update t))
 
 (defun insert-to-window (beg end window &optional cut)
   "Inserts selected text to the buffer in the window in direction DIR
@@ -166,19 +189,21 @@ If CUT is non-nil, deletes selected text in current buffer."
                                       (pick-window--format-buffer)))
     matches-p))
 
+(defun pick-window--win-num (window)
+  (let ((win-name (prin1-to-string window)))
+    (save-match-data
+      (if (string-match "^#<window \\([0-9]+\\)" win-name)
+          (match-string 1 win-name)
+        win-name))))
+
 (defun pick-window--format-window (&optional window)
   (setq window (window-normalize-window window))
-  (let* ((win-name (prin1-to-string window))
-         (buf (window-buffer window))
+  (let* ((buf (window-buffer window))
          (buf-name (and buf
-                        (string-fontify (buffer-name buf)
-                                        'font-lock-comment-face))))
-    (save-match-data
-      (and (string-match "^#<window \\([0-9]+\\)" win-name)
-           (format-fontify
-            (font-lock-keyword-face "#%s" (match-string 1 win-name))
-            ":"
-            buf-name)))))
+                        (string-fontify (concat ":" (buffer-name buf))
+                                        'font-lock-comment-face)))
+         (win-num (pick-window--win-num window)))
+    (format-fontify (font-lock-keyword-face "#%s" win-num) buf-name)))
 
 (defun pick-window--format-buffer (&optional buffer)
   (setq buffer (if buffer (get-buffer buffer) (current-buffer)))
@@ -194,23 +219,29 @@ If CUT is non-nil, deletes selected text in current buffer."
         (isearch-done)
         (isearch-clean-overlays)))))
 
-(defun pick-window--mode-line ()
-  (let ((select-key (window-parameter nil 'pick-window-key-select))
-        (split-key (window-parameter nil 'pick-window-key-split)))
-    (if select-key
-        (concat
-         (string-fontify "select:" 'font-lock-comment-face)
-         (string-fontify select-key 'help-key-binding)
-         (if split-key
-             (concat
-              " "
-              (string-fontify "split:" 'font-lock-comment-face)
-              (string-fontify split-key 'help-key-binding)))))))
+(defvar pick-window--active-p nil)
 
-(defun pick-window--invalid-key ()
-  (interactive)
-  (user-error "no window under key %S"
-              (key-description (this-single-command-keys))))
+(defvar pick-window--show-numbers nil
+  "Whether to show the number of each window it its corresponding mode-line")
+
+(defun pick-window--mode-line ()
+  (concat
+   (if pick-window--show-numbers
+       (concat " "
+               (string-fontify (pick-window--win-num (selected-window))
+                               'font-lock-function-name-face)))
+   (if pick-window--active-p
+       (let ((select-key (window-parameter nil 'pick-window-key-select))
+             (split-key (window-parameter nil 'pick-window-key-split)))
+         (if select-key
+             (concat
+              (string-fontify " select:" 'font-lock-comment-face)
+              (string-fontify select-key 'help-key-binding)
+              (if split-key
+                  (concat
+                   " "
+                   (string-fontify "split:" 'font-lock-comment-face)
+                   (string-fontify split-key 'help-key-binding)))))))))
 
 (defun pick-window--log (fmt &rest args)
   (let ((log-buffer-name "*pick-window-log*"))
@@ -219,11 +250,4 @@ If CUT is non-nil, deletes selected text in current buffer."
            (string-fontify (format-time-string "%Y-%m-%d %H:%M:%S") 'font-lock-doc-face)
            args)))
 
-(setq display-buffer-alist '((pick-window--match . (display-buffer-pick-window))))
-
-(keymap-global-set "C-c c" 'copy-to-window)
-(keymap-global-set "C-c x" 'cut-to-window)
-(keymap-global-set "C-c b" 'move-buffer-to-window)
-(keymap-global-set "C-c s" 'swap-buffers-window)
-(keymap-global-set "C-c f" 'find-file-in-window)
-(keymap-global-set "C-c D" 'insert-cwd-to-window)
+(pick-window-mode 1)
