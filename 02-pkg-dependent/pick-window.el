@@ -20,15 +20,15 @@
             (keymap-set m "C-c #" 'pick-window-toggle-numbers)
             m)
   (let ((ml (default-value 'mode-line-format))
-        (ml-form '(:eval (pick-window--mode-line)))
-        (display-buffer-alist-form '(pick-window--match . (display-buffer-pick-window))))
+        (ml-entry '(:eval (pick-window--mode-line)))
+        (dba-entry '(pick-window--match . (display-buffer-pick-window))))
     (cond (pick-window-mode
-           (unless (member ml-form ml)
-             (set-default 'mode-line-format (append (list (car ml) ml-form) (cdr ml))))
-           (add-to-list 'display-buffer-alist display-buffer-alist-form))
+           (unless (member ml-entry ml)
+             (set-default 'mode-line-format (append (list (car ml) ml-entry) (cdr ml))))
+           (add-to-list 'display-buffer-alist dba-entry))
           (t
-           (set-default 'mode-line-format (remove ml-form ml))
-           (setq display-buffer-alist (remove display-buffer-alist-form display-buffer-alist))))))
+           (set-default 'mode-line-format (remove ml-entry ml))
+           (setq display-buffer-alist (remove dba-entry display-buffer-alist))))))
 
 (defvar pick-window-keys
   '(("q" . "Q") ("w" . "W") ("a" . "A") ("s" . "S") ("z" . "Z") ("x" . "X")
