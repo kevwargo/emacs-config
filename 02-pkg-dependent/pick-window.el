@@ -160,7 +160,7 @@ If CUT is non-nil, deletes selected text in current buffer."
          (action (car-safe action))
          (target-mode (buffer-local-value 'major-mode buf))
          (matches-p (and (cdr (window-list))
-                         (not (or (string= (buffer-name buf) "*Completions*")
+                         (not (or (member (buffer-name buf) '("*Warnings*" "*Completions*"))
                                   (--any? (cdr (assq it alist)) '(side dedicated))
                                   (provided-mode-derived-p target-mode pick-window--disabled-modes)
                                   (and (provided-mode-derived-p target-mode 'magit-diff-mode)
