@@ -154,6 +154,14 @@ If CUT is non-nil, deletes selected text in current buffer."
 (defvar pick-window--reuse-window-modes
   '(help-mode occur-mode inferior-emacs-lisp-mode magit-mode))
 
+(defun pick-window--reuse-p (target-buf)
+  (and (memq target-buf (mapcar 'window-buffer (window-list)))
+       (or (provided-mode-derived-p (buffer-local-value 'major-mode target-buf)
+                                    pick-window--reuse-window-modes)
+           (memq this-command '(occur-mode-goto-occurrence
+                                compile-goto-error
+                                recompile)))))
+
 (defun pick-window--match (buf &optional action &rest args)
   (let* ((buf (get-buffer buf))
          (alist (cdr-safe action))
@@ -171,22 +179,19 @@ If CUT is non-nil, deletes selected text in current buffer."
                                                 (with-current-buffer buf (magit-toplevel))))
                                   (and (provided-mode-derived-p target-mode 'process-menu-mode)
                                        (not (eq this-command 'list-processes)))
-                                  (and (provided-mode-derived-p target-mode
-                                                                pick-window--reuse-window-modes)
-                                       (memq buf (mapcar 'window-buffer (window-list)))))))))
-    (pick-window--log "[%s] %s"
-                      (if matches-p "MATCH" "NO MATCH")
-                      (format-fontify (pick-window--format-buffer buf)
-                                      " action:"
-                                      (font-lock-comment-face "%S" action)
-                                      " alist:"
-                                      (font-lock-comment-face "%S" alist)
-                                      (" visible-buffers: (%s)"
-                                       (mapconcat 'pick-window--format-window (window-list) " "))
-                                      " this-command:"
-                                      (font-lock-string-face "%S" this-command)
-                                      " current-buffer:"
-                                      (pick-window--format-buffer)))
+                                  (pick-window--reuse-p buf))))))
+    (pick-window--log "%s" (format-fontify ("[%s] " (if matches-p "MATCH" "NO MATCH"))
+                                           (pick-window--format-buffer buf)
+                                           " action:"
+                                           (font-lock-comment-face "%S" action)
+                                           " alist:"
+                                           (font-lock-comment-face "%S" alist)
+                                           (" visible-buffers: (%s)"
+                                            (mapconcat 'pick-window--format-window (window-list) " "))
+                                           " this-command:"
+                                           (font-lock-string-face "%S" this-command)
+                                           " current-buffer:"
+                                           (pick-window--format-buffer)))
     matches-p))
 
 (defun pick-window--win-num (window)
