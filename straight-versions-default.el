@@ -42,7 +42,7 @@
  ("kotlin-mode" . "fddd747e5b4736e8b27a147960f369b86179ddff")
  ("llama" . "0cc2daffded18eea7f00a318cfa3e216977ffe50")
  ("lsp-docker" . "ff41f4a76b640d39dc238bacba7f654c297827fa")
- ("lsp-java" . "9230a0007c79a661028c142f35c7b8d1f9f55453")
+ ("lsp-java" . "acbc074f307a450d44d4285b6475620e394c9f21")
  ("lsp-mode" . "c0cafd07ea7e0a2d82fcd0680eb36da10356d700")
  ("lsp-treemacs" . "3e5550f278db74f15ebe34add0138b138207ec08")
  ("magit" . "9e13473f28bcad07cb21229c62d887304e0d547b")

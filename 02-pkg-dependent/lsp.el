@@ -7,7 +7,8 @@
     (typescript-mode . "package.json")
     (js-mode . "package.json")
     (rjsx-mode . "package.json")
-    (java-mode . find-custom-lsp-java-project)))
+    ;; (java-mode . find-custom-lsp-java-project)
+    ))
 
 (defvar-local lsp--current-highlights nil)
 (defvar-local lsp--current-highlights-raw nil)
