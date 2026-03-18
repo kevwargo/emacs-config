@@ -2,6 +2,8 @@
 
 (defvar key-seq-map (make-hash-table :test 'equal))
 
+(defvar key-seq-file (locate-user-emacs-file ".key-seq-map.el"))
+
 (defun log-key-seq ()
   (let* ((seq (this-single-command-raw-keys))
          count)
@@ -13,8 +15,7 @@
 (defun load-key-seq-map ()
   (condition-case err
       (let ((items (with-temp-buffer
-                     (insert-file-contents-literally
-                      (locate-user-emacs-file ".key-seq-map"))
+                     (insert-file-contents-literally key-seq-file)
                      (goto-char (point-min))
                      (read (current-buffer)))))
         (dolist (item items)
@@ -29,14 +30,12 @@
                  key-seq-map)
         (with-temp-buffer
           (insert "(")
-          (dolist (item (sort items
-                              (lambda (i1 i2)
-                                (> (cdr i1) (cdr i2)))))
+          (dolist (item (sort items :key #'cdr :reverse t))
             (print item (current-buffer))
             (delete-char -1)
             (insert (format " ; %S" (key-description (car item)))))
           (insert "\n)\n")
-          (write-region nil nil (locate-user-emacs-file ".key-seq-map"))))
+          (write-region nil nil key-seq-file)))
     (error (message "Error during dumping key-seq-map: %S" err))))
 
 (add-hook 'pre-command-hook 'log-key-seq)
