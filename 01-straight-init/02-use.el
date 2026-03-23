@@ -37,7 +37,6 @@
 (straight-use-package 'rjsx-mode)
 (straight-use-package 's)
 (straight-use-package 'string-inflection)
-(straight-use-package 'typescript-mode)
 (straight-use-package 'undo-tree)
 (straight-use-package 'uuidgen)
 (straight-use-package 'yaml-mode)

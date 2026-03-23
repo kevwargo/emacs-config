@@ -4,7 +4,8 @@
 (defvar lsp-modes
   '((go-mode . "go.mod")
     (python-mode . ("Pipfile" "setup.py"))
-    (typescript-mode . "package.json")
+    (typescript-ts-mode . "package.json")
+    (tsx-ts-mode . "package.json")
     (js-mode . "package.json")
     (rjsx-mode . "package.json")
     ;; (java-mode . find-custom-lsp-java-project)
