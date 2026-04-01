@@ -51,26 +51,26 @@ while the cdr is the key that splits it and chooses the created child window.")
 
 (defun pick-window (&optional allow-split prompt)
   (let ((map (make-sparse-keymap))
-        (bindings (-zip-pair pick-window-keys (window-list)))
         (pick-window--active-p t)
         chosen-window split-p)
     (set-keymap-parent map minibuffer-local-map)
-    (--each bindings (-let [((select-key . split-key) . window) it]
-                       (keymap-set map select-key
-                                   (lambda ()
-                                     (interactive)
-                                     (setq chosen-window window)
-                                     (exit-minibuffer)))
-                       (if allow-split
-                           (keymap-set map split-key
-                                       (lambda ()
-                                         (interactive)
-                                         (setq chosen-window window
-                                               split-p t)
-                                         (exit-minibuffer))))
-                       (set-window-parameter window 'pick-window-key-select select-key)
-                       (set-window-parameter window 'pick-window-key-split
-                                             (if allow-split split-key))))
+    (--each (-zip-pair pick-window-keys (window-list))
+      (-let [((select-key . split-key) . window) it]
+        (keymap-set map select-key
+                    (lambda ()
+                      (interactive)
+                      (setq chosen-window window)
+                      (exit-minibuffer)))
+        (if allow-split
+            (keymap-set map split-key
+                        (lambda ()
+                          (interactive)
+                          (setq chosen-window window
+                                split-p t)
+                          (exit-minibuffer))))
+        (set-window-parameter window 'pick-window-key-select select-key)
+        (set-window-parameter window 'pick-window-key-split
+                              (if allow-split split-key))))
     (define-key map [remap self-insert-command]
                 (lambda ()
                   (interactive)
@@ -160,7 +160,9 @@ If CUT is non-nil, deletes selected text in current buffer."
                                     pick-window--reuse-window-modes)
            (memq this-command '(occur-mode-goto-occurrence
                                 compile-goto-error
-                                recompile)))))
+                                recompile
+                                undo-tree-visualize-undo
+                                undo-tree-visualize-redo)))))
 
 (defun pick-window--match (buf &optional action &rest args)
   (let* ((buf (get-buffer buf))
