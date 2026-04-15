@@ -2,6 +2,7 @@
 (setq-default indent-tabs-mode nil)
 
 (setq blink-cursor-blinks 0)
+(setq ring-bell-function 'ignore)
 
 (setq scroll-step 1)
 (setq scroll-margin 4)
