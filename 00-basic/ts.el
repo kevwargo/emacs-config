@@ -1,4 +1,4 @@
-(require 'typescript-ts-mode)
+(require 'treesit)
 
 (setq treesit-language-source-alist
       '((bash "https://github.com/tree-sitter/tree-sitter-bash")
@@ -16,6 +16,12 @@
         (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
         (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
         (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+
+(dolist (lang '(typescript tsx))
+  (unless (treesit-ready-p lang t)
+    (treesit-install-language-grammar lang)))
+
+(require 'typescript-ts-mode)
 
 (defvar k-color-chooser-key "C-c C-k")
 
