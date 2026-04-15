@@ -50,3 +50,10 @@
                       ,val))
                   ,@(cdr clause)))
               clauses))))
+
+(defun log-clear-buffer ()
+  (interactive)
+  (when-let* ((buf (get-buffer log-buffer-name))
+              (inhibit-read-only t))
+    (with-current-buffer buf
+      (erase-buffer))))
