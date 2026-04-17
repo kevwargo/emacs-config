@@ -1,14 +1,24 @@
 (require 'dash)
 (require 's)
-
-(with-eval-after-load 'lsp-pylsp
-  (lsp-register-custom-settings '(("pylsp.plugins.jedi.environment" py-detect-pylsp-jedi-env))))
+(require 'lsp-pylsp)
 
 (defvar-local py-venv-path nil)
 
 (defun pipfile-dir ()
   (and (buffer-file-name)
        (locate-dominating-file (buffer-file-name) "Pipfile")))
+
+(defvar pylsp--venv (locate-user-emacs-file "pylsp-venv"))
+
+(defun pylsp--ensure-venv ()
+  (unless (file-executable-p (car lsp-pylsp-server-command))
+    (if (y-or-n-p (format
+                   "pylsp command %S seems to be uninstalled. Initialize it with `uv'?"
+                   lsp-pylsp-server-command))
+        (shell-command
+         (format
+          "uv venv %s && uv pip install --python %s/bin/python python-lsp-{server[flake8],isort,black}"
+          pylsp--venv pylsp--venv)))))
 
 (defun py-get-venv ()
   (or py-venv-path
@@ -35,6 +45,7 @@
               lsp-pylsp-plugins-jedi-environment (py-get-venv)
               lsp-use-workspace-root-for-server-default-directory t
               lsp-format-buffer-on-save t)
+  (pylsp--ensure-venv)
   (keymap-local-set "C-c v"
                     (let ((m (make-sparse-keymap)))
                       (dolist (k '("RET" "<left>" "<right>" "<up>" "<down>"))
@@ -192,4 +203,6 @@
          ((eq c ?\") (delete-char 1) (insert-char ?'))))
       (unless (eobp) (forward-char)))))
 
+(lsp-register-custom-settings '(("pylsp.plugins.jedi.environment" py-detect-pylsp-jedi-env)))
+(setq lsp-pylsp-server-command (list (expand-file-name "bin/pylsp" pylsp--venv)))
 (add-hook 'python-mode-hook 'setup-py-mode)
