@@ -20,6 +20,7 @@
 (straight-use-package 'json-mode)
 (straight-use-package 'json-navigator)
 (straight-use-package 'kotlin-mode)
+(straight-use-package '(kwinjs-repl :host github :repo "kevwargo/kwinjs-repl.el"))
 (straight-use-package 'lsp-java)
 (straight-use-package 'lsp-mode)
 (straight-use-package 'magit)
