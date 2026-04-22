@@ -40,11 +40,12 @@ jump to it immediately without showing the xref buffer."
          (xref-show-definitions-function
           (lambda (fetcher options)
             (let ((xrefs (--remove
-                          (s-ends-with? "_mock.go"
-                                        (-> it
-                                            xref-item-location
-                                            xref-file-location-file
-                                            file-name-nondirectory))
+                          (let ((fname (-> it
+                                           xref-item-location
+                                           xref-file-location-file
+                                           file-name-nondirectory)))
+                            (or (s-ends-with? "_mock.go" fname)
+                                (s-starts-with? "mock_" fname)))
                           (funcall fetcher))))
               (funcall xref-callback
                        (-const xrefs)
