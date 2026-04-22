@@ -152,7 +152,7 @@ If CUT is non-nil, deletes selected text in current buffer."
   '(debugger-mode xref--xref-buffer-mode))
 
 (defvar pick-window--reuse-window-modes
-  '(help-mode occur-mode inferior-emacs-lisp-mode magit-mode))
+  '(help-mode occur-mode comint-mode magit-mode))
 
 (defun pick-window--reuse-p (target-buf)
   (and (memq target-buf (mapcar 'window-buffer (window-list)))
