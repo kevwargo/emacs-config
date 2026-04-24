@@ -41,6 +41,7 @@
  '(lsp-pylsp-plugins-pyflakes-enabled nil)
  '(magit-refresh-verbose nil)
  '(markdown-command-needs-filename t)
+ '(message-log-max 50000)
  '(org-support-shift-select t)
  '(py-split-window-on-execute t)
  '(py-split-windows-on-execute-function 'split-window-horizontally)
