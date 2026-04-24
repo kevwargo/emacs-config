@@ -3,8 +3,8 @@
 (defun kev-use-pkg (pkg &optional my-repo)
   (straight-use-package
    (if my-repo
-       `(,pkg :host github :repo ,(format "kevwargo/%s" my-repo) :protocol ssh)
-     pkg) ))
+       (list pkg :host 'github :repo (format "kevwargo/%s" my-repo) :protocol 'ssh)
+     pkg)))
 
 (kev-use-pkg 'advanced-pos-mode "advanced-pos-mode.el")
 (kev-use-pkg 'company)
