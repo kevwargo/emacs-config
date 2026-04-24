@@ -59,7 +59,7 @@
  ("pylint" . "67e4ac765f67de13222aab5d7dbd15af3417134f")
  ("qml-mode" . "6c5f33ba88ae010bf201a80ee8095e20a724558c")
  ("queue" . "8df1334d54d4735d2f821790422a850dfaaa08ef")
- ("restclient" . "ad97f666b607b1947aae4bcfb5b91fb3b0d97b87")
+ ("restclient" . "151a07cfe13466789e1ec0199da6b28eae3d5a08")
  ("restclient-aws" . "1c0eb3a4c929d6d238a8d8494be5c82ec628667c")
  ("rjsx-mode" . "b697fe4d92cc84fa99a7bcb476f815935ea0d919")
  ("s.el" . "dda84d38fffdaf0c9b12837b504b402af910d01d")
