@@ -46,6 +46,7 @@
  '(py-split-windows-on-execute-function 'split-window-horizontally)
  '(py-underscore-word-syntax-p nil)
  '(require-final-newline t)
+ '(straight-log t)
  '(tab-always-indent t)
  '(tool-bar-mode nil)
  '(vc-follow-symlinks t)
