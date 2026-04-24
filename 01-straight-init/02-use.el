@@ -44,6 +44,7 @@
 (kev-use-pkg 'rjsx-mode)
 (kev-use-pkg 's)
 (kev-use-pkg 'string-inflection)
+(kev-use-pkg 'sudo-edit)
 (kev-use-pkg 'undo-tree)
 (kev-use-pkg 'uuidgen)
 (kev-use-pkg 'yaml-mode)
