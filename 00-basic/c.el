@@ -11,28 +11,36 @@
   (insert ";")
   (funcall (key-binding (key-parse "RET"))))
 
-(defun c-define-style ()
-  (add-to-list 'c-style-alist
-               '("kevwargo"
-                 (c-basic-offset . 4)
-                 (c-comment-only-line-offset 0 . 0)
-                 (c-offsets-alist
-                  (inline-open . 0)
-                  (statement-block-intro . +)
-                  (substatement-open . 0)
-                  (substatement-label . 0)
-                  (label . 0)
-                  (case-label . 0)
-                  (arglist-intro . 8)
-                  (arglist-cont-nonempty . 8)
-                  (statement-cont . +)))))
-
 (defun c-mode-for-lex-yacc ()
   (when (and (buffer-file-name)
              (string-match-p ".*\\.l$\\|.*\\.y$" (buffer-file-name)))
     (dolist (k '(";" ":" "," "{" "}"))
       (keymap-local-set k 'self-insert-command))))
 
+(defun c-mode-setup-company ()
+  (setq-local company-backends
+              '(company-dabbrev-code company-dabbrev)))
+
+(c-add-style "kevwargo"
+             '((c-basic-offset . 4)
+               (c-comment-only-line-offset 0 . 0)
+               (c-offsets-alist
+                (inline-open . 0)
+                (statement-block-intro . +)
+                (substatement-open . 0)
+                (substatement-label . 0)
+                (label . 0)
+                (case-label . 0)
+                (arglist-intro . 8)
+                (arglist-cont-nonempty . 8)
+                (statement-cont . +))))
+
+(c-add-style "kde"
+             '("stroustrup"
+               (c-basic-offset . 4)
+               (c-offsets-alist
+                (innamespace . 0))))
+
 (add-hook 'c-mode-common-hook 'c-mode-for-lex-yacc)
 (add-hook 'c-mode-common-hook 'c-mode-keymap-modify)
-(add-hook 'c-initialization-hook 'c-define-style)
+(add-hook 'c-mode-common-hook 'c-mode-setup-company)
