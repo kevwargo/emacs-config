@@ -67,6 +67,7 @@
  ("spinner" . "fa117f0893788f3fe24673715a6b83bb34d238dd")
  ("straight.el" . "4272a70d5a385c5c4f92f4f4b111f063db0afac7")
  ("string-inflection" . "99607eb77702953c7715ec2ba5a6a840b9bea62b")
+ ("sudo-edit" . "74eb1e6986461baed9a9269566ff838530b4379b")
  ("swiper" . "2257a9d0519e18f5ce7a7fafda8a1a8e5023628e")
  ("transient" . "e9a636d3c7cbb9ac43ea4a08a1c252a02c7c3460")
  ("treemacs" . "316374e51830be33e68c5851cca9bf11dbf7587b")
