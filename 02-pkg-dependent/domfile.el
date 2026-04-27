@@ -1,0 +1,45 @@
+(require 'dash)
+
+(defvar domfile-find-hook nil)
+
+(defun domfile-find (filename)
+  (interactive (list (read-string "Filename: ")))
+  (let* ((dir (if (buffer-file-name)
+                  (file-name-directory (buffer-file-name))
+                default-directory))
+         (parent (file-name-directory (directory-file-name dir)))
+         (keys (append (number-sequence ?1 ?9)
+                       (list ?0)
+                       (number-sequence ?a ?z)
+                       (number-sequence ?A ?Z)))
+         bindings)
+    (while (and keys (not (equal dir parent)))
+      (push (->> (if (file-exists-p (expand-file-name filename dir))
+                     'font-lock-property-name-face
+                   'font-lock-comment-face)
+                 (propertize filename 'face)
+                 (concat dir)
+                 (cons (pop keys)))
+            bindings)
+      (setq dir (file-name-directory (directory-file-name dir)))
+      (setq parent (file-name-directory (directory-file-name dir))))
+    (let ((key (--> bindings
+                    (mapcar (lambda (b)
+                              (format "%s %s"
+                                      (cdr b)
+                                      (propertize (string (car b))
+                                                  'face 'help-key-binding)))
+                            it)
+                    (string-join it "\n")
+                    (read-key it)))
+          buf upper-files lower-files match)
+      (dolist (b bindings)
+        (cond
+         ((eq (car b) key) (setq match (cdr b)))
+         (match (push (substring-no-properties (cdr b)) lower-files))
+         (t (push (substring-no-properties (cdr b)) upper-files))))
+      (when match
+        (setq buf (find-file match))
+        (prog1 buf
+          (run-hook-with-args 'domfile-find-hook
+                              buf upper-files (nreverse lower-files)))))))
