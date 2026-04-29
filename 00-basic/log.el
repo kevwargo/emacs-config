@@ -51,6 +51,10 @@
                   ,@(cdr clause)))
               clauses))))
 
+(defun show-log ()
+  (interactive)
+  (pop-to-buffer (get-buffer-create log-buffer-name)))
+
 (defun log-clear-buffer ()
   (interactive)
   (when-let* ((buf (get-buffer log-buffer-name))
