@@ -50,40 +50,36 @@ while the cdr is the key that splits it and chooses the created child window.")
                             alist)))
 
 (defun pick-window (&optional allow-split prompt)
-  (let ((map (make-sparse-keymap))
-        (pick-window--active-p t)
-        chosen-window split-p)
+  (let* ((pick-window--active-p t)
+         (bindings (pick-window--prepare-bindings allow-split))
+         (map (make-sparse-keymap))
+         new-window split-p
+         (handler
+          (lambda ()
+            (interactive)
+            (let* ((key (key-description (this-command-keys)))
+                   (binding (assoc key bindings))
+                   (win (cadr binding)))
+              (cond
+               ((and (window-live-p win)
+                     (not (window-minibuffer-p win)))
+                (setq new-window win
+                      split-p (cddr binding))
+                (exit-minibuffer))
+               (t (message "No window for key %s"
+                           (string-fontify key 'help-key-binding))))))))
     (set-keymap-parent map minibuffer-local-map)
-    (--each (-zip-pair pick-window-keys (window-list))
-      (-let [((select-key . split-key) . window) it]
-        (keymap-set map select-key
-                    (lambda ()
-                      (interactive)
-                      (setq chosen-window window)
-                      (exit-minibuffer)))
-        (if allow-split
-            (keymap-set map split-key
-                        (lambda ()
-                          (interactive)
-                          (setq chosen-window window
-                                split-p t)
-                          (exit-minibuffer))))
-        (set-window-parameter window 'pick-window-key-select select-key)
-        (set-window-parameter window 'pick-window-key-split
-                              (if allow-split split-key))))
-    (define-key map [remap self-insert-command]
-                (lambda ()
-                  (interactive)
-                  (user-error "no window under key %S"
-                              (key-description (this-single-command-keys)))))
+    (dolist (b bindings)
+      (keymap-set map (car b) handler))
+    (define-key map [remap self-insert-command] handler)
     (read-from-minibuffer (or prompt "Pick window: ") nil map nil t)
     (if split-p
-        (setq chosen-window
-              (if (window-left-child (window-parent chosen-window))
-                  (split-window-below nil chosen-window)
-                (split-window-right nil chosen-window))))
-    (set-window-parameter chosen-window 'pick-window-created-p split-p)
-    chosen-window))
+        (setq new-window
+              (if (window-left-child (window-parent new-window))
+                  (split-window-below nil new-window)
+                (split-window-right nil new-window))))
+    (set-window-parameter new-window 'pick-window-created-p split-p)
+    new-window))
 
 (defun pick-window-toggle-numbers ()
   (interactive)
@@ -256,5 +252,27 @@ If CUT is non-nil, deletes selected text in current buffer."
            (concat "[%s] " fmt)
            (string-fontify (format-time-string "%Y-%m-%d %H:%M:%S") 'font-lock-doc-face)
            args)))
+
+(defun pick-window--prepare-bindings (allow-split)
+  (let ((wlist (window-list))
+        (keys pick-window-keys)
+        bindings)
+    (while (and keys wlist)
+      (let* ((w (pop wlist))
+             (k (pop keys))
+             (select-key (car k))
+             (split-key (and allow-split (cdr k))))
+        (push (cons select-key (cons w nil))
+              bindings)
+        (if split-key
+            (push (cons split-key (cons w t))
+                  bindings))
+        (set-window-parameter w 'pick-window-key-select select-key)
+        (set-window-parameter w 'pick-window-key-split split-key)))
+    (dolist (k '(left right up down))
+      (push (cons (key-description (vector k)) ;; convert to string representation, e.g. "<up>"
+                  (cons (windmove-find-other-window k) nil))
+            bindings))
+    bindings))
 
 (pick-window-mode 1)
