@@ -1,7 +1,5 @@
 (require 'dash)
 
-(defvar domfile-find-hook nil)
-
 (defun domfile-find (filename)
   (interactive (list (read-string "Filename: ")))
   (let* ((dir (if (buffer-file-name)
@@ -23,23 +21,14 @@
             bindings)
       (setq dir (file-name-directory (directory-file-name dir)))
       (setq parent (file-name-directory (directory-file-name dir))))
-    (let ((key (--> bindings
-                    (mapcar (lambda (b)
-                              (format "%s %s"
-                                      (cdr b)
-                                      (propertize (string (car b))
-                                                  'face 'help-key-binding)))
-                            it)
-                    (string-join it "\n")
-                    (read-key it)))
-          buf upper-files lower-files match)
-      (dolist (b bindings)
-        (cond
-         ((eq (car b) key) (setq match (cdr b)))
-         (match (push (substring-no-properties (cdr b)) lower-files))
-         (t (push (substring-no-properties (cdr b)) upper-files))))
-      (when match
-        (setq buf (find-file match))
-        (prog1 buf
-          (run-hook-with-args 'domfile-find-hook
-                              buf upper-files (nreverse lower-files)))))))
+    (when-let* ((key (--> bindings
+                          (mapcar (lambda (b)
+                                    (format "%s %s"
+                                            (cdr b)
+                                            (propertize (string (car b))
+                                                        'face 'help-key-binding)))
+                                  it)
+                          (string-join it "\n")
+                          (read-key it)))
+                (binding (assoc key bindings)))
+      (find-file (cdr binding)))))
