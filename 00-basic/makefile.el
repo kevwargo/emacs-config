@@ -13,6 +13,7 @@
 
 (defun customize-makefile-mode ()
   (keymap-local-unset "C-c C-\\")
-  (setq-local comment-region-function 'makefile-comment-region))
+  (setq-local comment-region-function 'makefile-comment-region)
+  (setq-local company-backends '(company-dabbrev-code company-files)))
 
 (add-hook 'makefile-mode-hook 'customize-makefile-mode)
