@@ -50,3 +50,6 @@
 (keymap-set tsx-ts-mode-map "C-{" 'embrace-selected-lines)
 (keymap-set typescript-ts-mode-map "C-{" 'embrace-selected-lines)
 (keymap-set tsx-ts-mode-map k-color-chooser-key 'k-color-chooser)
+
+(add-hook 'typescript-ts-base-mode-hook
+          (lambda () (setq-local forward-sexp-function nil)))
