@@ -2,6 +2,7 @@
 (require 'go-tag)
 (require 'lsp-mode)
 (require 's)
+(require 'reformatter)
 
 (defun go-tag-add-json (&optional transform)
   (interactive (list (go-tag--read-transform current-prefix-arg)))
