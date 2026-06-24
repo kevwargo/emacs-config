@@ -33,6 +33,7 @@
       (setq exists-p nil))
     (unless exists-p
       (message "Initializing default lockfile to %s" repo-lockfile)
+      (mkdir straight-lockfile-dir t)
       (make-symbolic-link
        (file-relative-name repo-lockfile straight-lockfile-dir)
        straight-lockfile))))
