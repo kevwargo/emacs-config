@@ -8,6 +8,7 @@
     (tsx-ts-mode . "package.json")
     (js-mode . "package.json")
     (rjsx-mode . "package.json")
+    ;; (kotlin-mode . "settings.gradle")
     ;; (java-mode . find-custom-lsp-java-project)
     ))
 

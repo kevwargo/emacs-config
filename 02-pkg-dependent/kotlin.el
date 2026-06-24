@@ -3,6 +3,7 @@
 
 (setq kotlin-tab-width 2)
 
+;; TODO: download semi-automatically from
 ;; https://github.com/facebook/ktfmt/releases/download/v0.63/ktfmt-0.63-with-dependencies.jar
 (defvar kotlin-ktfmt-jar-path
   (expand-file-name "ktfmt-0.63-with-dependencies.jar"
