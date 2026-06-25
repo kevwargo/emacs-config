@@ -20,3 +20,4 @@
 (put 'scroll-left 'disabled nil)
 
 (add-to-list 'exec-path "~/.local/bin")
+(setenv "PATH" (format "%s:%s" (expand-file-name "~/.local/bin") (getenv "PATH")))
