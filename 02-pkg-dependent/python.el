@@ -17,7 +17,7 @@
                    lsp-pylsp-server-command))
         (shell-command
          (format
-          "uv venv %s && uv pip install --python %s/bin/python python-lsp-{server[flake8],isort,black}"
+          "uv venv --no-managed-python --system-site-packages %s && uv pip install --python %s/bin/python python-lsp-{server[flake8],isort,black}"
           pylsp--venv pylsp--venv)))))
 
 (defun py-get-venv ()
