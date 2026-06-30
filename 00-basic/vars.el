@@ -17,3 +17,7 @@
 (put 'narrow-to-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
+(put 'scroll-left 'disabled nil)
+
+(add-to-list 'exec-path "~/.local/bin")
+(setenv "PATH" (format "%s:%s" (expand-file-name "~/.local/bin") (getenv "PATH")))
