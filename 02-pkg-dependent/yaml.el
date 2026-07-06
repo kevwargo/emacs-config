@@ -1,5 +1,6 @@
 (require 'indent-tools)
 (require 'yaml-mode)
+(require 'reformatter)
 
 (defun yaml-mode-customize ()
   (indent-tools-minor-mode 1)
@@ -16,5 +17,7 @@
         (delete-horizontal-space)
         (indent-to (yaml-compute-indentation)))
       (forward-line 1))))
+
+(reformatter-define yamlfmt :program "yamlfmt" :args '("-"))
 
 (add-hook 'yaml-mode-hook 'yaml-mode-customize)
