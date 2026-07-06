@@ -62,7 +62,7 @@ jump to it immediately without showing the xref buffer."
 (defcustom gofumpt-cmd "gofumpt" "" :group 'gofumpt+gci)
 (defcustom gofumpt-args nil "" :group 'gofumpt+gci)
 
-(defcustom gci-goimports-cmd "goimports" "" :group 'gofumpt+gci)
+(defcustom goimports-cmd "goimports" "" :group 'gofumpt+gci)
 (defcustom gci-cmd "gci" "" :group 'gofumpt+gci)
 (defcustom gci-subcommand "print" "" :group 'gofumpt+gci)
 (defcustom gci-sections '("Standard" "Default") "" :group 'gofumpt+gci)
@@ -73,7 +73,7 @@ jump to it immediately without showing the xref buffer."
   :args (list "-c" (format "%s %s | %s | %s %s %s %s"
                            gofumpt-cmd
                            (mapconcat #'shell-quote-argument gofumpt-args " ")
-                           gci-goimports-cmd
+                           goimports-cmd
                            gci-cmd
                            gci-subcommand
                            (mapconcat (lambda (s)
@@ -88,3 +88,16 @@ jump to it immediately without showing the xref buffer."
 (keymap-set go-mode-map "C-x T" 'go-tag-add-json)
 
 (add-hook 'go-mode-hook 'gofumpt+gci-on-save-mode)
+
+(let ((gopath (expand-file-name "~/go")))
+  (cond
+   ((file-directory-p gopath)
+    (unless (getenv "GOPATH")
+      (setenv "GOPATH" gopath))
+    (let ((gobin (expand-file-name "bin" gopath))
+          (env-path (getenv "PATH")))
+      (unless (string-match-p (regexp-quote gobin) env-path)
+        (setenv "PATH" (format "%s:%s" gobin env-path)))
+      (add-to-list 'exec-path gobin)))
+   ((file-exists-p gopath)
+    (warn "%s is not a directory" gopath))))
