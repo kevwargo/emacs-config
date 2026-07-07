@@ -5,7 +5,8 @@
 (defun yaml-mode-customize ()
   (indent-tools-minor-mode 1)
   (modify-syntax-entry ?\( "()")
-  (modify-syntax-entry ?\) ")("))
+  (modify-syntax-entry ?\) ")(")
+  (yamlfmt-on-save-mode 1))
 
 (defun yaml-fix-array-indentaion (beg end)
   (interactive "r")
