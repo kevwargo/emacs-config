@@ -2,6 +2,7 @@
 
 (require 'term)
 (require 'dash)
+(require 'windmove)
 
 ;; TODO:
 ;;   - in addition to splitting, allow to expand the picked window
