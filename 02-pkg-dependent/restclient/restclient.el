@@ -9,6 +9,6 @@
         (json-pretty-print (save-excursion (backward-sexp) (point))
                            (point)))))
 
-(keymap-set restclient-mode-map "C-c f" 'restclient-json-format-body)
+(keymap-set restclient-mode-map "C-c C-f" 'restclient-json-format-body)
 
 (add-to-list 'auto-mode-alist '("\\.rest$" . restclient-mode))

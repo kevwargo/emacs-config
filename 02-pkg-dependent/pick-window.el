@@ -31,6 +31,9 @@
            (set-default 'mode-line-format (remove ml-entry ml))
            (setq display-buffer-alist (remove dba-entry display-buffer-alist))))))
 
+(defcustom pick-window-reuse-visible t
+  "If there is a live window already showing the requested buffer, use it instead of prompting.")
+
 (defvar pick-window-keys
   '(("q" . "Q") ("w" . "W") ("a" . "A") ("s" . "S") ("z" . "Z") ("x" . "X")
     ("e" . "E") ("d" . "D") ("c" . "C") ("v" . "V") ("f" . "F") ("r" . "R")
@@ -153,7 +156,8 @@ If CUT is non-nil, deletes selected text in current buffer."
 
 (defun pick-window--reuse-p (target-buf)
   (and (memq target-buf (mapcar 'window-buffer (window-list)))
-       (or (provided-mode-derived-p (buffer-local-value 'major-mode target-buf)
+       (or pick-window-reuse-visible
+           (provided-mode-derived-p (buffer-local-value 'major-mode target-buf)
                                     pick-window--reuse-window-modes)
            (memq this-command '(occur-mode-goto-occurrence
                                 compile-goto-error

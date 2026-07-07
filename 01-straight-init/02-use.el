@@ -1,51 +1,58 @@
 ;; -*- lexical-binding: t -*-
 
-(defun kev-use-pkg (pkg &optional my-repo)
-  (straight-use-package
-   (if my-repo
-       (list pkg :host 'github :repo (format "kevwargo/%s" my-repo) :protocol 'ssh)
-     pkg)))
+(dolist (pkg '((advanced-pos-mode . "advanced-pos-mode.el")
+               (findgrep . "findgrep.el")
+               (ivy-xref . "ivy-xref.el")
+               (kwinjs-repl . "kwinjs-repl.el")
+               (restclient . "restclient")
+               (restclient-aws . "restclient-aws")))
+  (straight-register-package
+   (list (car pkg)
+         :host 'github
+         :repo (format "kevwargo/%s" (cdr pkg))
+         :protocol 'ssh)))
 
-(kev-use-pkg 'advanced-pos-mode "advanced-pos-mode.el")
-(kev-use-pkg 'company)
-(kev-use-pkg 'connection)
-(kev-use-pkg 'copilot)
-(kev-use-pkg 'csv-mode)
-(kev-use-pkg 'default-text-scale)
-(kev-use-pkg 'dockerfile-mode)
-(kev-use-pkg 'f)
-(kev-use-pkg 'go-mode)
-(kev-use-pkg 'go-tag)
-(kev-use-pkg 'gotest)
-(kev-use-pkg 'goto-last-change)
-(kev-use-pkg 'graphql-mode)
-(kev-use-pkg 'groovy-mode)
-(kev-use-pkg 'findgrep "findgrep.el")
-(kev-use-pkg 'indent-tools)
-(kev-use-pkg 'ivy-xref "ivy-xref.el")
-(kev-use-pkg 'json-mode)
-(kev-use-pkg 'json-navigator)
-(kev-use-pkg 'kotlin-mode)
-(kev-use-pkg 'kwinjs-repl "kwinjs-repl.el")
-(kev-use-pkg 'lsp-java)
-(kev-use-pkg 'lsp-mode)
-(kev-use-pkg 'magit)
-(kev-use-pkg 'markdown-mode)
-(kev-use-pkg 'multi-term)
-(kev-use-pkg 'neotree)
-(kev-use-pkg 'powershell)
-(kev-use-pkg 'prettier)
-(kev-use-pkg 'pylint)
-(kev-use-pkg 'qml-mode)
-(kev-use-pkg 'reformatter)
-(kev-use-pkg 'restclient "restclient")
-(kev-use-pkg 'restclient-jq)
-(kev-use-pkg 'restclient-aws "restclient-aws")
-(kev-use-pkg 'rjsx-mode)
-(kev-use-pkg 's)
-(kev-use-pkg 'string-inflection)
-(kev-use-pkg 'sudo-edit)
-(kev-use-pkg 'undo-tree)
-(kev-use-pkg 'uuidgen)
-(kev-use-pkg 'yaml-mode)
-(kev-use-pkg 'yasnippet)
+(dolist (pkg '(advanced-pos-mode
+               company
+               connection
+               copilot
+               csv-mode
+               default-text-scale
+               dockerfile-mode
+               f
+               go-mode
+               go-tag
+               gotest
+               goto-last-change
+               graphql-mode
+               groovy-mode
+               findgrep
+               indent-tools
+               ivy-xref
+               json-mode
+               json-navigator
+               kotlin-mode
+               kwinjs-repl
+               lsp-java
+               lsp-mode
+               magit
+               markdown-mode
+               multi-term
+               neotree
+               powershell
+               prettier
+               pylint
+               qml-mode
+               reformatter
+               restclient
+               restclient-jq
+               restclient-aws
+               rjsx-mode
+               s
+               string-inflection
+               sudo-edit
+               undo-tree
+               uuidgen
+               yaml-mode
+               yasnippet))
+  (straight-use-package pkg))
