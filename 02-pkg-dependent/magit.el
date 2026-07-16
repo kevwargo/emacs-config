@@ -76,8 +76,11 @@
 (transient-replace-suffix 'magit-push "t" '("t" magit-push-current-tag))
 
 (defun magit-get-default-remote ()
-  (let ((remotes (magit-list-remotes)))
-    (and (length= remotes 1) (car remotes))))
+  "Return the default remote, either `origin' or the sole remote.
+If multiple remotes exist and none is `origin', return nil."
+  (when-let* ((remotes (magit-list-remotes)))
+    (car (or (member "origin" remotes)
+             (and (length= remotes 1) remotes)))))
 
 (defun magit-get-current-branch-remote ()
   (when-let ((branch (magit-get-current-branch))
