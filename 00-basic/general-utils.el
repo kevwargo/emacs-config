@@ -1,5 +1,6 @@
 (require 'cl-lib)
 (require 'cl-extra)
+(require 'align)
 
 (defun delete-word (arg)
   (interactive "p")
@@ -310,3 +311,7 @@ instead of from the first non-whitespace character"
         (goto-char start)
         (delete-region start end)
         (insert (to-camel-case sexp))))))
+
+(defun align-spaces (beg end)
+  (interactive "r")
+  (align-regexp beg end "\\(\\s-+\\)" 1 1 t))
