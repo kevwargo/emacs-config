@@ -28,7 +28,8 @@
 
 (defun nest-context-show ()
   (interactive)
-  (message "%s" (mapconcat 'identity (nest--context) "\n")))
+  (let ((message-log-max nil))
+    (message "%s" (mapconcat 'identity (nest--context) "\n"))))
 
 (defun nest-context-copy ()
   (interactive)
