@@ -273,20 +273,18 @@ instead of from the first non-whitespace character"
       (insert filename)
       (kill-ring-save (point-min) (point-max)))))
 
-(defun sudo-save-buffer ()
-  (interactive)
+(defun sudo-save-buffer (&optional chown)
+  (interactive "P")
   (when-let ((filename (shell-quote-argument (buffer-file-name)))
              (tmpfile (make-temp-file "emacs-sudofile")))
     (unwind-protect
         (progn
           (write-region (point-min) (point-max) tmpfile)
           (with-temp-buffer
-            (let* ((cmd (format "sudo -S cp %s %s && sudo -S chown %d:%d %s"
-                                tmpfile
-                                filename
-                                (user-uid)
-                                (group-gid)
-                                filename))
+            (let* ((cmd (concat (format "sudo -S cp %s %s" tmpfile filename)
+                                (if chown
+                                    (format " && sudo -S chown %d:%d %s" (user-uid) (group-gid) filename)
+                                  "")))
                    (pwd (read-passwd (concat cmd ": "))))
               (insert pwd)
               (shell-command-on-region (point-min) (point-max) cmd
