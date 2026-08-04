@@ -11,6 +11,7 @@
  '(case-fold-search t)
  '(case-replace t)
  '(comint-input-ignoredups t)
+ '(company-dabbrev-downcase nil)
  '(company-minimum-prefix-length 1)
  '(company-selection-wrap-around t)
  '(create-lockfiles nil)
