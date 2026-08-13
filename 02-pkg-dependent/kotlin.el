@@ -17,6 +17,7 @@
   :lighter " KtFmt")
 
 (defun kotlin--hook ()
+  (keymap-local-set "C-{" 'embrace-selected-lines)
   (if (file-exists-p kotlin-ktfmt-jar-path)
       (kotlin-ktfmt-on-save-mode)))
 
