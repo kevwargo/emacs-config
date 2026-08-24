@@ -17,7 +17,8 @@
     (dolist (k '(";" ":" "," "{" "}"))
       (keymap-local-set k 'self-insert-command))))
 
-(defun c-mode-setup-company ()
+(defun c-mode-setup ()
+  (add-hook 'before-save-hook 'delete-trailing-whitespace nil t)
   (setq-local company-backends
               '(company-dabbrev-code company-dabbrev)))
 
@@ -43,4 +44,4 @@
 
 (add-hook 'c-mode-common-hook 'c-mode-for-lex-yacc)
 (add-hook 'c-mode-common-hook 'c-mode-keymap-modify)
-(add-hook 'c-mode-common-hook 'c-mode-setup-company)
+(add-hook 'c-mode-common-hook 'c-mode-setup)
