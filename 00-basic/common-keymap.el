@@ -12,7 +12,6 @@
 (keymap-global-set "C-x x" 'kmacro-call-macro)
 (keymap-global-set "C-c r" 'replace-string)
 (keymap-global-set "C-c C-r" 'replace-regexp)
-(keymap-global-set "C-c C-x k" 'save-buffers-kill-emacs)
 (keymap-global-set "C-c C-\\" 'goto-last-change)
 (keymap-global-set "C-x DEL" 'join-line)
 (keymap-global-set "M-X" 'command-all-buffers-same-major-mode)

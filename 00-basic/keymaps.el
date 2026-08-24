@@ -18,8 +18,7 @@
 
 (defun sh-mode-keymap-modify ()
   (keymap-local-set "C-j" 'newline)
-  (keymap-local-set "RET" 'newline)
-  (keymap-local-unset "C-c C-x"))
+  (keymap-local-set "RET" 'newline))
 
 (defun insert-open-paren ()
   (interactive)
@@ -30,9 +29,6 @@
   (keymap-local-set "C-c RET" 'eval-print-last-sexp)
   (keymap-local-set "C-(" 'insert-open-paren))
 
-(defun conf-mode-keymap-modify ()
-  (keymap-local-unset "C-c C-x"))
-
 (defun html-mode-keymap-modify ()
   (dolist (key '("1" "2" "3" "4"))
     (keymap-local-unset (concat "C-c " key))))
@@ -40,5 +36,4 @@
 (add-hook 'sh-mode-hook 'sh-mode-keymap-modify)
 (add-hook 'lisp-data-mode-hook 'lisp-like-mode-keymap-modify)
 (add-hook 'ielm-mode-hook 'lisp-like-mode-keymap-modify)
-(add-hook 'conf-mode-hook 'conf-mode-keymap-modify)
 (add-hook 'html-mode-hook 'html-mode-keymap-modify)
