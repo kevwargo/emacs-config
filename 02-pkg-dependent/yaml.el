@@ -19,6 +19,6 @@
         (indent-to (yaml-compute-indentation)))
       (forward-line 1))))
 
-(reformatter-define yamlfmt :program "yamlfmt" :args '("-"))
+(reformatter-define yamlfmt :program "yamlfmt" :args '("-") :lighter " YamlFmt")
 
 (add-hook 'yaml-mode-hook 'yaml-mode-customize)

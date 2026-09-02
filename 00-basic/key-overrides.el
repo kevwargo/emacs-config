@@ -10,6 +10,7 @@
             (keymap-set m "M-]" 'sexp-traverse-goto-end)
             (keymap-set m "C-c q" 'requote)
             (keymap-set m "C-x L" 'nest-context-show)
+            (keymap-set m "C-c C-x k" 'save-buffers-kill-emacs)
             m)
   :group 'key-overrides
   :global t)

@@ -202,4 +202,6 @@ If multiple remotes exist and none is `origin', return nil."
   (keymap-set m "G" 'magit-github-copy)
   (keymap-global-set "M-m" m))
 
+(keymap-set magit-diff-section-map "C-<return>" #'magit-diff-visit-file-other-window)
+
 (put 'magit-clean 'disabled nil)
