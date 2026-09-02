@@ -16,6 +16,7 @@
  '(company-selection-wrap-around t)
  '(create-lockfiles nil)
  '(custom-enabled-themes '(tsdh-light adwaita whiteboard deeper-blue))
+ '(dired-kill-when-opening-new-dired-buffer t)
  '(ediff-split-window-function 'split-window-horizontally)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
  '(enable-local-variables :all)

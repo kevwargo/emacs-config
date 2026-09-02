@@ -37,3 +37,5 @@
 (add-hook 'lisp-data-mode-hook 'lisp-like-mode-keymap-modify)
 (add-hook 'ielm-mode-hook 'lisp-like-mode-keymap-modify)
 (add-hook 'html-mode-hook 'html-mode-keymap-modify)
+
+(keymap-set dired-mode-map "DEL" #'dired-up-directory)
