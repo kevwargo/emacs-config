@@ -1,3 +1,6 @@
+;; -*- lexical-binding: t -*-
+
+(require 'python)
 (require 'dash)
 (require 's)
 (require 'lsp-pylsp)
@@ -202,6 +205,24 @@
          ((eq c ?') (delete-char 1) (insert-char ?\"))
          ((eq c ?\") (delete-char 1) (insert-char ?'))))
       (unless (eobp) (forward-char)))))
+
+(defun uv-run-file ()
+  (interactive)
+  (let* ((file (file-truename buffer-file-name))
+         (project-root (locate-dominating-file file "uv.lock")))
+    (unless project-root
+      (user-error "No uv.lock found above %s" file))
+    (let* ((default-directory project-root)
+           (relative-file (file-relative-name file project-root))
+           (command (format "uv run python %s"
+                            (shell-quote-argument relative-file)))
+           (bufname (buffer-name)))
+      (compilation-start command 'compilation-mode
+                         (lambda (&optional mode)
+                           (ignore mode)
+                           (format "*uv-run <%s>*" bufname))))))
+
+(keymap-set python-mode-map "C-c C-c" #'uv-run-file)
 
 (lsp-register-custom-settings '(("pylsp.plugins.jedi.environment" py-detect-pylsp-jedi-env)))
 (setq lsp-pylsp-server-command (list (expand-file-name "bin/pylsp" pylsp--venv)))
