@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defvar-local go-test-verbose nil)
 
 (defun go-toggle-test-verbose ()

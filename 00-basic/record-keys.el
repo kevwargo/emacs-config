@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'cl-seq)
 
 (defvar key-seq-map (make-hash-table :test 'equal))

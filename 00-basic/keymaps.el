@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'cl-macs)
 
 (defun keymap-prettify (kmap)

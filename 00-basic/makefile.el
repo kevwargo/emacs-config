@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun makefile-comment-region (beg end &optional arg)
   (interactive)
   (save-excursion

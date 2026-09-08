@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'multi-term)
 
 (defun bash-cd (dir)

@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'restclient)
 
 (defun restclient-json-format-body ()

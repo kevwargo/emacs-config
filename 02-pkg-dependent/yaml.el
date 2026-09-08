@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'indent-tools)
 (require 'yaml-mode)
 (require 'reformatter)

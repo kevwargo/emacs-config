@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (keymap-global-unset "C-x C-z")
 
 (keymap-global-set "RET" 'newline-and-indent)

@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'connection)
 
 (defvar *jlp-port* 39012)

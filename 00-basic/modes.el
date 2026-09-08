@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (global-subword-mode)
 (global-display-line-numbers-mode)
 

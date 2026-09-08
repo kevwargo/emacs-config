@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defvar bootstrap-version)
 
 (defun setup-straight-lockfile ()

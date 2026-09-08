@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun comint-previous-input-straight (arg)
   "Move backwards in input history (without cycling)"
   (interactive "*p")

@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'treesit)
 
 (setq treesit-language-source-alist

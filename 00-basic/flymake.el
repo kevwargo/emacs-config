@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'flymake)
 
 (keymap-set flymake-mode-map "C-x ." 'flymake-goto-next-error)

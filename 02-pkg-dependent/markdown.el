@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun markdown-delete-whitespace-on-save ()
   (add-hook 'before-save-hook 'delete-trailing-whitespace nil t))
 

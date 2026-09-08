@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun rjsx-check-buffer ()
   (and
    (string-match-p ".*\\.js$" (buffer-file-name))

@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun insert-key-description (key count)
   (insert (key-description (list key))
           (if (> count 1)

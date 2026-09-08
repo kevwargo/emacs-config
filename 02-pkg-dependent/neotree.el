@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'neotree)
 
 (defun neotree-show-cwd ()

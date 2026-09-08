@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun custom-lisp-modes-map ()
   (keymap-local-set "C-x J" 'jlp-send-defun)
   (keymap-local-set "C-c C-f" 'find-function)

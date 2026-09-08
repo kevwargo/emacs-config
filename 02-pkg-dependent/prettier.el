@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'prettier)
 
 (add-hook 'js-mode-hook 'prettier-mode)

@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun c-mode-keymap-modify ()
   (mapc 'keymap-local-unset '("C-d" "C-c C-d" "C-c C-\\"))
   (keymap-local-set "(" 'self-insert-command)

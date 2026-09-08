@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun isearch-insert-current-symbol ()
   (interactive)
   (let ((symbol (thing-at-point 'symbol t)))

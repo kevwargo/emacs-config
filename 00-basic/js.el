@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun js-mode-hook-custom ()
   (keymap-local-set "C-{" 'embrace-selected-lines))
 

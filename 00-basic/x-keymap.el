@@ -1,4 +1,4 @@
-;; Keybindings for window system
+;; Keybindings for window system  -*- lexical-binding: t; -*-
 
 (keymap-global-set "C-<backspace>" 'backward-delete-word)
 (keymap-global-set "C-<return>" 'newline-from-middle-of-line)

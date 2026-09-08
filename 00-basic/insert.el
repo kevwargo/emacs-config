@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun insert-current-date ()
   (interactive)
   (insert (format-time-string "%Y-%m-%d_%H%M%S")))

@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (setq jit-lock-contextually t)
 
 (put 'minibuffer-prompt 'face-defface-spec

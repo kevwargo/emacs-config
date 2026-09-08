@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'kotlin-mode)
 (require 'reformatter)
 

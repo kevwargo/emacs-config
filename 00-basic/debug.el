@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun log-command-keys ()
   (logfmt "%S %S" this-command (key-description (this-command-keys))))
 

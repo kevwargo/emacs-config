@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defvar minor-modes-order
   '((flymake-mode . 10)))
 

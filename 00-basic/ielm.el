@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun ielm-on-current-buffer ()
   (interactive)
   (let ((buf (current-buffer))

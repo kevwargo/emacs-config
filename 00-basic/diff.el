@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun smerge-ignore-whitespace (&optional reverse)
   (interactive "P")
   (let ((old-file (make-temp-file "emacs-diff-w-old-"))

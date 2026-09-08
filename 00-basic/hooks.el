@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun make-frame-set-parameters (frame)
   (cond ((window-system frame)
          (set-frame-parameter frame 'fullscreen 'maximized)

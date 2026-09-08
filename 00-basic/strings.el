@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun escape-non-ascii (arg)
   (interactive "P")
   (let ((begin (if (region-active-p)

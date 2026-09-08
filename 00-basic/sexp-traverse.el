@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun sexp-traverse-goto-start ()
   (interactive)
   (when-let ((pos (nth 1 (syntax-ppss))))

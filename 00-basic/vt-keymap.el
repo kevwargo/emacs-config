@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (define-minor-mode vt-ctrl-pressed-mode
   "Defines"
   :init-value nil

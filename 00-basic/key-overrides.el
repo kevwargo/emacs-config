@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (define-minor-mode key-overrides-mode
   "A minor mode with some custom keybindings"
   :keymap (let ((m (make-sparse-keymap)))

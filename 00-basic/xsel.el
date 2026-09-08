@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (setq select-enable-clipboard t)
 
 (unless (display-graphic-p)

@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (setq custom-file load-file-name)
 
 (custom-set-variables

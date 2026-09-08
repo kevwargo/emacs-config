@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'undo-tree)
 
 (setq undo-tree-history-directory-alist

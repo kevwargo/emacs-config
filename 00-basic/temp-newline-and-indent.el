@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun newline-and-indent (&optional arg)
   "Insert a newline, then indent according to major mode.
 Indentation is done using the value of `indent-line-function'.

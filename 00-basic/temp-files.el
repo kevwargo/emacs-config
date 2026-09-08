@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defvar sha1-sum-regex
   "/[[:xdigit:]]\\{40\\}-[^/]+$")  
 

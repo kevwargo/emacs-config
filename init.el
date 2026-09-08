@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defvar kec-config-dir (file-name-directory (file-truename load-file-name))
   "Directory containing the main config files.")
 

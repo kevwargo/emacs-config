@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'server)
 
 (setq server-log t)

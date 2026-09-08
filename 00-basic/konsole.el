@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun konsole-cd (dirname)
   (interactive
    (list (ido-read-directory-name "Konsole-cd: ")))

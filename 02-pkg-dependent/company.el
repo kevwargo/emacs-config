@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (global-company-mode)
 
 (setq company-show-quick-access 'left)

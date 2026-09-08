@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'smerge-mode)
 
 (define-minor-mode smerge-easy-keys-mode
