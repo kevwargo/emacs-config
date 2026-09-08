@@ -166,6 +166,7 @@ If CUT is non-nil, deletes selected text in current buffer."
                                 undo-tree-visualize-redo)))))
 
 (defun pick-window--match (buf &optional action &rest args)
+  (ignore args)
   (let* ((buf (get-buffer buf))
          (alist (cdr-safe action))
          (action (car-safe action))

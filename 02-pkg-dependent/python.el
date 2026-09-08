@@ -120,6 +120,7 @@
   (pyexec-port-set (- pyexecserver-port (or amount 1))))
 
 (defun pyexecserver-send (form)
+  (ignore form)
   (eval `(,(if (fboundp 'save-mark-and-excursion)
                'save-mark-and-excursion
              'save-excursion)
