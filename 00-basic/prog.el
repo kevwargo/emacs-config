@@ -2,7 +2,7 @@
 
 (defun prog-make-build ()
   (interactive)
-  (when-let ((prj-root (locate-dominating-file (buffer-file-name) "Makefile")))
+  (when-let* ((prj-root (locate-dominating-file (buffer-file-name) "Makefile")))
     (message "Running 'make build' in %s" prj-root)
     (message "%s" (with-temp-buffer
                     (let ((default-directory prj-root))

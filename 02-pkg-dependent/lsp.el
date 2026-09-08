@@ -31,14 +31,14 @@
 
 (defun lsp-next-highlight ()
   (interactive)
-  (when-let ((highlight (or (--find (> (car it) (point)) lsp--current-highlights)
-                            (car lsp--current-highlights))))
+  (when-let* ((highlight (or (--find (> (car it) (point)) lsp--current-highlights)
+                             (car lsp--current-highlights))))
     (goto-char (car highlight))))
 
 (defun lsp-previous-highlight ()
   (interactive)
-  (when-let ((highlight (or (--last (< (cadr it) (point)) lsp--current-highlights)
-                            (car (last lsp--current-highlights)))))
+  (when-let* ((highlight (or (--last (< (cadr it) (point)) lsp--current-highlights)
+                             (car (last lsp--current-highlights)))))
     (goto-char (car highlight))))
 
 (defun lsp-toggle-format-on-save ()
@@ -67,7 +67,7 @@
       (let ((project-find-functions (append
                                      (list
                                       (lambda (dir)
-                                        (if-let ((prj-dir (find-prj-dir dir project-descriptor)))
+                                        (if-let* ((prj-dir (find-prj-dir dir project-descriptor)))
                                             (progn
                                               (message "Found LSP project dir for %s (%s)" file-name major-mode)
                                               `(transient . ,prj-dir))

@@ -26,7 +26,7 @@
                   file))
 
 (defun make-auto-save-file-name ()
-  (when-let ((file (buffer-file-name)))
+  (when-let* ((file (buffer-file-name)))
     (concat auto-save-directory-sha1
             "/"
             (sha1 (file-name-directory file))

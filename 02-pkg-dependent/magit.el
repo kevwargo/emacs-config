@@ -68,8 +68,8 @@
                                   (magit--propertize-face (magit-painted-tag-at-point)
                                                           'magit-tag)))
   (interactive)
-  (when-let ((tag (magit-painted-tag-at-point))
-             (remote (magit-read-remote (format "Push %s to remote" tag) nil t)))
+  (when-let* ((tag (magit-painted-tag-at-point))
+              (remote (magit-read-remote (format "Push %s to remote" tag) nil t)))
     (run-hooks 'magit-credential-hook)
     (magit-run-git-async "push" remote tag)))
 
@@ -83,8 +83,8 @@ If multiple remotes exist and none is `origin', return nil."
              (and (length= remotes 1) remotes)))))
 
 (defun magit-get-current-branch-remote ()
-  (when-let ((branch (magit-get-current-branch))
-             (remote (magit-get-default-remote)))
+  (when-let* ((branch (magit-get-current-branch))
+              (remote (magit-get-default-remote)))
     (cons branch remote)))
 
 (defun magit-push-current-branch-description ()
@@ -104,8 +104,8 @@ If multiple remotes exist and none is `origin', return nil."
 (transient-replace-suffix 'magit-push "u" '("u" magit-push-current-branch-to-upstream))
 
 (defun magit-get-default-branch-remote ()
-  (when-let ((branch (magit-main-branch))
-             (remote (magit-get-default-remote)))
+  (when-let* ((branch (magit-main-branch))
+              (remote (magit-get-default-remote)))
     (cons branch remote)))
 
 (defun magit-pull-main-branch-description ()
@@ -145,12 +145,12 @@ If multiple remotes exist and none is `origin', return nil."
 
 (defun magit-github-open ()
   (interactive)
-  (when-let ((url (magit--github-build-url)))
+  (when-let* ((url (magit--github-build-url)))
     (browse-url url)))
 
 (defun magit-github-copy ()
   (interactive)
-  (when-let ((url (magit--github-build-url)))
+  (when-let* ((url (magit--github-build-url)))
     (kill-new url)))
 
 (defun magit--github-build-url ()

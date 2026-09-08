@@ -13,12 +13,12 @@
 
 (defun jlp-send-defun ()
   (interactive)
-  (when-let ((d (thing-at-point 'defun t)))
+  (when-let* ((d (thing-at-point 'defun t)))
     (jlp-send-string d)))
 
 (defun jlp-send-sexp ()
   (interactive)
-  (when-let ((s (thing-at-point 'sexp t)))
+  (when-let* ((s (thing-at-point 'sexp t)))
     (jlp-send-string s)))
 
 (defun jlp-send-buffer ()

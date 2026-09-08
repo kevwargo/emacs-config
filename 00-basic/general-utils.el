@@ -270,15 +270,15 @@ instead of from the first non-whitespace character"
 
 (defun file-name-to-clipboard ()
   (interactive)
-  (when-let ((filename (buffer-file-name)))
+  (when-let* ((filename (buffer-file-name)))
     (with-temp-buffer
       (insert filename)
       (kill-ring-save (point-min) (point-max)))))
 
 (defun sudo-save-buffer (&optional chown)
   (interactive "P")
-  (when-let ((filename (shell-quote-argument (buffer-file-name)))
-             (tmpfile (make-temp-file "emacs-sudofile")))
+  (when-let* ((filename (shell-quote-argument (buffer-file-name)))
+              (tmpfile (make-temp-file "emacs-sudofile")))
     (unwind-protect
         (progn
           (write-region (point-min) (point-max) tmpfile)

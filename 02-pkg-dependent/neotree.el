@@ -28,8 +28,8 @@
 (defun setup-neotree ()
   (keymap-local-set "<backspace>" 'neotree-go-up)
   (keymap-local-set "RET" (neotree-make-executor
-                              :file-fn 'neo-open-file
-                              :dir-fn  'neotree-change-root-dir))
+                           :file-fn 'neo-open-file
+                           :dir-fn  'neotree-change-root-dir))
   (keymap-local-set "u" 'neotree-select-up-node)
   (keymap-local-set "f" 'neotree-fold-all))
 
