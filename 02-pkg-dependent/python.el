@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
 (require 'python)
+(require 'windmove)
 (require 'dash)
 (require 's)
 (require 'lsp-pylsp)
