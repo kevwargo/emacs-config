@@ -8,8 +8,10 @@
   (dolist (item (directory-files dir t "^[a-zA-Z0-9_-]+\\(\\.elc?\\)?$"))
     (load item)))
 
-(let ((ts (current-time)))
-  (load-kec-directory "00-basic")
-  (load-kec-directory "01-straight-init")
-  (load-kec-directory "02-pkg-dependent")
-  (message "Total init load time: %fs" (float-time (time-since ts))))
+(require 'benchmark)
+
+(message "Load init benchmark: %fs"
+         (benchmark-elapse
+           (load-kec-directory "00-basic")
+           (load-kec-directory "01-straight-init")
+           (load-kec-directory "02-pkg-dependent")))
