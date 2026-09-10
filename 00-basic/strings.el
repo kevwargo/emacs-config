@@ -27,11 +27,11 @@ If the REPLACE is non-nil, replace the region with the resulting text.
 Otherwise print the text using `message'."
   (interactive "r\nP")
   (let ((text (base64-decode-string (buffer-substring-no-properties beg end) t)))
-    (if replace (progn
-                  (delete-region beg end)
-                  (goto-char beg)
-                  (insert text))
-      (message text))))
+    (cond (replace
+           (delete-region beg end)
+           (goto-char beg)
+           (insert text))
+          (t (message "%s" text)))))
 
 (defun string-fontify (str face)
   (if face
