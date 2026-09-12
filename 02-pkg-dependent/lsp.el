@@ -47,6 +47,7 @@
   (message "LSP auto-formatting set to %S in %S" lsp-format-buffer-on-save (current-buffer)))
 
 (defvar-local lsp-skip-current-file nil)
+(put 'lsp-skip-current-file 'safe-local-variable #'booleanp)
 
 (defun setup-lsp-mode ()
   (when-let* (((null lsp-skip-current-file))
