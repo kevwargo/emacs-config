@@ -87,5 +87,5 @@
 
 (setq lsp-disabled-clients '((typescript-mode . graphql-lsp)))
 
-(setq lsp-log-io t
+(setq lsp-log-io nil
       lsp-log-io-allowlist-methods nil)
