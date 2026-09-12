@@ -166,24 +166,24 @@ If CUT is non-nil, deletes selected text in current buffer."
                                 undo-tree-visualize-undo
                                 undo-tree-visualize-redo)))))
 
-(defun pick-window--git-commit-buf-p (target-mode)
+(defun pick-window--git-commit-buf-p (buf buf-mode)
   "Check if current buffer is magit commit message buffer and target is
 a corresponding magit-diff"
-  (and (provided-mode-derived-p target-mode 'magit-diff-mode)
+  (and (provided-mode-derived-p buf-mode 'magit-diff-mode)
        (buffer-file-name)
        (string-match-p git-commit-filename-regexp
                        (buffer-file-name))
        (string= (magit-toplevel)
                 (with-current-buffer buf (magit-toplevel)))))
 
-(defun pick-window--skip-p (buf functions alist target-mode)
+(defun pick-window--skip-p (buf buf-mode functions alist)
   (or (pick-window--reuse-p buf)
-      (pick-window--git-commit-buf-p target-mode)
-      (provided-mode-derived-p target-mode pick-window--disabled-modes)
+      (pick-window--git-commit-buf-p buf buf-mode)
+      (provided-mode-derived-p buf-mode pick-window--disabled-modes)
       (member (buffer-name buf) '("*Warnings*" "*Completions*"))
       (member 'display-buffer-same-window (if (listp functions) functions (list functions)))
       (--any? (cdr (assq it alist)) '(side dedicated))
-      (and (provided-mode-derived-p target-mode 'process-menu-mode)
+      (and (provided-mode-derived-p buf-mode 'process-menu-mode)
            (not (eq this-command 'list-processes)))))
 
 (defun pick-window--match (buf &optional action &rest args)
@@ -191,9 +191,11 @@ a corresponding magit-diff"
   (let* ((buf (get-buffer buf))
          (functions (car-safe action))
          (alist (cdr-safe action))
-         (target-mode (buffer-local-value 'major-mode buf))
          (matches-p (and (cdr (window-list))
-                         (not (pick-window--skip-p buf functions alist target-mode)))))
+                         (not (pick-window--skip-p buf
+                                                   (buffer-local-value 'major-mode buf)
+                                                   functions
+                                                   alist)))))
     (pick-window--log "%s" (format-fontify ("[%s] " (if matches-p "MATCH" "NO MATCH"))
                                            (pick-window--format-buffer buf)
                                            " functions:"
