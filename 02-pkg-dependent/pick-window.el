@@ -1,8 +1,9 @@
 ;; -*- lexical-binding: t -*-
 
 (require 'term)
-(require 'dash)
 (require 'windmove)
+(require 'dash)
+(require 'magit)
 
 ;; TODO:
 ;;   - in addition to splitting, allow to expand the picked window
@@ -165,29 +166,38 @@ If CUT is non-nil, deletes selected text in current buffer."
                                 undo-tree-visualize-undo
                                 undo-tree-visualize-redo)))))
 
+(defun pick-window--git-commit-buf-p (target-mode)
+  "Check if current buffer is magit commit message buffer and target is
+a corresponding magit-diff"
+  (and (provided-mode-derived-p target-mode 'magit-diff-mode)
+       (buffer-file-name)
+       (string-match-p git-commit-filename-regexp
+                       (buffer-file-name))
+       (string= (magit-toplevel)
+                (with-current-buffer buf (magit-toplevel)))))
+
+(defun pick-window--skip-p (buf functions alist target-mode)
+  (or (pick-window--reuse-p buf)
+      (pick-window--git-commit-buf-p target-mode)
+      (provided-mode-derived-p target-mode pick-window--disabled-modes)
+      (member (buffer-name buf) '("*Warnings*" "*Completions*"))
+      (member 'display-buffer-same-window (if (listp functions) functions (list functions)))
+      (--any? (cdr (assq it alist)) '(side dedicated))
+      (and (provided-mode-derived-p target-mode 'process-menu-mode)
+           (not (eq this-command 'list-processes)))))
+
 (defun pick-window--match (buf &optional action &rest args)
   (ignore args)
   (let* ((buf (get-buffer buf))
+         (functions (car-safe action))
          (alist (cdr-safe action))
-         (action (car-safe action))
          (target-mode (buffer-local-value 'major-mode buf))
          (matches-p (and (cdr (window-list))
-                         (not (or (member (buffer-name buf) '("*Warnings*" "*Completions*"))
-                                  (--any? (cdr (assq it alist)) '(side dedicated))
-                                  (provided-mode-derived-p target-mode pick-window--disabled-modes)
-                                  (and (provided-mode-derived-p target-mode 'magit-diff-mode)
-                                       (buffer-file-name)
-                                       (string-match-p git-commit-filename-regexp
-                                                       (buffer-file-name))
-                                       (string= (magit-toplevel)
-                                                (with-current-buffer buf (magit-toplevel))))
-                                  (and (provided-mode-derived-p target-mode 'process-menu-mode)
-                                       (not (eq this-command 'list-processes)))
-                                  (pick-window--reuse-p buf))))))
+                         (not (pick-window--skip-p buf functions alist target-mode)))))
     (pick-window--log "%s" (format-fontify ("[%s] " (if matches-p "MATCH" "NO MATCH"))
                                            (pick-window--format-buffer buf)
-                                           " action:"
-                                           (font-lock-comment-face "%S" action)
+                                           " functions:"
+                                           (font-lock-comment-face "%S" functions)
                                            " alist:"
                                            (font-lock-comment-face "%S" alist)
                                            (" visible-buffers: (%s)"
