@@ -3,7 +3,7 @@
  ("avy" . "933d1f36cca0f71e4acb5fac707e9ae26c536264")
  ("bui.el" . "f3a137628e112a91910fd33c0cff0948fa58d470")
  ("cfrs" . "f3a21f237b2a54e6b9f8a420a9da42b4f0a63121")
- ("company-mode" . "1924eabfa7438974da0500e85fff5fb32c27282c")
+ ("company-mode" . "1cc907ac9e46ae4209eb5a341131787e0c678406")
  ("compat" . "97f24af413a38a7f1aaedb29f5aaaa333796a5b4")
  ("cond-let" . "3b88187fe067d4ca3dec3ef8a329b0ce18bdb356")
  ("copilot.el" . "4f51b3c21c42756d09ee17011201ea7d6e18ff69")
