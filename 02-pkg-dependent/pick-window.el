@@ -211,11 +211,11 @@ a corresponding magit-diff"
     matches-p))
 
 (defun pick-window--win-num (window)
-  (let ((win-name (prin1-to-string window)))
+  (let ((win-repr (prin1-to-string window)))
     (save-match-data
-      (if (string-match "^#<window \\([0-9]+\\)" win-name)
-          (match-string 1 win-name)
-        win-name))))
+      (if (string-match "^#<window \\([0-9]+\\)" win-repr)
+          (match-string 1 win-repr)
+        win-repr))))
 
 (defun pick-window--format-window (&optional window)
   (setq window (window-normalize-window window))
