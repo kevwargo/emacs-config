@@ -1,0 +1,27 @@
+;; -*- lexical-binding: t; -*-
+
+(defun mv (old-name new-name)
+  (interactive (list (or (buffer-file-name)
+                         (user-error "Buffer %S is not visiting a file" (current-buffer)))
+                     (mv--get-new-name)))
+  (mkdir (file-name-directory new-name) t)
+  (rename-file old-name new-name 1)
+  (message "Moved/renamed %S -> %S" old-name new-name)
+  (find-alternate-file new-name))
+
+(defun mv--get-new-name (&optional file)
+  (interactive)
+  (or file (setq file (buffer-file-name)))
+  (let* ((ido-auto-merge-work-directories-length -1)
+         (ido-file-completion-map (let ((m (make-sparse-keymap)))
+                                    (set-keymap-parent m ido-file-completion-map)
+                                    (keymap-set m "C-c C-c" 'ido-select-text)
+                                    (keymap-set m "C-c C-y"
+                                                (lambda ()
+                                                  (interactive)
+                                                  (insert (file-name-nondirectory file))))
+                                    m))
+         (new-file (ido-read-file-name "Move/rename to: ")))
+    (if (string-suffix-p "/" new-file)
+        (concat new-file (file-name-nondirectory file))
+      new-file)))
