@@ -9,6 +9,20 @@
   (message "Moved/renamed %S -> %S" old-name new-name)
   (find-alternate-file new-name))
 
+(defun rm (file)
+  (interactive (list (or (buffer-file-name)
+                         (user-error "Buffer %S is not visiting a file" (current-buffer)))))
+  (let ((buf (get-file-buffer file)))
+    (if buf (kill-buffer buf))
+    (delete-file file)
+    (message "File %s deleted, buffer %S killed" file buf)))
+
+(defun chx (file)
+  (interactive (list (or (buffer-file-name)
+                         (ido-read-file-name "chmod a+x: "))))
+  (chmod file (file-modes-symbolic-to-number "a+x" (file-modes file)))
+  (message "chmod a+x %s" file))
+
 (defun mv--get-new-name (&optional file)
   (interactive)
   (or file (setq file (buffer-file-name)))
