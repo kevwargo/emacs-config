@@ -42,9 +42,9 @@ Otherwise print the text using `message'."
   "Builds a string from multiple parts, each of which can be separately fontified.
 
 Each ARG is either:
-- a string, which is used verbatim,
+- a string literal, which is used verbatim,
 - a list of form (FACE FMT FMT-ARGS...) where FACE is a non-quoted symbol,
-- a list of form (FMT FMT-ARGS...) where FMT is a literal string,
+- a list of form (FMT FMT-ARGS...) where FMT is a string literal,
 - any other expression will be eval'ed and its value concatenated with the rest."
   `(concat
     ,@(mapcar
