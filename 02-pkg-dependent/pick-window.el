@@ -181,7 +181,8 @@ a corresponding magit-diff"
       (pick-window--git-commit-buf-p buf buf-mode)
       (provided-mode-derived-p buf-mode pick-window--disabled-modes)
       (member (buffer-name buf) '("*Warnings*" "*Completions*"))
-      (member 'display-buffer-same-window (if (listp functions) functions (list functions)))
+      (and (member 'display-buffer-same-window (if (listp functions) functions (list functions)))
+           (not (eq this-command 'ielm-on-current-buffer)))
       (--any? (cdr (assq it alist)) '(side dedicated))
       (and (provided-mode-derived-p buf-mode 'process-menu-mode)
            (not (eq this-command 'list-processes)))))
@@ -269,7 +270,7 @@ a corresponding magit-diff"
         (log-time-p nil))
     (apply 'logfmt
            (concat "[%s] " fmt)
-           (string-fontify (format-time-string "%Y-%m-%d %H:%M:%S") 'font-lock-doc-face)
+           (string-fontify (format-time-string "%Y-%m-%d %H:%M:%S.%3N") 'font-lock-doc-face)
            args)))
 
 (defun pick-window--prepare-bindings (allow-split)
