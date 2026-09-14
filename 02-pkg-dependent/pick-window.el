@@ -265,7 +265,8 @@ a corresponding magit-diff"
                    (string-fontify split-key 'help-key-binding)))))))))
 
 (defun pick-window--log (fmt &rest args)
-  (let ((log-buffer-name "*pick-window-log*"))
+  (let ((log-buffer-name "*pick-window-log*")
+        (log-time-p nil))
     (apply 'logfmt
            (concat "[%s] " fmt)
            (string-fontify (format-time-string "%Y-%m-%d %H:%M:%S") 'font-lock-doc-face)
