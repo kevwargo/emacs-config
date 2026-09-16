@@ -5,7 +5,7 @@
  ("bui.el" . "f3a137628e112a91910fd33c0cff0948fa58d470")
  ("cfrs" . "f3a21f237b2a54e6b9f8a420a9da42b4f0a63121")
  ("company-mode" . "1924eabfa7438974da0500e85fff5fb32c27282c")
- ("compat" . "97f24af413a38a7f1aaedb29f5aaaa333796a5b4")
+ ("compat" . "9f8a565ad8c9617a6f006115f50f4cf63286ec83")
  ("cond-let" . "3b88187fe067d4ca3dec3ef8a329b0ce18bdb356")
  ("copilot.el" . "4f51b3c21c42756d09ee17011201ea7d6e18ff69")
  ("csv-mode" . "1695ee17521d55dbe94caacaef5a94dfa933cd9f")
