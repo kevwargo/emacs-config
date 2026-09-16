@@ -25,20 +25,6 @@
       (tail-displayed-buffer))
     msg))
 
-(defun tail-displayed-buffer (&optional buf)
-  (with-current-buffer (or buf (current-buffer))
-    (goto-char (point-max))
-    (mapc #'tail-window (get-buffer-window-list nil nil t))))
-
-(defun tail-window (w)
-  ;; TODO: make this persistent after read-from-minibuffer restores window config
-  (set-window-start w
-                    (save-excursion
-                      (goto-char (point-max))
-                      (vertical-motion (- scroll-margin (window-body-height w)) w)
-                      (point)))
-  (set-window-point w (point-max)))
-
 (defmacro log-expr (expr &optional prefix-fmt &rest prefix-args)
   `(let ((val ,expr))
      (logfmt "%s%S: %S"
@@ -48,6 +34,10 @@
 
 (defmacro log-args (&rest args)
   `(logfmt ,(mapconcat (lambda (a) (ignore a) "%s: %S") args "\n")
+           ,@(mapcan (lambda (a) (list `',a a)) args)))
+
+(defmacro log-args-line (&rest args)
+  `(logfmt ,(mapconcat (lambda (a) (ignore a) "%s:%S") args " ")
            ,@(mapcan (lambda (a) (list `',a a)) args)))
 
 (defmacro message-expr (expr &optional prefix-fmt &rest prefix-args)
@@ -80,3 +70,26 @@
               (inhibit-read-only t))
     (with-current-buffer buf
       (erase-buffer))))
+
+(defun tail-displayed-buffer (&optional buf)
+  (with-current-buffer (or buf (current-buffer))
+    (goto-char (point-max))
+    (mapc #'tail-window (get-buffer-window-list nil nil t))))
+
+(defun tail-window (w)
+  ;; TODO: make this persistent after read-from-minibuffer restores window config
+  (set-window-start w
+                    (save-excursion
+                      (goto-char (point-max))
+                      (vertical-motion (- scroll-margin (window-body-height w)) w)
+                      (point)))
+  (set-window-point w (point-max)))
+
+(defun tail-all-logs ()
+  (interactive)
+  (dolist (w (window-list))
+    (if (provided-mode-derived-p
+         (buffer-local-value 'major-mode
+                             (window-buffer w))
+         'log-mode)
+        (tail-window w))))
