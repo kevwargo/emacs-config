@@ -2,9 +2,19 @@
 
 (defvar log-buffer-name "*main-log*")
 
+(defvar log-time-p t)
+(defvar log-time-default-fmt "%Y-%m-%d %H:%M:%S.%3N")
+
 (define-derived-mode log-mode special-mode "Log")
 
 (defun logfmt (fmt &rest objects)
+  (when log-time-p
+    (setq fmt (concat "[%s] " fmt))
+    (setq objects
+          (cons (format-time-string (if (stringp log-time-p)
+                                        log-time-p
+                                      log-time-default-fmt))
+                objects)))
   (let ((msg (apply 'format fmt objects)))
     (with-current-buffer (get-buffer-create log-buffer-name)
       (unless (derived-mode-p 'log-mode)
@@ -12,13 +22,22 @@
       (goto-char (point-max))
       (let ((inhibit-read-only t))
         (insert msg 10))
-      (mapc (lambda (f)
-              (mapc (lambda (w)
-                      (if (eq (window-buffer w) (current-buffer))
-                          (set-window-point w (point-max))))
-                    (window-list f)))
-            (frame-list)))
+      (tail-displayed-buffer))
     msg))
+
+(defun tail-displayed-buffer (&optional buf)
+  (with-current-buffer (or buf (current-buffer))
+    (goto-char (point-max))
+    (mapc #'tail-window (get-buffer-window-list nil nil t))))
+
+(defun tail-window (w)
+  ;; TODO: make this persistent after read-from-minibuffer restores window config
+  (set-window-start w
+                    (save-excursion
+                      (goto-char (point-max))
+                      (vertical-motion (- scroll-margin (window-body-height w)) w)
+                      (point)))
+  (set-window-point w (point-max)))
 
 (defmacro log-expr (expr &optional prefix-fmt &rest prefix-args)
   `(let ((val ,expr))

@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
 (require 'cl-seq)
+(require 's)
 (require 'magit)
 
 (defvar magit-pull-request-last-url-alist nil)

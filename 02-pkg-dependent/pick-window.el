@@ -1,8 +1,9 @@
 ;; -*- lexical-binding: t -*-
 
 (require 'term)
-(require 'dash)
 (require 'windmove)
+(require 'dash)
+(require 'magit)
 
 ;; TODO:
 ;;   - in addition to splitting, allow to expand the picked window
@@ -165,29 +166,41 @@ If CUT is non-nil, deletes selected text in current buffer."
                                 undo-tree-visualize-undo
                                 undo-tree-visualize-redo)))))
 
+(defun pick-window--git-commit-buf-p (buf buf-mode)
+  "Check if current buffer is magit commit message buffer and target is
+a corresponding magit-diff"
+  (and (provided-mode-derived-p buf-mode 'magit-diff-mode)
+       (buffer-file-name)
+       (string-match-p git-commit-filename-regexp
+                       (buffer-file-name))
+       (string= (magit-toplevel)
+                (with-current-buffer buf (magit-toplevel)))))
+
+(defun pick-window--skip-p (buf buf-mode functions alist)
+  (or (pick-window--reuse-p buf)
+      (pick-window--git-commit-buf-p buf buf-mode)
+      (provided-mode-derived-p buf-mode pick-window--disabled-modes)
+      (member (buffer-name buf) '("*Warnings*" "*Completions*"))
+      (and (member 'display-buffer-same-window (if (listp functions) functions (list functions)))
+           (not (eq this-command 'ielm-on-current-buffer)))
+      (--any? (cdr (assq it alist)) '(side dedicated))
+      (and (provided-mode-derived-p buf-mode 'process-menu-mode)
+           (not (eq this-command 'list-processes)))))
+
 (defun pick-window--match (buf &optional action &rest args)
   (ignore args)
   (let* ((buf (get-buffer buf))
+         (functions (car-safe action))
          (alist (cdr-safe action))
-         (action (car-safe action))
-         (target-mode (buffer-local-value 'major-mode buf))
          (matches-p (and (cdr (window-list))
-                         (not (or (member (buffer-name buf) '("*Warnings*" "*Completions*"))
-                                  (--any? (cdr (assq it alist)) '(side dedicated))
-                                  (provided-mode-derived-p target-mode pick-window--disabled-modes)
-                                  (and (provided-mode-derived-p target-mode 'magit-diff-mode)
-                                       (buffer-file-name)
-                                       (string-match-p git-commit-filename-regexp
-                                                       (buffer-file-name))
-                                       (string= (magit-toplevel)
-                                                (with-current-buffer buf (magit-toplevel))))
-                                  (and (provided-mode-derived-p target-mode 'process-menu-mode)
-                                       (not (eq this-command 'list-processes)))
-                                  (pick-window--reuse-p buf))))))
+                         (not (pick-window--skip-p buf
+                                                   (buffer-local-value 'major-mode buf)
+                                                   functions
+                                                   alist)))))
     (pick-window--log "%s" (format-fontify ("[%s] " (if matches-p "MATCH" "NO MATCH"))
                                            (pick-window--format-buffer buf)
-                                           " action:"
-                                           (font-lock-comment-face "%S" action)
+                                           " functions:"
+                                           (font-lock-comment-face "%S" functions)
                                            " alist:"
                                            (font-lock-comment-face "%S" alist)
                                            (" visible-buffers: (%s)"
@@ -199,11 +212,11 @@ If CUT is non-nil, deletes selected text in current buffer."
     matches-p))
 
 (defun pick-window--win-num (window)
-  (let ((win-name (prin1-to-string window)))
+  (let ((win-repr (prin1-to-string window)))
     (save-match-data
-      (if (string-match "^#<window \\([0-9]+\\)" win-name)
-          (match-string 1 win-name)
-        win-name))))
+      (if (string-match "^#<window \\([0-9]+\\)" win-repr)
+          (match-string 1 win-repr)
+        win-repr))))
 
 (defun pick-window--format-window (&optional window)
   (setq window (window-normalize-window window))
@@ -253,10 +266,11 @@ If CUT is non-nil, deletes selected text in current buffer."
                    (string-fontify split-key 'help-key-binding)))))))))
 
 (defun pick-window--log (fmt &rest args)
-  (let ((log-buffer-name "*pick-window-log*"))
+  (let ((log-buffer-name "*pick-window-log*")
+        (log-time-p nil))
     (apply 'logfmt
            (concat "[%s] " fmt)
-           (string-fontify (format-time-string "%Y-%m-%d %H:%M:%S") 'font-lock-doc-face)
+           (string-fontify (format-time-string "%Y-%m-%d %H:%M:%S.%3N") 'font-lock-doc-face)
            args)))
 
 (defun pick-window--prepare-bindings (allow-split)

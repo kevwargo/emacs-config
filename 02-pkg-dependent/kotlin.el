@@ -22,7 +22,7 @@ Only imports beginning with `android.' are considered."
          (class-name (and sexp (string-trim sexp)))
          (import-regexp
           (and class-name
-               (format "^\\s-*import\\s-+\\(android\\.[[:alnum:]_.]+\\.%s\\)\\s-*$"
+               (format "^\\s-*import\\s-+\\(androidx?\\.[[:alnum:]_.]+\\.%s\\)\\s-*$"
                        (regexp-quote class-name)))))
     (unless class-name
       (user-error "No valid class name at point"))
