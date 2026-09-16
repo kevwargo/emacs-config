@@ -2,13 +2,13 @@
 
 (global-subword-mode)
 (global-display-line-numbers-mode)
-
 (column-number-mode t)
 (delete-selection-mode t)
+(global-auto-revert-mode t)
+(ido-mode 1)
+
 (and (boundp 'scroll-bar-mode)
      (scroll-bar-mode 0))
-
-(global-auto-revert-mode t)
 
 ;; This need to be set BEFORE enabling winner
 (setq winner-dont-bind-my-keys t)

@@ -24,6 +24,7 @@
 (keymap-global-set "C-x F" 'findgrep)
 (keymap-global-set "C-c C" 'to-camel-case-at-point)
 (keymap-global-set "C-x B" 'decode-base64)
+(keymap-global-set "C-c /" 'eldoc-print-current-symbol-info)
 (keymap-global-unset "<Scroll_Lock>")
 
 (let ((m (make-sparse-keymap)))
