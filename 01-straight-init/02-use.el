@@ -1,12 +1,13 @@
 ;; -*- lexical-binding: t -*-
 
 (dolist (pkg '((advanced-pos-mode . "advanced-pos-mode.el")
+               (bicep-ts-mode . "bicep-ts-mode")
                (findgrep . "findgrep.el")
                (ivy-xref . "ivy-xref.el")
                (kwinjs-repl . "kwinjs-repl.el")
                (restclient . "restclient")
                (restclient-aws . "restclient-aws")))
-  (straight-register-package
+  (straight-override-recipe
    (list (car pkg)
          :host 'github
          :repo (format "kevwargo/%s" (cdr pkg))
