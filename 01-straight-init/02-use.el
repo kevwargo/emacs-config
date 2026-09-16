@@ -13,6 +13,7 @@
          :protocol 'ssh)))
 
 (dolist (pkg '(advanced-pos-mode
+               bicep-ts-mode
                company
                connection
                copilot

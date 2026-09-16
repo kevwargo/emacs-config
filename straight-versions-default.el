@@ -1,6 +1,7 @@
 (("ace-window" . "77115afc1b0b9f633084cf7479c767988106c196")
  ("advanced-pos-mode.el" . "9cdda6e3341963179f85a0ad870549df80395e4b")
  ("avy" . "933d1f36cca0f71e4acb5fac707e9ae26c536264")
+ ("bicep-ts-mode" . "8160ddeb0e5da1d2948fa46de450dd8d64b8a88b")
  ("bui.el" . "f3a137628e112a91910fd33c0cff0948fa58d470")
  ("cfrs" . "f3a21f237b2a54e6b9f8a420a9da42b4f0a63121")
  ("company-mode" . "1924eabfa7438974da0500e85fff5fb32c27282c")
