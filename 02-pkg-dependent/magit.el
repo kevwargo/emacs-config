@@ -178,6 +178,10 @@ If multiple remotes exist and none is `origin', return nil."
                             (format "L%d" (line-number-at-pos nil t)))))
     (format "%s/blob/%s/%s#%s" base-url rev file-name line-range)))
 
+(defun ido-magit ()
+  (interactive)
+  (magit-status (ido-read-directory-name "Magit: ")))
+
 (add-hook 'magit-process-prompt-functions 'magit-handle-pull-request-create)
 (add-hook 'magit-post-refresh-hook 'magit-pull-request-create-post-refresh)
 (add-hook 'magit-mode-hook 'magit-custom-keys-hook)
@@ -202,6 +206,8 @@ If multiple remotes exist and none is `origin', return nil."
   (keymap-set m "g" 'magit-github-open)
   (keymap-set m "G" 'magit-github-copy)
   (keymap-global-set "M-m" m))
+
+(keymap-global-set "C-x m" 'ido-magit)
 
 (keymap-set magit-diff-section-map "C-<return>" #'magit-diff-visit-file-other-window)
 
