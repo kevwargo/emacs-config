@@ -53,6 +53,7 @@
 (keymap-set tsx-ts-mode-map "C-{" 'embrace-selected-lines)
 (keymap-set typescript-ts-mode-map "C-{" 'embrace-selected-lines)
 (keymap-set tsx-ts-mode-map k-color-chooser-key 'k-color-chooser)
+(keymap-set typescript-ts-mode-map k-color-chooser-key 'k-color-chooser)
 (keymap-set tsx-ts-mode-map "C-<" 'sgml-tag)
 
 (add-hook 'typescript-ts-base-mode-hook
