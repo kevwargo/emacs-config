@@ -42,7 +42,7 @@
  ("json-snatcher" . "b28d1c0670636da6db508d03872d96ffddbc10f2")
  ("jsonrpc" . "444cafedd091815e674b6c93458ba97a55a76928")
  ("kotlin-mode" . "fddd747e5b4736e8b27a147960f369b86179ddff")
- ("kwinjs-repl.el" . "3d8d254535b3f314942da9cfefb7add6d8b76bdd")
+ ("kwinjs-repl.el" . "126a186759e9f1a8dd503638816c08d23b66e46c")
  ("llama" . "4d4024048053b898a01521046e0f063ee47615b0")
  ("lsp-docker" . "ff41f4a76b640d39dc238bacba7f654c297827fa")
  ("lsp-java" . "f17a3808ede477d34c0c64c23a558e95bb439710")
