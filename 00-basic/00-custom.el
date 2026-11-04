@@ -56,6 +56,7 @@
  '(tab-always-indent t)
  '(tool-bar-mode nil)
  '(vc-follow-symlinks t)
+ '(vc-display-status nil)
  '(warning-suppress-log-types '((comp)))
  '(xref-show-definitions-function 'ivy-xref-show-defs)
  '(xref-show-xrefs-function 'ivy-xref-show-xrefs))
